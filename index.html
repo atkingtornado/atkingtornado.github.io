@@ -1,0 +1,79 @@
+<head>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/Control.Opacity.css" />
+    <link rel="stylesheet" href="css/jquery-ui-1.10.3.custom.min.css" />
+    <link rel="stylesheet" href="css/leaflet-sidebar.css" />
+    <link rel="stylesheet" href="css/scrubber.css" />
+
+    
+    <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="js/jquery-ui-1.10.3.custom.min.js"></script>
+    <script src="js/map.js"></script>
+    <script src="js/leaflet-providers.js"></script>
+    <script src="js/Control.Opacity.js"></script>
+    <script src="js/leaflet-sidebar.js"></script>
+    <script src="https://use.fontawesome.com/227188a5c2.js"></script>
+    <script src="js/scrubber.js"></script>
+    
+</head>
+
+<html> 
+    <body>
+         <div id="sidebar" class="sidebar collapsed">
+            <!-- Nav tabs -->
+            <div class="sidebar-tabs">
+                <ul role="tablist">
+                    <li class='layer-select'><a href="#layerSelect" role="tab"></a></li>
+                </ul>
+
+                <ul role="tablist">
+                    <li><a href="#infoSelect" role="tab"><i class="fa fa-cog fa-lg"></i></a></li>
+                </ul>
+            </div>
+
+            <!-- Tab panes -->
+            <div class="sidebar-content">
+                <div class="sidebar-pane" id="layerSelect">
+                    <h1 class="sidebar-header">
+                        Layer Toggle
+                    </h1>
+                    
+                    <h3>CONUS GOES</h3>
+                    <div id='single_toggle'>
+                        <div class='toggles'>
+                            <input value=1 id="conus_vis_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                            <label for="conus_vis_toggle"></label>
+                            <h4 class='toggle-label'>1km Visible</h4>
+                        </div>
+                        <div class='toggles'>
+                            <input value=2  id="conus_ir_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                            <label for="conus_ir_toggle"></label>
+                            <h4 class='toggle-label'>4km IR</h4>
+                        </div>
+                    </div>        
+                    <h3>Other</h3> 
+                    <div id='multi_toggle'>
+                        <div class='toggles'>
+                            <input value=3 id="nexrad_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                            <label for="nexrad_toggle"></label>
+                            <h4 class='toggle-label'>NEXRAD</h4>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="sidebar-pane" id="infoSelect">
+                    <h1 class="sidebar-header">
+                        Info
+                    </h1>
+                </div>
+
+            </div>
+        </div>
+        <div id="mapid"> </div>
+        
+        <div id='scrubber_container'> </div>
+    </body>
+</html>

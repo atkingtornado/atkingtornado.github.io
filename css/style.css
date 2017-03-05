@@ -1,0 +1,130 @@
+#mapid { height: 100%; }
+
+#scrubber_container {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    overflow: hidden;
+    z-index: 3000;
+}
+
+
+.layer-select {
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+	display: block;
+    background-image: url(images/layers.png);
+    
+}
+
+.info-select {
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+	display: block;
+    background-image: url(images/Infobox_info_icon.svg.png);
+    
+}
+
+.opacity-select {
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+	display: block;
+    background-image: url(images/opacity.png);
+    background-size: 20px;
+    opacity: 0.7;
+}
+
+
+.container {
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  height: 40px;
+  margin: auto;
+  text-align: center;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+}
+
+html, body, #map {
+    height: 100%;
+    font: 10pt "Helvetica Neue", Arial, Helvetica, sans-serif;
+}
+
+.lorem {
+    font-style: italic;
+    color: #AAA;
+}
+
+.toggles {
+    padding-top: 5px;
+    display: table;
+}
+
+h3 {
+    color: #6B6B6B;
+    border-bottom: thin solid #6B6B6B;
+}
+.toggle-label{
+    display: inline-block;
+    color: #6B6B6B;
+    padding: 5px;
+    margin: 0px;
+    display: table-cell;
+    vertical-align: middle;
+
+}
+
+.cmn-toggle {
+  position: absolute;
+  margin-left: -9999px;
+  visibility: hidden;
+}
+.cmn-toggle + label {
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+  outline: none;
+  user-select: none;
+}
+input.cmn-toggle-round-flat + label {
+  padding: 2px;
+  width: 50px;
+  height: 20px;
+  background-color: #dddddd;
+  border-radius: 11px;
+  transition: background 0.4s;
+}
+input.cmn-toggle-round-flat + label:before,
+input.cmn-toggle-round-flat + label:after {
+  display: block;
+  position: absolute;
+  content: "";
+}
+input.cmn-toggle-round-flat + label:before {
+  top: 2px;
+  left: 2px;
+  bottom: 2px;
+  right: 2px;
+  background-color: #fff;
+  border-radius: 60px;
+  transition: background 0.4s;
+}
+input.cmn-toggle-round-flat + label:after {
+  top: 4px;
+  left: 4px;
+  bottom: 4px;
+  width: 17px;
+  background-color: #dddddd;
+  border-radius: 10px;
+  transition: margin 0.4s, background 0.4s;
+}
+input.cmn-toggle-round-flat:checked + label {
+  background-color: #8ce196;
+}
+input.cmn-toggle-round-flat:checked + label:after {
+  margin-left: 29px;
+  background-color: #8ce196;
+}
