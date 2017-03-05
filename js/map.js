@@ -1,24 +1,14 @@
 $(document).ready(function(){
-    
+
+     $('.menu-link').bigSlide();
+
     var basemap = L.tileLayer.provider('OpenStreetMap.Mapnik')
-    var conus_vis = L.tileLayer.wms("https://mesonet.agron.iastate.edu/cgi-bin/wms/goes/conus_vis.cgi?", {
-        layers: 'conus_vis_1km_900913',
-        format: 'image/png',
-        transparent: true,
-        attribution: "Weather data © 2012 IEM Nexrad"
-    });
-    var conus_ir = L.tileLayer.wms("https://mesonet.agron.iastate.edu/cgi-bin/wms/goes/conus_ir.cgi?", {
-        layers: 'conus_ir_4km_900913',
-        format: 'image/png',
-        transparent: true,
-        attribution: "Weather data © 2012 IEM Nexrad"
-    });
-    var nexrad = L.tileLayer.wms("https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0r.cgi", {
-        layers: 'nexrad-n0r-900913',
-        format: 'image/png',
-        transparent: true,
-        attribution: "Weather data © 2012 IEM Nexrad"
-    });
+
+
+    var conus_vis = L.tileLayer('http://mesonet.agron.iastate.edu/cache/tile.py/1.0.0/goes-vis-1km-900913/{z}/{x}/{y}.png');
+    var conus_ir = L.tileLayer('http://mesonet.agron.iastate.edu/cache/tile.py/1.0.0/goes-ir-4km-900913/{z}/{x}/{y}.png');
+    var nexrad = L.tileLayer('http://mesonet.agron.iastate.edu/cache/tile.py/1.0.0/nexrad-n0q-900913/{z}/{x}/{y}.png');
+
     var all_layers = [basemap, conus_vis, conus_ir, nexrad]
     
     var mymap = L.map('mapid', {
@@ -28,10 +18,12 @@ $(document).ready(function(){
         layers: [basemap]
     });
 
+
+
     var prev_ndx = false
 
     $('#single_toggle').on('change', 'input.cmn-toggle', function() {
-        $('input.cmn-toggle').not(this).prop('checked', false);         
+        $('#single_toggle input.cmn-toggle').not(this).prop('checked', false);         
         var ndx = $(this).val()
         opacitySlider.setOpacityLayer(all_layers[ndx]);
         if(prev_ndx==ndx || !prev_ndx){
@@ -49,12 +41,12 @@ $(document).ready(function(){
     
     $('#multi_toggle').on('change', 'input.cmn-toggle', function() {  
         var ndx = $(this).val()  
-        
         if(this.checked) {
             mymap.addLayer(all_layers[ndx])
         }else{
             mymap.removeLayer(all_layers[ndx])
         }
+
     });
 
     
@@ -62,7 +54,7 @@ $(document).ready(function(){
          position:'topright'
     }).addTo(mymap);
    
-    var sidebar = L.control.sidebar('sidebar').addTo(mymap);
+    // var sidebar = L.control.sidebar('sidebar').addTo(mymap);
     
     var opacitySlider = new L.Control.opacitySlider();
     mymap.addControl(opacitySlider);
@@ -77,6 +69,8 @@ $(document).ready(function(){
     
     
     var scrubber = new ScrubberView();
+    scrubber.min(0).max(10).step(1).value(0)
     $('#scrubber_container').append(scrubber.elt);
-    
+
+
 });

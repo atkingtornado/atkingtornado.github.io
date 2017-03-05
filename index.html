@@ -16,63 +16,41 @@
     <script src="js/leaflet-sidebar.js"></script>
     <script src="https://use.fontawesome.com/227188a5c2.js"></script>
     <script src="js/scrubber.js"></script>
+    <script src="js/bigSlide.min.js"></script>
     
 </head>
 
 <html> 
     <body>
-         <div id="sidebar" class="sidebar collapsed">
-            <!-- Nav tabs -->
-            <div class="sidebar-tabs">
-                <ul role="tablist">
-                    <li class='layer-select'><a href="#layerSelect" role="tab"></a></li>
-                </ul>
-
-                <ul role="tablist">
-                    <li><a href="#infoSelect" role="tab"><i class="fa fa-cog fa-lg"></i></a></li>
-                </ul>
-            </div>
-
-            <!-- Tab panes -->
-            <div class="sidebar-content">
-                <div class="sidebar-pane" id="layerSelect">
-                    <h1 class="sidebar-header">
-                        Layer Toggle
-                    </h1>
-                    
-                    <h3>CONUS GOES</h3>
-                    <div id='single_toggle'>
-                        <div class='toggles'>
-                            <input value=1 id="conus_vis_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
-                            <label for="conus_vis_toggle"></label>
-                            <h4 class='toggle-label'>1km Visible</h4>
-                        </div>
-                        <div class='toggles'>
-                            <input value=2  id="conus_ir_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
-                            <label for="conus_ir_toggle"></label>
-                            <h4 class='toggle-label'>4km IR</h4>
-                        </div>
-                    </div>        
-                    <h3>Other</h3> 
-                    <div id='multi_toggle'>
-                        <div class='toggles'>
-                            <input value=3 id="nexrad_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
-                            <label for="nexrad_toggle"></label>
-                            <h4 class='toggle-label'>NEXRAD</h4>
-                        </div>
-                    </div>
-
-
+         <nav id="menu" class="panel" role="navigation">                        
+            <h3>CONUS GOES</h3>
+            <div id='single_toggle'>
+                <div class='toggles'>
+                    <input value=1 id="conus_vis_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                    <label for="conus_vis_toggle"></label>
+                    <h4 class='toggle-label'>1km Visible</h4>
                 </div>
-                <div class="sidebar-pane" id="infoSelect">
-                    <h1 class="sidebar-header">
-                        Info
-                    </h1>
+                <div class='toggles'>
+                    <input value=2  id="conus_ir_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                    <label for="conus_ir_toggle"></label>
+                    <h4 class='toggle-label'>4km IR</h4>
                 </div>
-
+            </div>        
+            <h3>Other</h3> 
+            <div id='multi_toggle'>
+                <div class='toggles'>
+                    <input value=3 id="nexrad_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                    <label for="nexrad_toggle"></label>
+                    <h4 class='toggle-label'>NEXRAD</h4>
+                </div>
             </div>
+        </nav>
+
+
+        <div class='wrap push' style='left: 15.625em; transition: left 300ms ease;'>
+            <a href="#menu" class="menu-link"><img class='layers-img' src='css/images/layers.png'></a>
+            <div id="mapid"> </div>
         </div>
-        <div id="mapid"> </div>
         
         <div id='scrubber_container'> </div>
     </body>
