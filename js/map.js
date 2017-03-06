@@ -3,11 +3,11 @@ $(document).ready(function(){
      $('.menu-link').bigSlide();
 
     var basemap = L.tileLayer.provider('OpenStreetMap.Mapnik')
+    var states =  L.tileLayer.provider('Stamen.TonerLines')
 
-
-    var conus_vis = L.tileLayer('http://mesonet.agron.iastate.edu/cache/tile.py/1.0.0/goes-vis-1km-900913/{z}/{x}/{y}.png');
-    var conus_ir = L.tileLayer('http://mesonet.agron.iastate.edu/cache/tile.py/1.0.0/goes-ir-4km-900913/{z}/{x}/{y}.png');
-    var nexrad = L.tileLayer('http://mesonet.agron.iastate.edu/cache/tile.py/1.0.0/nexrad-n0q-900913/{z}/{x}/{y}.png');
+    var conus_vis = L.tileLayer('https://mesonet.agron.iastate.edu/cache/tile.py/1.0.0/goes-vis-1km-900913/{z}/{x}/{y}.png');
+    var conus_ir = L.tileLayer('https://mesonet.agron.iastate.edu/cache/tile.py/1.0.0/goes-ir-4km-900913/{z}/{x}/{y}.png');
+    var nexrad = L.tileLayer('https://mesonet.agron.iastate.edu/cache/tile.py/1.0.0/nexrad-n0q-900913/{z}/{x}/{y}.png');
 
     var all_layers = [basemap, conus_vis, conus_ir, nexrad]
     
@@ -15,9 +15,8 @@ $(document).ready(function(){
         zoomControl: false,
         center: [40.31304, -98.78906],
         zoom: 5,
-        layers: [basemap]
+        layers: [basemap,states]
     });
-
 
 
     var prev_ndx = false
@@ -50,9 +49,7 @@ $(document).ready(function(){
     });
 
     
-    L.control.zoom({
-         position:'topright'
-    }).addTo(mymap);
+
 
     L.control.locate().addTo(mymap);
    
