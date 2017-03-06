@@ -14,13 +14,14 @@
 }
 
 .scrubber .track {
+    border: thin solid white;
     position: absolute;
     top: 50%;
     left: 0px;
     width: 100%;
-    height: 6px;
-    background: #DDD;
-    border-radius: 3px;
+    height: 10px;
+    background: #646464;
+    border-radius: 5px;
     margin-top: -3px;
 }
 
@@ -41,8 +42,8 @@
     position: absolute;
     top: 50%;
     left: 0px;
-    width: 22px;
-    height: 22px;
+    width: 27px;
+    height: 27px;
     margin-left: -11px;
     margin-top: -11px;
     cursor: pointer;
