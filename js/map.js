@@ -15,7 +15,7 @@ $(document).ready(function(){
         zoomControl: false,
         center: [40.31304, -98.78906],
         zoom: 5,
-        layers: [basemap,states]
+        layers: [basemap]
     });
 
 
