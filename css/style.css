@@ -10,9 +10,13 @@
 }
 
 span{
-  margin-left: 5px;
   margin-top:5px;
 }
+
+.leaflet-touch .leaflet-bar a {
+    width:35px;
+    height:35px
+  }
 
 .nav-icon {
   margin-right: 6px;
@@ -27,6 +31,9 @@ span{
     z-index: 1000;
     margin-top: 10px;
     margin-left: 10px;
+}
+.layers-img:hover{
+  color:black;
 }
 #layers-close{
     float: right;
