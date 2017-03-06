@@ -24,33 +24,36 @@
 
 <html> 
     <body>
-         <nav id="menu" class="panel" role="navigation">                        
-            <h3>CONUS GOES</h3>
-            <div id='single_toggle'>
-                <div class='toggles'>
-                    <input value=1 id="conus_vis_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
-                    <label for="conus_vis_toggle"></label>
-                    <h4 class='toggle-label'>1km Visible</h4>
-                </div>
-                <div class='toggles'>
-                    <input value=2  id="conus_ir_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
-                    <label for="conus_ir_toggle"></label>
-                    <h4 class='toggle-label'>4km IR</h4>
-                </div>
-            </div>        
-            <h3>Other</h3> 
-            <div id='multi_toggle'>
-                <div class='toggles'>
-                    <input value=3 id="nexrad_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
-                    <label for="nexrad_toggle"></label>
-                    <h4 class='toggle-label'>NEXRAD</h4>
+         <nav id="menu" class="panel" role="navigation"> 
+            <div class='menu-content'> 
+                <a href="#menu" id='layers-close' class="menu-link"><i class="fa fa-times" aria-hidden="true"></i></a>                   
+                <h3>CONUS GOES</h3>
+                <div id='single_toggle'>
+                    <div class='toggles'>
+                        <input value=1 id="conus_vis_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                        <label for="conus_vis_toggle"></label>
+                        <h4 class='toggle-label'>1km Visible</h4>
+                    </div>
+                    <div class='toggles'>
+                        <input value=2  id="conus_ir_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                        <label for="conus_ir_toggle"></label>
+                        <h4 class='toggle-label'>4km IR</h4>
+                    </div>
+                </div>        
+                <h3>Other</h3> 
+                <div id='multi_toggle'>
+                    <div class='toggles'>
+                        <input value=3 id="nexrad_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                        <label for="nexrad_toggle"></label>
+                        <h4 class='toggle-label'>NEXRAD</h4>
+                    </div>
                 </div>
             </div>
         </nav>
 
 
         <div class='wrap push' style='left: 15.625em; transition: left 300ms ease;'>
-            <a href="#menu" class="menu-link"><img class='layers-img' src='css/images/layers.png'></a>
+            <a href="#menu" id='layers-link' class="menu-link"><img class='layers-img' src='css/images/layers.png'></a>
             <div id="mapid"> </div>
         </div>
         

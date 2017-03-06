@@ -1,31 +1,12 @@
 #mapid { height: 100%; }
 
 .panel {
-  background: #2C3E50;
+  border-right: 2px solid rgba(0,0,0,0.2);
+  background: #ffffff;
   z-index: 9999;
   position: fixed;
   left: -15.625em; /*or width of your navigation panel*/
   width: 15.625em; /*should match the above value*/
-}
-
-.panel ul {
-  border-top: 2px solid #34495D;
-}
-
-.panel a {
-  display: block;
-  border-bottom: 2px solid #34495D;
-  padding: 1em;
-}
-
-.panel a:link,
-.panel a:visited {
-  color: #fff;
-}
-
-.panel a:hover,
-.panel a:active {
-  background: #25B89A;
 }
 
 .nav-icon {
@@ -36,17 +17,30 @@
 	width: 100%;
   margin: 0 auto;
 }
-.menu-link{
+#layers-link{
     position: absolute;
     z-index: 1000;
     margin-top: 10px;
     margin-left: 10px;
+}
+#layers-close{
+    float: right;
+    color:  #6B6B6B;
+}
+#layers-close:active{
+    color:black;
+}
+#layers-close:hover{
+    color:black;
 }
 .layers-img{
   border: 2px solid rgba(0,0,0,0.2);
     border-radius: 4px;
     background: white;
     padding: 5px;
+}
+.menu-content{
+  padding: 10px;
 }
 
 #scrubber_container {
