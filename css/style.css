@@ -9,6 +9,11 @@
   width: 15.625em; /*should match the above value*/
 }
 
+span{
+  margin-left: 5px;
+  margin-top:5px;
+}
+
 .nav-icon {
   margin-right: 6px;
 }

@@ -53,6 +53,8 @@ $(document).ready(function(){
     L.control.zoom({
          position:'topright'
     }).addTo(mymap);
+
+    L.control.locate().addTo(mymap);
    
     // var sidebar = L.control.sidebar('sidebar').addTo(mymap);
     
