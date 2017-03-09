@@ -9,7 +9,9 @@ $(document).ready(function(){
     var conus_ir = L.tileLayer('https://mesonet.agron.iastate.edu/cache/tile.py/1.0.0/goes-ir-4km-900913/{z}/{x}/{y}.png');
     var nexrad = L.tileLayer('https://mesonet.agron.iastate.edu/cache/tile.py/1.0.0/nexrad-n0q-900913/{z}/{x}/{y}.png');
 
-    var all_layers = [basemap, conus_vis, conus_ir, nexrad]
+    var test = L.tileLayer('test_dir/{z}/{x}/{-y}.png');
+
+    var all_layers = [basemap, conus_vis, conus_ir, nexrad, test]
     
     var mymap = L.map('mapid', {
         zoomControl: false,
@@ -48,7 +50,6 @@ $(document).ready(function(){
 
     });
 
-    
 
 
     L.control.locate().addTo(mymap);
@@ -65,6 +66,7 @@ $(document).ready(function(){
     conus_vis.setOpacity(0.6);
     conus_ir.setOpacity(0.6);
     nexrad.setOpacity(0.6);
+    test.setOpacity(0.6);
     
     
     var scrubber = new ScrubberView();
