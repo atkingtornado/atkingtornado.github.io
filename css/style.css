@@ -2,7 +2,7 @@
 
 .panel {
   border-right: 2px solid rgba(0,0,0,0.2);
-  background: #ffffff;
+  background: #4c4c4c;
   z-index: 9999;
   position: fixed;
   left: -15.625em; /*or width of your navigation panel*/
@@ -40,13 +40,13 @@ span{
 }
 #layers-close{
     float: right;
-    color:  #6B6B6B;
+    color: #d83a3a;
 }
 #layers-close:active{
-    color:black;
+    color:#992727;
 }
 #layers-close:hover{
-    color:black;
+    color:#ff4c4c;
 }
 .layers-img{
     width: 25px;
@@ -123,12 +123,12 @@ html, body, #map {
 }
 
 h3 {
-    color: #6B6B6B;
-    border-bottom: thin solid #6B6B6B;
+    color: #f4f4f4;
+    border-bottom: thin solid #f4f4f4;
 }
 .toggle-label{
     display: inline-block;
-    color: #6B6B6B;
+    color: #f4f4f4;
     padding: 5px;
     margin: 0px;
     display: table-cell;
@@ -155,6 +155,8 @@ input.cmn-toggle-round-flat + label {
   background-color: #dddddd;
   border-radius: 11px;
   transition: background 0.4s;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  -webkit-tap-highlight-color: transparent;
 }
 input.cmn-toggle-round-flat + label:before,
 input.cmn-toggle-round-flat + label:after {
