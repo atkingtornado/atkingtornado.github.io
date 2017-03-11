@@ -79,3 +79,13 @@
   opacity: 1;
 }
 
+.panel .scrubber {
+    display: inline-block;
+    margin: 5 10;
+    width: 55%;
+    height: 10px;
+    position: relative;
+    padding: 10px;
+}
+
+

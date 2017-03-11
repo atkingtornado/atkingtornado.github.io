@@ -1,6 +1,8 @@
 $(document).ready(function(){
 
-     $('.menu-link').bigSlide();
+    $('.menu-link').bigSlide({
+        side: 'right',
+    });
 
     var basemap = L.tileLayer.provider('OpenStreetMap.Mapnik')
     var states =  L.tileLayer.provider('Stamen.TonerLines')
@@ -23,31 +25,63 @@ $(document).ready(function(){
 
 
     var prev_ndx = false
+    var prev_div = false
 
     $('#single_toggle').on('change', 'input.cmn-toggle', function() {
         $('#single_toggle input.cmn-toggle').not(this).prop('checked', false);         
         var ndx = $(this).val()
         opacitySlider.setOpacityLayer(all_layers[ndx]);
+
+        var opacityscrubber = new ScrubberView();
+        opacityscrubber.min(0).max(100).step(1).value(60)
+
+        all_layers[ndx].setOpacity(0.6);
+
         if(prev_ndx==ndx || !prev_ndx){
             if(this.checked) {
                 mymap.addLayer(all_layers[ndx])
+                $('<div id=opacity_' + $(this).parent()[0].id + '></div>').insertAfter($(this).parent()[0]);
+                $('#opacity_' + $(this).parent()[0].id).html('<p class=opacity-display id=opacity_display_' + $(this).parent()[0].id + '>60%</p>');
+                $('#opacity_' + $(this).parent()[0].id).append(opacityscrubber.elt);
             }else{
                 mymap.removeLayer(all_layers[ndx])
+                $('#opacity_' + $(this).parent()[0].id).remove()
             }
         }else{
             mymap.addLayer(all_layers[ndx])
+            $('<div id=opacity_' + $(this).parent()[0].id + '></div>').insertAfter($(this).parent()[0]);
+            $('#opacity_' + $(this).parent()[0].id).html('<p class=opacity-display id=opacity_display_' + $(this).parent()[0].id + '>60%</p>');
+            $('#opacity_' + $(this).parent()[0].id).append(opacityscrubber.elt);
+            
+            $('#opacity_' + prev_div).remove()
             mymap.removeLayer(all_layers[prev_ndx])
         }
-        prev_ndx = ndx     
+
+        prev_ndx = ndx
+        prev_div = $(this).parent()[0].id     
+
+        opacityscrubber.onValueChanged = function (value) {
+            $('#opacity_display_' + prev_div).html(value+'%');
+            all_layers[ndx].setOpacity(value/100.0)
+        }
+
     });
     
     $('#multi_toggle').on('change', 'input.cmn-toggle', function() {  
+
+        var opacityscrubber = new ScrubberView();
+        opacityscrubber.min(0).max(100).step(1).value(60)
+
         var ndx = $(this).val()  
         $('#spinner').show()
         if(this.checked) {
             mymap.addLayer(all_layers[ndx])
+            $('<div id=opacity_' + $(this).parent()[0].id + '></div>').insertAfter($(this).parent()[0]);
+            $('#opacity_' + $(this).parent()[0].id).html('<p class=opacity-display id=opacity_display_' + $(this).parent()[0].id + '>60%</p>');
+            $('#opacity_' + $(this).parent()[0].id).append(opacityscrubber.elt);
         }else{
             mymap.removeLayer(all_layers[ndx])
+            $('#opacity_' + $(this).parent()[0].id).remove()
         }
 
     });
@@ -70,7 +104,7 @@ $(document).ready(function(){
     // var sidebar = L.control.sidebar('sidebar').addTo(mymap);
     
     var opacitySlider = new L.Control.opacitySlider();
-    mymap.addControl(opacitySlider);
+    // mymap.addControl(opacitySlider);
     
     // You only need to call it once. 
     //opacitySlider.setOpacityLayer(vis_sat);
