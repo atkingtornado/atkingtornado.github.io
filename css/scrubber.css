@@ -47,10 +47,10 @@
     margin-left: -11px;
     margin-top: -11px;
     cursor: pointer;
-    opacity: 0.7;
-    border: 8px solid #63bbc6;
+    opacity: 0.85;
+    border: 8px solid #69afe5;
     border-radius: 100%;
-    background: #0d5963;
+    background: #2074B6;
     transition: border-width 0.2s ease 0s;
 }
 
