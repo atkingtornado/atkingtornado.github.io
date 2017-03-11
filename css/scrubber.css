@@ -48,9 +48,9 @@
     margin-top: -11px;
     cursor: pointer;
     opacity: 0.7;
-    border: 8px solid #BECFE4;
+    border: 8px solid #63bbc6;
     border-radius: 100%;
-    background: #4F81BD;
+    background: #0d5963;
     transition: border-width 0.2s ease 0s;
 }
 
@@ -66,9 +66,9 @@
     margin-left: -11px;
     cursor: pointer;
     opacity: 0.7;
-    border: 8px solid #BECFE4;
+    border: 8px solid #01abc1;
     border-radius: 100%;
-    background: #4F81BD;
+    background: #01abc1;
     transition: border-width 0.2s ease 0s;
 }
 

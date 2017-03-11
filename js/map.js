@@ -17,7 +17,8 @@ $(document).ready(function(){
         zoomControl: false,
         center: [40.31304, -98.78906],
         zoom: 5,
-        layers: [basemap]
+        layers: [basemap],
+        attributionControl: false
     });
 
 
@@ -42,6 +43,7 @@ $(document).ready(function(){
     
     $('#multi_toggle').on('change', 'input.cmn-toggle', function() {  
         var ndx = $(this).val()  
+        $('#spinner').show()
         if(this.checked) {
             mymap.addLayer(all_layers[ndx])
         }else{
@@ -53,7 +55,18 @@ $(document).ready(function(){
 
 
     L.control.locate().addTo(mymap);
-   
+
+    for (i=0;i<all_layers.length;i++) {
+
+        all_layers[i].on('loading', function(){
+            $('#spinner').show()
+        })
+        all_layers[i].on('load', function(){
+            $('#spinner').hide()
+        })
+
+    }
+
     // var sidebar = L.control.sidebar('sidebar').addTo(mymap);
     
     var opacitySlider = new L.Control.opacitySlider();
