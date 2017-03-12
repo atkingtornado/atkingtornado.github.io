@@ -84,9 +84,13 @@ $(document).ready(function(){
             $('#opacity_' + $(this).parent()[0].id).remove()
         }
 
+        opacityscrubber.onValueChanged = function (value) {
+            $('#opacity_display_' + prev_div).html(value+'%');
+            all_layers[ndx].setOpacity(value/100.0)
+        }
+
+
     });
-
-
 
     L.control.locate().addTo(mymap);
 
@@ -101,24 +105,19 @@ $(document).ready(function(){
 
     }
 
-    // var sidebar = L.control.sidebar('sidebar').addTo(mymap);
-    
-    var opacitySlider = new L.Control.opacitySlider();
-    // mymap.addControl(opacitySlider);
-    
-    // You only need to call it once. 
-    //opacitySlider.setOpacityLayer(vis_sat);
-    
-    // Set initial opacity to 0.5 (Optional)
-    conus_vis.setOpacity(0.6);
-    conus_ir.setOpacity(0.6);
-    nexrad.setOpacity(0.6);
-    test.setOpacity(0.6);
     
     
     var scrubber = new ScrubberView();
     scrubber.min(0).max(10).step(1).value(0)
     $('#scrubber_container').append(scrubber.elt);
+
+    $("#layers-link").click(function() {
+      $('#scrubber_container').toggleClass('transform-active');
+    });
+
+    $("#layers-close").click(function() {
+      $('#scrubber_container').toggleClass('transform-active');
+    });
 
 
 });

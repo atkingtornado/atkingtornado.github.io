@@ -77,6 +77,18 @@ span{
     z-index: 1000;
 }
 
+.transform {
+  -webkit-transition: all .3s ease;  
+  -moz-transition: all .3s ease;  
+  -o-transition: all .3s ease;  
+  -ms-transition: all .3s ease;  
+  transition: all .3s ease;
+}
+
+.transform-active {
+  bottom: -50px !important;
+}
+
 
 .layer-select {
     background-position: 50% 50%;
@@ -129,7 +141,7 @@ html, body, #map {
 
 .opacity-display{
     display: inline-block;
-    padding-top: 15px;
+    padding-top: 9px;
     padding-right: 0px;
     float: right;
     margin: 0px;
@@ -137,6 +149,7 @@ html, body, #map {
   }
 
 .toggles {
+    width: 100%;
     padding-top: 5px;
     display: table;
 }
@@ -168,6 +181,8 @@ h3 {
   user-select: none;
 }
 input.cmn-toggle-round-flat + label {
+  position: absolute;
+  right: 10px;
   padding: 2px;
   width: 50px;
   height: 20px;

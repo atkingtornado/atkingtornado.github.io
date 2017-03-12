@@ -81,7 +81,7 @@
 
 .panel .scrubber {
     display: inline-block;
-    margin: 5 10;
+    margin: 0 10;
     width: 55%;
     height: 10px;
     position: relative;
