@@ -78,15 +78,12 @@ span{
 }
 
 .transform {
-  -webkit-transition: all .3s ease;  
-  -moz-transition: all .3s ease;  
-  -o-transition: all .3s ease;  
-  -ms-transition: all .3s ease;  
-  transition: all .3s ease;
+  transition: -webkit-transform .3s ease;
+  -webkit-transform: translate3d(0, 0, 0);
 }
 
 .transform-active {
-  bottom: -50px !important;
+   -webkit-transform: translate3d(0, 50px, 0);
 }
 
 
