@@ -30,7 +30,6 @@ $(document).ready(function(){
     $('#single_toggle').on('change', 'input.cmn-toggle', function() {
         $('#single_toggle input.cmn-toggle').not(this).prop('checked', false);         
         var ndx = $(this).val()
-        opacitySlider.setOpacityLayer(all_layers[ndx]);
 
         var opacityscrubber = new ScrubberView();
         opacityscrubber.min(0).max(100).step(1).value(60)
