@@ -82,8 +82,10 @@ $(document).ready(function(){
             $('#opacity_' + $(this).parent()[0].id).remove()
         }
 
+        var div = $(this).parent()[0].id 
+
         opacityscrubber.onValueChanged = function (value) {
-            $('#opacity_display_' + prev_div).html(value+'%');
+            $('#opacity_display_' + div).html(value+'%');
             all_layers[ndx].setOpacity(value/100.0)
         }
 
