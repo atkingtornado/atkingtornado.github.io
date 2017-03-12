@@ -96,10 +96,8 @@ $(document).ready(function(){
 
         all_layers[i].on('loading', function(){
             $('#spinner').show()
-            console.log('show')
         })
         all_layers[i].on('load', function(){
-            console.log('loaded')
             setTimeout(
               function() 
               {
@@ -115,11 +113,19 @@ $(document).ready(function(){
     scrubber.min(0).max(10).step(1).value(0)
     $('#scrubber_container').append(scrubber.elt);
 
-    $("#layers-link").click(function() {
+    $("#layers-link").on('touchstart',function() {
       $('#scrubber_container').toggleClass('transform-active');
     });
 
-    $("#layers-close").click(function() {
+    $("#layers-close").on('touchstart',function() {
+      $('#scrubber_container').toggleClass('transform-active');
+    });
+
+    $("#layers-link").on('click',function() {
+      $('#scrubber_container').toggleClass('transform-active');
+    });
+
+    $("#layers-close").on('click',function() {
       $('#scrubber_container').toggleClass('transform-active');
     });
 
