@@ -72,7 +72,6 @@ $(document).ready(function(){
         opacityscrubber.min(0).max(100).step(1).value(60)
 
         var ndx = $(this).val()  
-        $('#spinner').show()
         if(this.checked) {
             mymap.addLayer(all_layers[ndx])
             $('<div id=opacity_' + $(this).parent()[0].id + '></div>').insertAfter($(this).parent()[0]);
@@ -93,13 +92,19 @@ $(document).ready(function(){
 
     L.control.locate().addTo(mymap);
 
-    for (i=0;i<all_layers.length;i++) {
+    for (i=0; i<all_layers.length; i++) {
 
         all_layers[i].on('loading', function(){
             $('#spinner').show()
+            console.log('show')
         })
         all_layers[i].on('load', function(){
-            $('#spinner').hide()
+            console.log('loaded')
+            setTimeout(
+              function() 
+              {
+                 $('#spinner').hide()
+              }, 500);
         })
 
     }
