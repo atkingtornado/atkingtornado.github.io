@@ -1,15 +1,16 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=0'">
 <head>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+    <link rel="stylesheet" href="css/leaflet.css" />
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/Control.Opacity.css" />
     <link rel="stylesheet" href="css/jquery-ui-1.10.3.custom.min.css" />
     <link rel="stylesheet" href="css/leaflet-sidebar.css" />
     <link rel="stylesheet" href="css/scrubber.css" />
     <link rel="stylesheet" href="css/L.Control.Locate.css" />
+    <link rel="stylesheet" href="css/leaflet.wmslegend.css" />
 
-    <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+    <script src="js/leaflet.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="js/jquery-ui-1.10.3.custom.min.js"></script>
     <script src="js/jquery.ui.touch-punch.min.js"></script>
@@ -21,6 +22,7 @@
     <script src="js/scrubber.js"></script>
     <script src="js/bigSlide.min.js"></script>
     <script src="js/L.Control.Locate.min.js"></script>
+
     
 </head>
 
@@ -29,31 +31,110 @@
          <nav id="menu" class="panel" role="navigation"> 
             <div class='menu-content'> 
                 <a href="#menu" id='layers-close' class="menu-link"><i class="fa fa-times fa-2x" aria-hidden="true"></i></a>                   
-                <h3>CONUS GOES</h3>
+                <h3>CONUS GOES Composite</h3>
                 <div id='single_toggle'>
                     <div id='conus' class='toggles'>
-                        <h4 class='toggle-label'>4km Visible</h4>
+                        <h4 class='toggle-label'>Visible</h4>
                         <input value=1 id="conus_vis_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
                         <label for="conus_vis_toggle"></label>
                     </div>
                     <div id='ir' class='toggles'>
-                        <h4 class='toggle-label'>4km IR</h4>
+                        <h4 class='toggle-label'>Infrared</h4>
                         <input value=2  id="conus_ir_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
                         <label for="conus_ir_toggle"></label>
                     </div>
-                    <div id='goes-16' class='toggles'>
-                        <h4 class='toggle-label'>GOES-16 Test</h4>
-                        <input value=4 id="goes_test_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
-                        <label for="goes_test_toggle"></label>
+
+                    <h3>GOES-16</h3>
+                    <div id='goes16_1' class='toggles'>
+                        <h4 class='toggle-label'>Band 1</h4>
+                        <input value=3  id="goes16_1_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                        <label for="goes16_1_toggle"></label>
                     </div>
+                    <div id='goes16_2' class='toggles'>
+                        <h4 class='toggle-label'>Band 2</h4>
+                        <input value=4  id="goes16_2_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                        <label for="goes16_2_toggle"></label>
+                    </div>
+                    <div id='goes16_3' class='toggles'>
+                        <h4 class='toggle-label'>Band 3</h4>
+                        <input value=5  id="goes16_3_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                        <label for="goes16_3_toggle"></label>
+                    </div>
+                    <div id='goes16_4' class='toggles'>
+                        <h4 class='toggle-label'>Band 4</h4>
+                        <input value=6  id="goes16_4_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                        <label for="goes16_4_toggle"></label>
+                    </div>
+                    <div id='goes16_5' class='toggles'>
+                        <h4 class='toggle-label'>Band 5</h4>
+                        <input value=7  id="goes16_5_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                        <label for="goes16_5_toggle"></label>
+                    </div>
+                    <div id='goes16_6' class='toggles'>
+                        <h4 class='toggle-label'>Band 6</h4>
+                        <input value=8  id="goes16_6_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                        <label for="goes16_6_toggle"></label>
+                    </div>
+                    <div id='goes16_7' class='toggles'>
+                        <h4 class='toggle-label'>Band 7</h4>
+                        <input value=9  id="goes16_7_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                        <label for="goes16_7_toggle"></label>
+                    </div>
+                    <div id='goes16_8' class='toggles'>
+                        <h4 class='toggle-label'>Band 8</h4>
+                        <input value=10  id="goes16_8_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                        <label for="goes16_8_toggle"></label>
+                    </div>
+                    <div id='goes16_9' class='toggles'>
+                        <h4 class='toggle-label'>Band 9</h4>
+                        <input value=11 id="goes16_9_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                        <label for="goes16_9_toggle"></label>
+                    </div>
+                    <div id='goes16_10' class='toggles'>
+                        <h4 class='toggle-label'>Band 10</h4>
+                        <input value=12  id="goes16_10_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                        <label for="goes16_10_toggle"></label>
+                    </div>
+                    <div id='goes16_11' class='toggles'>
+                        <h4 class='toggle-label'>Band 11</h4>
+                        <input value=13  id="goes16_11_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                        <label for="goes16_11_toggle"></label>
+                    </div>
+                    <div id='goes16_12' class='toggles'>
+                        <h4 class='toggle-label'>Band 12</h4>
+                        <input value=14 id="goes16_12_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                        <label for="goes16_12_toggle"></label>
+                    </div>
+                    <div id='goes16_13' class='toggles'>
+                        <h4 class='toggle-label'>Band 13</h4>
+                        <input value=15  id="goes16_13_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                        <label for="goes16_13_toggle"></label>
+                    </div>
+                    <div id='goes16_14' class='toggles'>
+                        <h4 class='toggle-label'>Band 14</h4>
+                        <input value=16  id="goes16_14_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                        <label for="goes16_14_toggle"></label>
+                    </div>
+                    <div id='goes16_15' class='toggles'>
+                        <h4 class='toggle-label'>Band 15</h4>
+                        <input value=17  id="goes16_15_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                        <label for="goes16_15_toggle"></label>
+                    </div>
+                    <div id='goes16_16' class='toggles'>
+                        <h4 class='toggle-label'>Band 16</h4>
+                        <input value=18  id="goes16_16_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                        <label for="goes16_16_toggle"></label>
+                    </div>
+
                 </div>        
-                <h3>Other</h3> 
                 <div id='multi_toggle'>
+                    <h3>Radar</h3>
                     <div class='toggles'>
                         <h4 class='toggle-label'>NEXRAD</h4>
-                        <input value=3 id="nexrad_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                        <input value=19 id="nexrad_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
                         <label for="nexrad_toggle"></label>
                     </div>
+
                 </div>
             </div>
         </nav>
