@@ -1,5 +1,11 @@
 $(document).ready(function(){
 
+
+    $('#conus-goes').hide()
+    $('#goes-16').hide()
+    $('#radar').hide()
+
+
     L.Control.WMSLegend = L.Control.extend({
     options: {
         position: 'topleft',
@@ -120,11 +126,11 @@ L.wmsLegend = function (uri) {
     var prev_ndx = false
     var prev_div = false
 
-    $('#single_toggle').on('change', 'input.cmn-toggle', function() {
+    $('.single_toggle').on('change', 'input.cmn-toggle', function() {
 
         console.log('test')
 
-        $('#single_toggle input.cmn-toggle').not(this).prop('checked', false);         
+        $('.single_toggle input.cmn-toggle').not(this).prop('checked', false);         
         var ndx = $(this).val()
 
         var opacityscrubber = new ScrubberView();
@@ -237,5 +243,21 @@ L.wmsLegend = function (uri) {
 
     });
 
+    $('.layer-dropdown').click(function(){
+        $(this).children('.layer-dropdown-arrow').toggleClass('rotated');
+    });
 
+
+    $('#conus-goes-dropdown').click(function(){
+        console.log('test')
+        $('#conus-goes').slideToggle('fast')
+    })
+    $('#goes-16-dropdown').click(function(){
+        console.log('test')
+        $('#goes-16').slideToggle('fast')
+    })
+    $('#radar-dropdown').click(function(){
+        console.log('test')
+        $('#radar').slideToggle('fast')
+    })
 });

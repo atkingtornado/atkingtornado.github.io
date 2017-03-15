@@ -36,9 +36,32 @@ span{
 	width: 100%;
   margin: 0 auto;
 }
+.layer-dropdown{
+  border-bottom: thin solid #f4f4f4; 
+  cursor: pointer;
+}
+.layer-dropdown-arrow{
+    -webkit-transition: .1s ease;
+    -moz-transition: .1s ease;
+    transition: .1s ease;
+    display: inline-block;
+    position: absolute;
+    margin-top: 10px;
+    float: right;
+    right: 10px;
+}
+.rotated { 
+    -webkit-transform: rotateX(180deg);
+    -moz-transform: rotateX(180deg);
+    -o-transform: rotateX(180deg);
+    -ms-transform: rotateX(180deg);
+    transform: rotateX(180deg);;
+}
+
 #layers-link{
     background-clip: padding-box;
     border: 2px solid rgba(0,0,0,0.2);
+    background-clip: padding-box;
     border-radius: 3px;
     position: fixed;
     z-index: 1000;
@@ -47,6 +70,10 @@ span{
 }
 .layers-img:hover{
   color:black;
+}
+#layers-close-div{
+  width: 100%;
+  height: 25px;
 }
 #layers-close{
     float: right;
@@ -78,23 +105,28 @@ span{
 }
 
 .transform {
-  transition: -webkit-transform .3s ease;
-  -webkit-transform: translate3d(0, 0, 0);
+  -webkit-transition: .3s ease;
+  -moz-transition: .3s ease;
+  transition: .3s ease;
+  -webkit-transform: translate3d(0px, 0px, 0px);
+  -moz-transform: translate3d(0px, 0px, 0px);
+  transform: translate3d(0px, 0px, 0px);
 }
 
 .transform-active {
-   -webkit-transform: translate3d(0, 50px, 0);
+   -webkit-transform: translate3d(0px, 50px, 0px);
+   -moz-transform: translate3d(0px, 50px, 0px);
 }
 
 .transform-active-right {
-  transition: -webkit-transform .3s ease;
-   -webkit-transform: translate3d(50px, 0, 0);
+  -webkit-transform: translate3d(50px, 0px, 0px);
+  -moz-transform: translate3d(50px, 0px, 0px);
 }
 
 .layer-select {
     background-position: 50% 50%;
     background-repeat: no-repeat;
-	display: block;
+	  display: block;
     background-image: url(images/layers.png);
     
 }
@@ -157,7 +189,7 @@ html, body, #map {
 
 h3 {
     color: #f4f4f4;
-    border-bottom: thin solid #f4f4f4;
+    display: inline-block;
 }
 .toggle-label{
     display: inline-block;
@@ -182,7 +214,7 @@ h3 {
   user-select: none;
 }
 input.cmn-toggle-round-flat + label {
-  position: absolute;
+  float: right;
   right: 10px;
   padding: 2px;
   width: 50px;
