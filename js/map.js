@@ -248,39 +248,42 @@ L.wmsLegend = function (uri) {
     timescrubber.onValueChanged = function (value) {
 
         times_length = active_times.length
-        timescrubber.min(0).max(times_length-1)
 
-        curr_time = active_times[value]
-        date_time = curr_time.split('.')
+        if (times_length > 1){
 
-        date = date_time[0]
-        time = date_time[1]
+            timescrubber.min(0).max(times_length-1)
 
-        var curr_time_product = active_layer + '_' + date + '_' + time
-        var curr_time_layer = L.tileLayer('http://wms.ssec.wisc.edu/products/'+curr_time_product+'/{z}/{x}/{y}.png');
+            console.log(active_times)
+            curr_time = active_times[value]
+            date_time = curr_time.split('.')
 
-        map.addLayer(curr_time_layer)
+            date = date_time[0]
+            time = date_time[1]
+
+            var curr_time_product = active_layer + '_' + date + '_' + time
+            var curr_time_layer = L.tileLayer('http://wms.ssec.wisc.edu/products/'+curr_time_product+'/{z}/{x}/{y}.png');
+
+            map.addLayer(curr_time_layer)
 
 
-        prev_layers.push(curr_time_layer);
+            prev_layers.push(curr_time_layer);
 
 
 
-        if (prev_layers.length == 8){
+            if (prev_layers.length == 8){
 
-            curr_time_layer.on('load', function(){
+                curr_time_layer.on('load', function(){
+                    map.removeLayer(prev_layers[0])
+                    prev_layers.shift()
+                });
+
+            }
+            else if (prev_layers.length > 8){
                 map.removeLayer(prev_layers[0])
                 prev_layers.shift()
-            });
 
+            }
         }
-        else if (prev_layers.length > 8){
-            map.removeLayer(prev_layers[0])
-            prev_layers.shift()
-
-        }
-
-        console.log(prev_layers.length)
 
     }
 
