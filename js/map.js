@@ -7,62 +7,56 @@ $(document).ready(function(){
 
 
     L.Control.WMSLegend = L.Control.extend({
-    options: {
-        position: 'topleft',
-        uri: ''
-    },
+        options: {
+            position: 'topleft',
+            uri: ''
+        },
 
-    onAdd: function () {
-        var controlClassName = 'leaflet-control-wms-legend',
-            legendClassName = 'wms-legend',
-            stop = L.DomEvent.stopPropagation;
-        this.container = L.DomUtil.create('div', controlClassName);
-        this.img = L.DomUtil.create('img', legendClassName, this.container);
-        this.img.src = this.options.uri;
-        this.img.alt = 'Legend';
+        onAdd: function () {
+            var controlClassName = 'leaflet-control-wms-legend',
+                legendClassName = 'wms-legend',
+                stop = L.DomEvent.stopPropagation;
+            this.container = L.DomUtil.create('div', controlClassName);
+            this.img = L.DomUtil.create('img', legendClassName, this.container);
+            this.img.src = this.options.uri;
+            this.img.alt = 'Legend';
 
-        L.DomEvent
-            .on(this.img, 'click', this._click, this)
-            .on(this.container, 'click', this._click, this)
-            .on(this.img, 'mousedown', stop)
-            .on(this.img, 'dblclick', stop)
-            .on(this.img, 'click', L.DomEvent.preventDefault)
-            .on(this.img, 'click', stop);
-        this.height = null;
-        this.width = null;
-        return this.container;
-    },
-    _click: function (e) {
-        L.DomEvent.stopPropagation(e);
-        L.DomEvent.preventDefault(e);
-        // toggle legend visibility
-        var style = window.getComputedStyle(this.img);
-        if (style.display === 'none') {
-            this.container.style.height = this.height + 'px';
-            this.container.style.width = this.width + 'px';
-            this.img.style.display = this.displayStyle;
-        }
-        else {
-            if (this.width === null && this.height === null) {
-                // Only do inside the above check to prevent the container
-                // growing on successive uses
-                this.height = this.container.offsetHeight;
-                this.width = this.container.offsetWidth;
+            L.DomEvent
+                .on(this.img, 'click', this._click, this)
+                .on(this.container, 'click', this._click, this)
+                .on(this.img, 'mousedown', stop)
+                .on(this.img, 'dblclick', stop)
+                .on(this.img, 'click', L.DomEvent.preventDefault)
+                .on(this.img, 'click', stop);
+            this.height = null;
+            this.width = null;
+            return this.container;
+        },
+        _click: function (e) {
+            L.DomEvent.stopPropagation(e);
+            L.DomEvent.preventDefault(e);
+            // toggle legend visibility
+            var style = window.getComputedStyle(this.img);
+            if (style.display === 'none') {
+                this.container.style.height = this.height + 'px';
+                this.container.style.width = this.width + 'px';
+                this.img.style.display = this.displayStyle;
             }
-            this.displayStyle = this.img.style.display;
-            this.img.style.display = 'none';
-            this.container.style.height = '20px';
-            this.container.style.width = '20px';
-        }
-    },
-});
+            else {
+                if (this.width === null && this.height === null) {
+                    // Only do inside the above check to prevent the container
+                    // growing on successive uses
+                    this.height = this.container.offsetHeight;
+                    this.width = this.container.offsetWidth;
+                }
+                this.displayStyle = this.img.style.display;
+                this.img.style.display = 'none';
+                this.container.style.height = '20px';
+                this.container.style.width = '20px';
+            }
+        },
+    });
 
-L.wmsLegend = function (uri) {
-    var wmsLegendControl = new L.Control.WMSLegend;
-    wmsLegendControl.options.uri = uri;
-    map.addControl(wmsLegendControl);
-    return wmsLegendControl;
-};
 
 
     $('.menu-link').bigSlide({
@@ -100,13 +94,6 @@ L.wmsLegend = function (uri) {
         version: '1.3.0',
     });
 
-    var source = L.WMS.source("http://wms.ssec.wisc.edu/cgi-bin/mapserv?map=G16-ABI-FD-BAND01.map", {
-        'transparent': true
-    });
-    source.getLayer("G16-ABI-FD-BAND01_20170316_220000").addTo(map);
-
-
-
     var goes16_band1 = L.tileLayer('http://wms.ssec.wisc.edu/products/G16-ABI-FD-BAND01/{z}/{x}/{y}.png');
     var goes16_band2 = L.tileLayer('http://wms.ssec.wisc.edu/products/G16-ABI-FD-BAND02/{z}/{x}/{y}.png');
     var goes16_band3 = L.tileLayer('http://wms.ssec.wisc.edu/products/G16-ABI-FD-BAND03/{z}/{x}/{y}.png');
@@ -133,6 +120,7 @@ L.wmsLegend = function (uri) {
     var active_times = false
     var prev_ndx = false
     var prev_div = false
+    var menuIsOpen = false
 
     $('.single_toggle').on('change', 'input.cmn-toggle', function() {
 
@@ -152,7 +140,15 @@ L.wmsLegend = function (uri) {
 
                 active_layer = $(this).parent()[0].id
                 $.getJSON("http://wms.ssec.wisc.edu/api/products?products=" + active_layer, function( data ) {
-                    active_times = data[0].times.slice(data[0].times.length-20, data[0].times.length) 
+                    active_times = data[0].times
+
+                    times_length = active_times.length
+
+                    time_slider.options.steps = times_length;
+                    time_slider.stepRatios = time_slider.calculateStepRatios();
+                    prev_scrub_tick = false
+                    time_slider.setStep(times_length, 0, snap=false)
+
                 });
 
                 $('<div id=opacity_' + $(this).parent()[0].id + '></div>').insertAfter($(this).parent()[0]);
@@ -173,6 +169,13 @@ L.wmsLegend = function (uri) {
             active_layer = $(this).parent()[0].id
             $.getJSON("http://wms.ssec.wisc.edu/api/products?products=" + active_layer, function( data ) {
                 active_times = data[0].times.slice(0, 10)
+
+                times_length = active_times.length
+
+                time_slider.options.steps = times_length;
+                time_slider.stepRatios = time_slider.calculateStepRatios();
+                prev_scrub_tick = false
+                time_slider.setStep(times_length, 0, snap=false)
             });
 
             $('<div id=opacity_' + $(this).parent()[0].id + '></div>').insertAfter($(this).parent()[0]);
@@ -236,55 +239,63 @@ L.wmsLegend = function (uri) {
 
     }
 
-    
-    
-    var timescrubber = new ScrubberView();
-    timescrubber.min(0).max(10).step(1).value(10)
-    $('#scrubber_container').append(timescrubber.elt);
-
-   
     prev_layers = []
+    prev_scrub_tick = false
 
-    timescrubber.onValueChanged = function (value) {
+    
+    var time_slider = new Dragdealer('scrubber_container',{
+        snap: true,
+        animationCallback: function(x, y) {
 
-        times_length = active_times.length
+            value = this.getStep()[0] - 1
+            times_length = active_times.length
+            if (times_length > 1 && prev_scrub_tick != value){
+                console.log('dragging')
 
-        console.log(active_times)
-        if (times_length > 1){
+                prev_scrub_tick = value
 
-            timescrubber.min(0).max(times_length-1)
-            curr_time = active_times[value]
-            date_time = curr_time.split('.')
+                curr_time = active_times[value]
+                date_time = curr_time.split('.')
 
-            date = date_time[0]
-            time = date_time[1]
+                date = date_time[0]
+                time = date_time[1]
 
-            var curr_time_product = active_layer + '_' + date + '_' + time
-            var curr_time_layer = L.tileLayer('https://wms.ssec.wisc.edu/products/'+curr_time_product+'/{z}/{x}/{y}.png');
-
-            map.addLayer(curr_time_layer)
-
-
-            prev_layers.push(curr_time_layer);
-
+                $('#scrubber_container .value').text(curr_time);
 
 
-            if (prev_layers.length == 8){
 
-                curr_time_layer.on('load', function(){
-                    map.removeLayer(prev_layers[0])
-                    prev_layers.shift()
-                });
+                if (prev_scrub_tick != false && menuIsOpen != true){
+                    var curr_time_product = active_layer + '_' + date + '_' + time
+                    var curr_time_layer = L.tileLayer('http://wms.ssec.wisc.edu/products/'+curr_time_product+'/{z}/{x}/{y}.png');
+                    map.addLayer(curr_time_layer)
+
+                    prev_layers.push(curr_time_layer);
+                    if (prev_layers.length > 5){
+                        map.removeLayer(prev_layers[0])
+                        prev_layers.shift()
+                    }
+                }
 
             }
-            else if (prev_layers.length > 8){
-                map.removeLayer(prev_layers[0])
-                prev_layers.shift()
+        },
+        dragStopCallback: function(x, y){
+            console.log('dragstop')
+            if (prev_layers.length > 0) {
+                while(prev_layers.length > 1){
+                    map.removeLayer(prev_layers[0])
+                    prev_layers.shift()
+                }
+                var layer_opacity  = parseFloat($( "#opacity_" +  active_layer).text().replace('%',''))/100.0 
+                prev_layers[0].setOpacity(layer_opacity) 
+
+                var ndx = $('#' + active_layer + ' :input').val()
+                all_layers[ndx] = prev_layers[0]
 
             }
         }
+    });
 
-    }
+
 
 
 
@@ -292,25 +303,28 @@ L.wmsLegend = function (uri) {
       $('#scrubber_container').toggleClass('transform-active');
       $('#layers-link').toggleClass('transform-active-right');
       $('.leaflet-control-locate').toggleClass('transform-active-right');
+      menuIsOpen=true
     });
 
     $("#layers-close").on('touchstart',function() {
       $('#scrubber_container').toggleClass('transform-active');
       $('#layers-link').toggleClass('transform-active-right');
       $('.leaflet-control-locate').toggleClass('transform-active-right');
+      menuIsOpen=false
     });
 
     $("#layers-link").on('click',function() {
       $('#scrubber_container').toggleClass('transform-active');
       $('#layers-link').toggleClass('transform-active-right');
       $('.leaflet-control-locate').toggleClass('transform-active-right');
+      menuIsOpen=true
     });
 
     $("#layers-close").on('click',function() {
       $('#scrubber_container').toggleClass('transform-active');
       $('#layers-link').toggleClass('transform-active-right');
       $('.leaflet-control-locate').toggleClass('transform-active-right');
-
+      menuIsOpen=false
     });
 
     $('.layer-dropdown').click(function(){

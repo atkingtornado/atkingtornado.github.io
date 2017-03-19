@@ -8,8 +8,7 @@
     <link rel="stylesheet" href="css/leaflet-sidebar.css" />
     <link rel="stylesheet" href="css/scrubber.css" />
     <link rel="stylesheet" href="css/L.Control.Locate.css" />
-    <link rel="stylesheet" href="css/leaflet.wmslegend.css" />
-    <link rel="stylesheet" href="css/leaflet.timedimension.control.min.css" />
+    <link rel="stylesheet" href="css/dragdealer.css" />
 
     <script src="js/leaflet.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -25,8 +24,8 @@
     <script src="js/L.Control.Locate.min.js"></script>
     <script src="js/leaflet.timedimension.min.js"></script>
     <script src="js/iso8601.min.js"></script>
-    <script src="js/leaflet.active-layers.min.js"></script>
-    <script src="js/leaflet.wms.js"></script>
+    <script src="js/dragdealer.js"></script>
+    
 
     
 </head>
@@ -160,7 +159,12 @@
             <div id="mapid"> </div>
         </div>
         
-        <div id='scrubber_container' class='transform'> </div>
+        
+        <div id='scrubber_container' class='transform dragdealer'> 
+            <div class="handle red-bar"><span class="value"></span></div> 
+        </div>
+
+
         <div id='spinner'><img src="css/images/ring-alt.svg" /></div>
     </body>
 </html>
