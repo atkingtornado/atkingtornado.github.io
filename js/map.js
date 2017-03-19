@@ -100,6 +100,13 @@ L.wmsLegend = function (uri) {
         version: '1.3.0',
     });
 
+    var source = L.WMS.source("http://wms.ssec.wisc.edu/cgi-bin/mapserv?map=G16-ABI-FD-BAND01.map", {
+        'transparent': true
+    });
+    source.getLayer("G16-ABI-FD-BAND01_20170316_220000").addTo(map);
+
+
+
     var goes16_band1 = L.tileLayer('http://wms.ssec.wisc.edu/products/G16-ABI-FD-BAND01/{z}/{x}/{y}.png');
     var goes16_band2 = L.tileLayer('http://wms.ssec.wisc.edu/products/G16-ABI-FD-BAND02/{z}/{x}/{y}.png');
     var goes16_band3 = L.tileLayer('http://wms.ssec.wisc.edu/products/G16-ABI-FD-BAND03/{z}/{x}/{y}.png');
@@ -121,14 +128,13 @@ L.wmsLegend = function (uri) {
     // uri = 'http://nowcoast.noaa.gov/arcgis/services/nowcoast/analysis_meteohydro_sfc_rtma_time/MapServer/WmsServer?REQUEST=GetLegendGraphic%26VERSION=1.3.0%26FORMAT=image/png%26LAYER=17%26TRANSPARENT=true%26LEGEND_OPTIONS=layout:3qa'
     // L.wmsLegend(uri);
 
-    var all_layers = [basemap, conus_vis, conus_ir, goes16_band1, goes16_band2,goes16_band3, goes16_band4, goes16_band5, goes16_band6, goes16_band7, goes16_band8, goes16_band9, goes16_band10, goes16_band11, goes16_band12, goes16_band13, goes16_band14, goes16_band15, goes16_band16, nexrad]
-
+    var all_layers = [basemap, conus_vis, conus_ir, goes16_band1, goes16_band2,goes16_band3, goes16_band4, goes16_band5, goes16_band6, goes16_band7, goes16_band8, goes16_band9, goes16_band10, goes16_band11, goes16_band12, goes16_band13, goes16_band14, goes16_band15, goes16_band16, nexrad,test]
+    var active_layer = false
+    var active_times = false
     var prev_ndx = false
     var prev_div = false
 
     $('.single_toggle').on('change', 'input.cmn-toggle', function() {
-
-        console.log('test')
 
         $('.single_toggle input.cmn-toggle').not(this).prop('checked', false);         
         var ndx = $(this).val()
@@ -141,15 +147,34 @@ L.wmsLegend = function (uri) {
         if(prev_ndx==ndx || !prev_ndx){
             if(this.checked) {
                 map.addLayer(all_layers[ndx])
+
+                prev_layers.push(all_layers[ndx]);
+
+                active_layer = $(this).parent()[0].id
+                $.getJSON("http://wms.ssec.wisc.edu/api/products?products=" + active_layer, function( data ) {
+                    active_times = data[0].times.slice(data[0].times.length-20, data[0].times.length) 
+                });
+
                 $('<div id=opacity_' + $(this).parent()[0].id + '></div>').insertAfter($(this).parent()[0]);
                 $('#opacity_' + $(this).parent()[0].id).html('<p class=opacity-display id=opacity_display_' + $(this).parent()[0].id + '>60%</p>');
                 $('#opacity_' + $(this).parent()[0].id).append(opacityscrubber.elt);
             }else{
                 map.removeLayer(all_layers[ndx])
+                active_layer = false
+                active_times = false
+
                 $('#opacity_' + $(this).parent()[0].id).remove()
             }
         }else{
             map.addLayer(all_layers[ndx])
+            prev_layers.push(all_layers[ndx]);
+
+
+            active_layer = $(this).parent()[0].id
+            $.getJSON("http://wms.ssec.wisc.edu/api/products?products=" + active_layer, function( data ) {
+                active_times = data[0].times.slice(0, 10)
+            });
+
             $('<div id=opacity_' + $(this).parent()[0].id + '></div>').insertAfter($(this).parent()[0]);
             $('#opacity_' + $(this).parent()[0].id).html('<p class=opacity-display id=opacity_display_' + $(this).parent()[0].id + '>60%</p>');
             $('#opacity_' + $(this).parent()[0].id).append(opacityscrubber.elt);
@@ -213,9 +238,53 @@ L.wmsLegend = function (uri) {
 
     
     
-    var scrubber = new ScrubberView();
-    scrubber.min(0).max(10).step(1).value(0)
-    $('#scrubber_container').append(scrubber.elt);
+    var timescrubber = new ScrubberView();
+    timescrubber.min(0).max(10).step(1).value(10)
+    $('#scrubber_container').append(timescrubber.elt);
+
+   
+    prev_layers = []
+
+    timescrubber.onValueChanged = function (value) {
+
+        times_length = active_times.length
+        timescrubber.min(0).max(times_length-1)
+
+        curr_time = active_times[value]
+        date_time = curr_time.split('.')
+
+        date = date_time[0]
+        time = date_time[1]
+
+        var curr_time_product = active_layer + '_' + date + '_' + time
+        var curr_time_layer = L.tileLayer('http://wms.ssec.wisc.edu/products/'+curr_time_product+'/{z}/{x}/{y}.png');
+
+        map.addLayer(curr_time_layer)
+
+
+        prev_layers.push(curr_time_layer);
+
+
+
+        if (prev_layers.length == 8){
+
+            curr_time_layer.on('load', function(){
+                map.removeLayer(prev_layers[0])
+                prev_layers.shift()
+            });
+
+        }
+        else if (prev_layers.length > 8){
+            map.removeLayer(prev_layers[0])
+            prev_layers.shift()
+
+        }
+
+        console.log(prev_layers.length)
+
+    }
+
+
 
     $("#layers-link").on('touchstart',function() {
       $('#scrubber_container').toggleClass('transform-active');
@@ -233,7 +302,6 @@ L.wmsLegend = function (uri) {
       $('#scrubber_container').toggleClass('transform-active');
       $('#layers-link').toggleClass('transform-active-right');
       $('.leaflet-control-locate').toggleClass('transform-active-right');
-      
     });
 
     $("#layers-close").on('click',function() {
@@ -249,15 +317,12 @@ L.wmsLegend = function (uri) {
 
 
     $('#conus-goes-dropdown').click(function(){
-        console.log('test')
         $('#conus-goes').slideToggle('fast')
     })
     $('#goes-16-dropdown').click(function(){
-        console.log('test')
         $('#goes-16').slideToggle('fast')
     })
     $('#radar-dropdown').click(function(){
-        console.log('test')
         $('#radar').slideToggle('fast')
     })
 });
