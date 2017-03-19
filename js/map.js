@@ -249,11 +249,10 @@ L.wmsLegend = function (uri) {
 
         times_length = active_times.length
 
+        console.log(active_times)
         if (times_length > 1){
 
             timescrubber.min(0).max(times_length-1)
-
-            console.log(active_times)
             curr_time = active_times[value]
             date_time = curr_time.split('.')
 
