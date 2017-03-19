@@ -260,7 +260,7 @@ L.wmsLegend = function (uri) {
             time = date_time[1]
 
             var curr_time_product = active_layer + '_' + date + '_' + time
-            var curr_time_layer = L.tileLayer('http://wms.ssec.wisc.edu/products/'+curr_time_product+'/{z}/{x}/{y}.png');
+            var curr_time_layer = L.tileLayer('https://wms.ssec.wisc.edu/products/'+curr_time_product+'/{z}/{x}/{y}.png');
 
             map.addLayer(curr_time_layer)
 
