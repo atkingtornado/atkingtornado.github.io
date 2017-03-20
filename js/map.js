@@ -139,7 +139,7 @@ $(document).ready(function(){
                 prev_layers.push(all_layers[ndx]);
 
                 active_layer = $(this).parent()[0].id
-                $.getJSON("https://wms.ssec.wisc.edu/api/products?products=" + active_layer, function( data ) {
+                $.getJSON("wms.ssec.wisc.edu/api/products?products=" + active_layer, function( data ) {
                     active_times = data[0].times
 
                     times_length = active_times.length
