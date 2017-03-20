@@ -97,6 +97,36 @@ span{
   padding: 10px;
 }
 
+#time_container{
+    height: 30px;
+    bottom: 40px;
+    z-index: 1000;
+    width: 100%;
+    position: fixed;
+    text-align: right;
+}
+
+#time_container h3{
+    height: 30px;
+    background: rgba(50,50,50,0.85);
+    margin: auto;
+    line-height: 30px;
+    vertical-align: middle;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+#time_bars{
+    position: relative;
+    top: 7px;
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    transform: rotate(90deg);
+}
+
+
 #scrubber_container {
     position: fixed;
     bottom: 0;
@@ -115,8 +145,8 @@ span{
 }
 
 .transform-active {
-   -webkit-transform: translate3d(0px, 50px, 0px);
-   -moz-transform: translate3d(0px, 50px, 0px);
+   -webkit-transform: translate3d(0px, 75px, 0px);
+   -moz-transform: translate3d(0px, 75px, 0px);
 }
 
 .transform-active-right {

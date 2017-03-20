@@ -1,6 +1,7 @@
 $(document).ready(function(){
 
 
+	$('#time_container').hide()
     $('#conus-goes').hide()
     $('#goes-16').hide()
     $('#radar').hide()
@@ -94,22 +95,22 @@ $(document).ready(function(){
         version: '1.3.0',
     });
 
-    var goes16_band1 = L.tileLayer('http://wms.ssec.wisc.edu/products/G16-ABI-FD-BAND01/{z}/{x}/{y}.png');
-    var goes16_band2 = L.tileLayer('http://wms.ssec.wisc.edu/products/G16-ABI-FD-BAND02/{z}/{x}/{y}.png');
-    var goes16_band3 = L.tileLayer('http://wms.ssec.wisc.edu/products/G16-ABI-FD-BAND03/{z}/{x}/{y}.png');
-    var goes16_band4 = L.tileLayer('http://wms.ssec.wisc.edu/products/G16-ABI-FD-BAND04/{z}/{x}/{y}.png');
-    var goes16_band5 = L.tileLayer('http://wms.ssec.wisc.edu/products/G16-ABI-FD-BAND05/{z}/{x}/{y}.png');
-    var goes16_band6 = L.tileLayer('http://wms.ssec.wisc.edu/products/G16-ABI-FD-BAND06/{z}/{x}/{y}.png');
-    var goes16_band7 = L.tileLayer('http://wms.ssec.wisc.edu/products/G16-ABI-FD-BAND07/{z}/{x}/{y}.png');
-    var goes16_band8 = L.tileLayer('http://wms.ssec.wisc.edu/products/G16-ABI-FD-BAND08/{z}/{x}/{y}.png');
-    var goes16_band9 = L.tileLayer('http://wms.ssec.wisc.edu/products/G16-ABI-FD-BAND09/{z}/{x}/{y}.png');
-    var goes16_band10 = L.tileLayer('http://wms.ssec.wisc.edu/products/G16-ABI-FD-BAND10/{z}/{x}/{y}.png');
-    var goes16_band11 = L.tileLayer('http://wms.ssec.wisc.edu/products/G16-ABI-FD-BAND11/{z}/{x}/{y}.png');
-    var goes16_band12 = L.tileLayer('http://wms.ssec.wisc.edu/products/G16-ABI-FD-BAND12/{z}/{x}/{y}.png');
-    var goes16_band13 = L.tileLayer('http://wms.ssec.wisc.edu/products/G16-ABI-FD-BAND13/{z}/{x}/{y}.png');
-    var goes16_band14 = L.tileLayer('http://wms.ssec.wisc.edu/products/G16-ABI-FD-BAND14/{z}/{x}/{y}.png');
-    var goes16_band15 = L.tileLayer('http://wms.ssec.wisc.edu/products/G16-ABI-FD-BAND15/{z}/{x}/{y}.png');
-    var goes16_band16 = L.tileLayer('http://wms.ssec.wisc.edu/products/G16-ABI-FD-BAND16/{z}/{x}/{y}.png');
+    var goes16_band1 = L.tileLayer('https://realearth.ssec.wisc.edu/products/G16-ABI-FD-BAND01/{z}/{x}/{y}.png');
+    var goes16_band2 = L.tileLayer('https://realearth.ssec.wisc.edu/products/G16-ABI-FD-BAND02/{z}/{x}/{y}.png');
+    var goes16_band3 = L.tileLayer('https://realearth.ssec.wisc.edu/products/G16-ABI-FD-BAND03/{z}/{x}/{y}.png');
+    var goes16_band4 = L.tileLayer('https://realearth.ssec.wisc.edu/products/G16-ABI-FD-BAND04/{z}/{x}/{y}.png');
+    var goes16_band5 = L.tileLayer('https://realearth.ssec.wisc.edu/products/G16-ABI-FD-BAND05/{z}/{x}/{y}.png');
+    var goes16_band6 = L.tileLayer('https://realearth.ssec.wisc.edu/products/G16-ABI-FD-BAND06/{z}/{x}/{y}.png');
+    var goes16_band7 = L.tileLayer('https://realearth.ssec.wisc.edu/products/G16-ABI-FD-BAND07/{z}/{x}/{y}.png');
+    var goes16_band8 = L.tileLayer('https://realearth.ssec.wisc.edu/products/G16-ABI-FD-BAND08/{z}/{x}/{y}.png');
+    var goes16_band9 = L.tileLayer('https://realearth.ssec.wisc.edu/products/G16-ABI-FD-BAND09/{z}/{x}/{y}.png');
+    var goes16_band10 = L.tileLayer('https://realearth.ssec.wisc.edu/products/G16-ABI-FD-BAND10/{z}/{x}/{y}.png');
+    var goes16_band11 = L.tileLayer('https://realearth.ssec.wisc.edu/products/G16-ABI-FD-BAND11/{z}/{x}/{y}.png');
+    var goes16_band12 = L.tileLayer('https://realearth.ssec.wisc.edu/products/G16-ABI-FD-BAND12/{z}/{x}/{y}.png');
+    var goes16_band13 = L.tileLayer('https://realearth.ssec.wisc.edu/products/G16-ABI-FD-BAND13/{z}/{x}/{y}.png');
+    var goes16_band14 = L.tileLayer('https://realearth.ssec.wisc.edu/products/G16-ABI-FD-BAND14/{z}/{x}/{y}.png');
+    var goes16_band15 = L.tileLayer('https://realearth.ssec.wisc.edu/products/G16-ABI-FD-BAND15/{z}/{x}/{y}.png');
+    var goes16_band16 = L.tileLayer('https://realearth.ssec.wisc.edu/products/G16-ABI-FD-BAND16/{z}/{x}/{y}.png');
 
 
     // uri = 'http://nowcoast.noaa.gov/arcgis/services/nowcoast/analysis_meteohydro_sfc_rtma_time/MapServer/WmsServer?REQUEST=GetLegendGraphic%26VERSION=1.3.0%26FORMAT=image/png%26LAYER=17%26TRANSPARENT=true%26LEGEND_OPTIONS=layout:3qa'
@@ -130,7 +131,7 @@ $(document).ready(function(){
         var opacityscrubber = new ScrubberView();
         opacityscrubber.min(0).max(100).step(1).value(60)
 
-        all_layers[ndx].setOpacity(0.6);
+        all_layers[ndx].setOpacity(0.7);
 
         if(prev_ndx==ndx || !prev_ndx){
             if(this.checked) {
@@ -260,7 +261,7 @@ $(document).ready(function(){
                 date = date_time[0]
                 time = date_time[1]
 
-                $('#scrubber_container .value').text(curr_time);
+                $('#time').text(curr_time);
 
 
 
@@ -301,6 +302,8 @@ $(document).ready(function(){
 
     $("#layers-link").on('touchstart',function() {
       $('#scrubber_container').toggleClass('transform-active');
+      $('#time_container').show()
+      $('#time_container').toggleClass('transform-active');
       $('#layers-link').toggleClass('transform-active-right');
       $('.leaflet-control-locate').toggleClass('transform-active-right');
       menuIsOpen=true
@@ -308,6 +311,8 @@ $(document).ready(function(){
 
     $("#layers-close").on('touchstart',function() {
       $('#scrubber_container').toggleClass('transform-active');
+      $('#time_container').show()
+      $('#time_container').toggleClass('transform-active');
       $('#layers-link').toggleClass('transform-active-right');
       $('.leaflet-control-locate').toggleClass('transform-active-right');
       menuIsOpen=false
@@ -315,6 +320,8 @@ $(document).ready(function(){
 
     $("#layers-link").on('click',function() {
       $('#scrubber_container').toggleClass('transform-active');
+      $('#time_container').show()
+      $('#time_container').toggleClass('transform-active');
       $('#layers-link').toggleClass('transform-active-right');
       $('.leaflet-control-locate').toggleClass('transform-active-right');
       menuIsOpen=true
@@ -322,6 +329,8 @@ $(document).ready(function(){
 
     $("#layers-close").on('click',function() {
       $('#scrubber_container').toggleClass('transform-active');
+      $('#time_container').show()
+      $('#time_container').toggleClass('transform-active');
       $('#layers-link').toggleClass('transform-active-right');
       $('.leaflet-control-locate').toggleClass('transform-active-right');
       menuIsOpen=false
