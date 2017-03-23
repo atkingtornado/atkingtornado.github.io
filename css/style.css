@@ -51,14 +51,9 @@
 }
 
 span{
-  margin-top:6px;
+  margin-top: 12px;
   font-size: 12px
 }
-
-.leaflet-touch .leaflet-bar a {
-    width:35px;
-    height:35px
-  }
 
 .nav-icon {
   margin-right: 6px;
@@ -101,6 +96,8 @@ span{
     z-index: 1000;
     top: 10px;
     right: 10px;
+    height: 45px;
+    width: 45px;
 }
 .layers-img:hover{
   background:#f4f4f4;;
@@ -115,7 +112,7 @@ span{
     background: rgba(50,50,50,0.85);
 }
 #layers-close-div h3{
-    margin-top: 8px;
+    margin-top: 5px;
     font-size: 20px;
 }
 #layers-close{
@@ -133,8 +130,8 @@ span{
     width: 25px;
     height: 25px;
     border-radius: 3px;
-    background: white;
-    padding: 5px;
+    /* background: white; */
+    margin-top: 10px;
 }
 .menu-content{
 
