@@ -1,12 +1,31 @@
 #mapid { height: 100%; }
 
+
+
 .panel {
+  box-shadow: rgba(0, 0, 0, 0.65098) 0px 1px 5px;
   overflow-y: auto;
-  background: rgba(50,50,50,0.85);
+  background: rgba(50,50,50,0.65);
   z-index: 9999;
   position: fixed;
   right: -15.625em; /*or width of your navigation panel*/
   width: 15.625em; /*should match the above value*/
+}
+
+::-webkit-scrollbar
+{
+  width: 12px;  /* for vertical scrollbars */
+  height: 12px; /* for horizontal scrollbars */
+}
+
+::-webkit-scrollbar-track
+{
+  background: rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar-thumb
+{
+  background: rgba(0, 0, 0, 0.5);
 }
 
 #spinner{
@@ -38,8 +57,15 @@ span{
   margin: 0 auto;
 }
 .layer-dropdown{
-  border-bottom: thin solid #f4f4f4; 
-  cursor: pointer;
+    padding-bottom: 5px;
+    margin: 5px 0 5px 0;
+
+    cursor: pointer;
+    padding-left: 10px;
+    background-color: rgba(50,50,50,0.85);
+}
+.layer-dropdown-content{
+  margin-bottom: 10px;
 }
 .layer-dropdown-arrow{
     -webkit-transition: .1s ease;
@@ -49,7 +75,7 @@ span{
     position: absolute;
     margin-top: 10px;
     float: right;
-    right: 10px;
+    right: 15px;
 }
 .rotated { 
     -webkit-transform: rotateX(180deg);
@@ -60,25 +86,26 @@ span{
 }
 
 #layers-link{
-    background-clip: padding-box;
-    border: 2px solid rgba(0,0,0,0.2);
-    background-clip: padding-box;
-    border-radius: 3px;
+      box-shadow: 0 1px 5px rgba(0,0,0,0.65);
     position: fixed;
     z-index: 1000;
     top: 10px;
     right: 10px;
 }
 .layers-img:hover{
-  color:black;
+  background:#f4f4f4;;
 }
 #layers-close-div{
-  width: 100%;
-  height: 25px;
+  padding-right: 13px;
+  padding-top: 10px;
+  height: 40px;
 }
 #layers-close{
     float: right;
-    color: lightgray;
+    color: #f4f4f4;
+    background-color: rgba(50,50,50,0.65);
+    border-radius: 4px;
+    padding: 5px;
 }
 #layers-close:active{
     color:#992727;
@@ -94,10 +121,11 @@ span{
     padding: 5px;
 }
 .menu-content{
-  padding: 10px;
+
 }
 
 #time_container{
+    box-shadow: rgba(0, 0, 0, 0.65098) 0px 1px 5px;
     height: 30px;
     top: 10px;
     z-index: 400;
@@ -127,6 +155,7 @@ span{
 
 
 #scrubber_container {
+    box-shadow: rgba(0, 0, 0, 0.65098) 0px 1px 5px;
     position: fixed;
     bottom: 0;
     width: 100%;

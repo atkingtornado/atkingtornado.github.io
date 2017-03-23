@@ -313,18 +313,14 @@ $(document).ready(function(){
       menuIsOpen=false
     });
 
-    $('.layer-dropdown').click(function(){
+    $('.dropdown-header').click(function(){
         $(this).children('.layer-dropdown-arrow').toggleClass('rotated');
     });
 
 
-    $('#conus-goes-dropdown').click(function(){
-        $('#conus-goes').slideToggle('fast')
+    $('.dropdown-header').click(function(){
+
+        $(this).next().slideToggle('fast')
     })
-    $('#goes-16-dropdown').click(function(){
-        $('#goes-16').slideToggle('fast')
-    })
-    $('#radar-dropdown').click(function(){
-        $('#radar').slideToggle('fast')
-    })
+
 });

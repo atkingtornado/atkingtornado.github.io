@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="css/L.Control.Locate.css" />
     <link rel="stylesheet" href="css/dragdealer.css" />
     <link rel="stylesheet" href="css/font-awesome-4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="css/simplebar.css" />
 
     <script src="js/leaflet.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -25,6 +26,7 @@
     <script src="js/leaflet.timedimension.min.js"></script>
     <script src="js/iso8601.min.js"></script>
     <script src="js/dragdealer.js"></script>
+    <script src="js/simplebar.js"></script>
 
     
 </head>
@@ -35,116 +37,132 @@
             <div class='menu-content'> 
                 <div id='layers-close-div'>
                     <a href="#menu" id='layers-close' class="menu-link"><i class="fa fa-times fa-2x" aria-hidden="true"></i></a>
-                </div>                   
-                <div id='conus-goes-dropdown' class='layer-dropdown'><h3>CONUS GOES</h3> <div class='layer-dropdown-arrow'> <i style='color: white;' class="fa fa-chevron-down fa-2x"></i></div></div>
-                <div id='conus-goes'>
-                    <div id='conus' class='single_toggle toggles'>
-                        <h4 class='toggle-label'>Visible</h4>
-                        <input value=1 id="conus_vis_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
-                        <label for="conus_vis_toggle"></label>
+                </div> 
+                <div class='scroll-div'>                  
+                    <div id='conus-goes-dropdown' class='layer-dropdown'>
+
+                        <div class='dropdown-header'>
+                            <h3>CONUS GOES</h3> <div class='layer-dropdown-arrow'> <i style='color: white;' class="fa fa-chevron-down fa-2x"></i></div>
+                        </div>
+                        <div class='layer-dropdown-content' id='conus-goes'>
+                            <div id='conus' class='single_toggle toggles'>
+                                <h4 class='toggle-label'>Visible</h4>
+                                <input value=1 id="conus_vis_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                                <label for="conus_vis_toggle"></label>
+                            </div>
+                            <div id='ir' class='single_toggle toggles'>
+                                <h4 class='toggle-label'>Infrared</h4>
+                                <input value=2  id="conus_ir_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                                <label for="conus_ir_toggle"></label>
+                            </div>
+                            <div id='test' class='single_toggle toggles'>
+                                <h4 class='toggle-label'>GOES-16 Test</h4>
+                                <input value=20  id="test_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                                <label for="test_toggle"></label>
+                            </div>
+                        </div>
                     </div>
-                    <div id='ir' class='single_toggle toggles'>
-                        <h4 class='toggle-label'>Infrared</h4>
-                        <input value=2  id="conus_ir_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
-                        <label for="conus_ir_toggle"></label>
+                    <div id='goes-16-dropdown' class='layer-dropdown'>
+
+                        <div class='dropdown-header'>
+                            <h3>GOES-16</h3> <div class='layer-dropdown-arrow'> <i style='color: white;' class="fa fa-chevron-down fa-2x"></i></div>
+                        </div>
+                        <div class='layer-dropdown-content' id='goes-16'>
+                            <div id='G16-ABI-FD-BAND01' class='single_toggle toggles'>
+                                <h4 class='toggle-label'>Band 1</h4>
+                                <input value=3  id="goes16_1_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                                <label for="goes16_1_toggle"></label>
+                            </div>
+                            <div id='G16-ABI-FD-BAND02' class='single_toggle toggles'>
+                                <h4 class='toggle-label'>Band 2</h4>
+                                <input value=4  id="goes16_2_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                                <label for="goes16_2_toggle"></label>
+                            </div>
+                            <div id='G16-ABI-FD-BAND03' class='single_toggle toggles'>
+                                <h4 class='toggle-label'>Band 3</h4>
+                                <input value=5  id="goes16_3_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                                <label for="goes16_3_toggle"></label>
+                            </div>
+                            <div id='G16-ABI-FD-BAND04' class='single_toggle toggles'>
+                                <h4 class='toggle-label'>Band 4</h4>
+                                <input value=6  id="goes16_4_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                                <label for="goes16_4_toggle"></label>
+                            </div>
+                            <div id='G16-ABI-FD-BAND05' class='single_toggle toggles'>
+                                <h4 class='toggle-label'>Band 5</h4>
+                                <input value=7  id="goes16_5_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                                <label for="goes16_5_toggle"></label>
+                            </div>
+                            <div id='G16-ABI-FD-BAND06' class='single_toggle toggles'>
+                                <h4 class='toggle-label'>Band 6</h4>
+                                <input value=8  id="goes16_6_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                                <label for="goes16_6_toggle"></label>
+                            </div>
+                            <div id='G16-ABI-FD-BAND07' class='single_toggle toggles'>
+                                <h4 class='toggle-label'>Band 7</h4>
+                                <input value=9  id="goes16_7_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                                <label for="goes16_7_toggle"></label>
+                            </div>
+                            <div id='G16-ABI-FD-BAND08' class='single_toggle toggles'>
+                                <h4 class='toggle-label'>Band 8</h4>
+                                <input value=10  id="goes16_8_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                                <label for="goes16_8_toggle"></label>
+                            </div>
+                            <div id='G16-ABI-FD-BAND09' class='single_toggle toggles'>
+                                <h4 class='toggle-label'>Band 9</h4>
+                                <input value=11 id="goes16_9_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                                <label for="goes16_9_toggle"></label>
+                            </div>
+                            <div id='G16-ABI-FD-BAND10' class='single_toggle toggles'>
+                                <h4 class='toggle-label'>Band 10</h4>
+                                <input value=12  id="goes16_10_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                                <label for="goes16_10_toggle"></label>
+                            </div>
+                            <div id='G16-ABI-FD-BAND11' class='single_toggle toggles'>
+                                <h4 class='toggle-label'>Band 11</h4>
+                                <input value=13  id="goes16_11_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                                <label for="goes16_11_toggle"></label>
+                            </div>
+                            <div id='G16-ABI-FD-BAND12' class='single_toggle toggles'>
+                                <h4 class='toggle-label'>Band 12</h4>
+                                <input value=14 id="goes16_12_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                                <label for="goes16_12_toggle"></label>
+                            </div>
+                            <div id='G16-ABI-FD-BAND13' class='single_toggle toggles'>
+                                <h4 class='toggle-label'>Band 13</h4>
+                                <input value=15  id="goes16_13_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                                <label for="goes16_13_toggle"></label>
+                            </div>
+                            <div id='G16-ABI-FD-BAND14' class='single_toggle toggles'>
+                                <h4 class='toggle-label'>Band 14</h4>
+                                <input value=16  id="goes16_14_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                                <label for="goes16_14_toggle"></label>
+                            </div>
+                            <div id='G16-ABI-FD-BAND15' class='single_toggle toggles'>
+                                <h4 class='toggle-label'>Band 15</h4>
+                                <input value=17  id="goes16_15_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                                <label for="goes16_15_toggle"></label>
+                            </div>
+                            <div id='G16-ABI-FD-BAND16' class='single_toggle toggles'>
+                                <h4 class='toggle-label'>Band 16</h4>
+                                <input value=18  id="goes16_16_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                                <label for="goes16_16_toggle"></label>
+                            </div>
+                        </div>
                     </div>
-                    <div id='test' class='single_toggle toggles'>
-                        <h4 class='toggle-label'>GOES-16 Test</h4>
-                        <input value=20  id="test_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
-                        <label for="test_toggle"></label>
-                    </div>
-                </div>
-                <div id='goes-16-dropdown' class='layer-dropdown'><h3>GOES-16</h3> <div class='layer-dropdown-arrow'> <i style='color: white;' class="fa fa-chevron-down fa-2x"></i></div></div>
-                <div id='goes-16'>
-                    <div id='G16-ABI-FD-BAND01' class='single_toggle toggles'>
-                        <h4 class='toggle-label'>Band 1</h4>
-                        <input value=3  id="goes16_1_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
-                        <label for="goes16_1_toggle"></label>
-                    </div>
-                    <div id='G16-ABI-FD-BAND02' class='single_toggle toggles'>
-                        <h4 class='toggle-label'>Band 2</h4>
-                        <input value=4  id="goes16_2_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
-                        <label for="goes16_2_toggle"></label>
-                    </div>
-                    <div id='G16-ABI-FD-BAND03' class='single_toggle toggles'>
-                        <h4 class='toggle-label'>Band 3</h4>
-                        <input value=5  id="goes16_3_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
-                        <label for="goes16_3_toggle"></label>
-                    </div>
-                    <div id='G16-ABI-FD-BAND04' class='single_toggle toggles'>
-                        <h4 class='toggle-label'>Band 4</h4>
-                        <input value=6  id="goes16_4_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
-                        <label for="goes16_4_toggle"></label>
-                    </div>
-                    <div id='G16-ABI-FD-BAND05' class='single_toggle toggles'>
-                        <h4 class='toggle-label'>Band 5</h4>
-                        <input value=7  id="goes16_5_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
-                        <label for="goes16_5_toggle"></label>
-                    </div>
-                    <div id='G16-ABI-FD-BAND06' class='single_toggle toggles'>
-                        <h4 class='toggle-label'>Band 6</h4>
-                        <input value=8  id="goes16_6_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
-                        <label for="goes16_6_toggle"></label>
-                    </div>
-                    <div id='G16-ABI-FD-BAND07' class='single_toggle toggles'>
-                        <h4 class='toggle-label'>Band 7</h4>
-                        <input value=9  id="goes16_7_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
-                        <label for="goes16_7_toggle"></label>
-                    </div>
-                    <div id='G16-ABI-FD-BAND08' class='single_toggle toggles'>
-                        <h4 class='toggle-label'>Band 8</h4>
-                        <input value=10  id="goes16_8_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
-                        <label for="goes16_8_toggle"></label>
-                    </div>
-                    <div id='G16-ABI-FD-BAND09' class='single_toggle toggles'>
-                        <h4 class='toggle-label'>Band 9</h4>
-                        <input value=11 id="goes16_9_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
-                        <label for="goes16_9_toggle"></label>
-                    </div>
-                    <div id='G16-ABI-FD-BAND10' class='single_toggle toggles'>
-                        <h4 class='toggle-label'>Band 10</h4>
-                        <input value=12  id="goes16_10_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
-                        <label for="goes16_10_toggle"></label>
-                    </div>
-                    <div id='G16-ABI-FD-BAND11' class='single_toggle toggles'>
-                        <h4 class='toggle-label'>Band 11</h4>
-                        <input value=13  id="goes16_11_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
-                        <label for="goes16_11_toggle"></label>
-                    </div>
-                    <div id='G16-ABI-FD-BAND12' class='single_toggle toggles'>
-                        <h4 class='toggle-label'>Band 12</h4>
-                        <input value=14 id="goes16_12_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
-                        <label for="goes16_12_toggle"></label>
-                    </div>
-                    <div id='G16-ABI-FD-BAND13' class='single_toggle toggles'>
-                        <h4 class='toggle-label'>Band 13</h4>
-                        <input value=15  id="goes16_13_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
-                        <label for="goes16_13_toggle"></label>
-                    </div>
-                    <div id='G16-ABI-FD-BAND14' class='single_toggle toggles'>
-                        <h4 class='toggle-label'>Band 14</h4>
-                        <input value=16  id="goes16_14_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
-                        <label for="goes16_14_toggle"></label>
-                    </div>
-                    <div id='G16-ABI-FD-BAND15' class='single_toggle toggles'>
-                        <h4 class='toggle-label'>Band 15</h4>
-                        <input value=17  id="goes16_15_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
-                        <label for="goes16_15_toggle"></label>
-                    </div>
-                    <div id='G16-ABI-FD-BAND16' class='single_toggle toggles'>
-                        <h4 class='toggle-label'>Band 16</h4>
-                        <input value=18  id="goes16_16_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
-                        <label for="goes16_16_toggle"></label>
-                    </div>
-                </div>
-           
-                <div id='multi_toggle'>
-                    <div id='radar-dropdown' class='layer-dropdown'><h3>Radar</h3> <div class='layer-dropdown-arrow'> <i style='color: white;' class="fa fa-chevron-down fa-2x"></i></div></div>
-                    <div id='radar'>
-                        <div class='toggles'>
-                            <h4 class='toggle-label'>NEXRAD</h4>
-                            <input value=19 id="nexrad_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
-                            <label for="nexrad_toggle"></label>
+               
+                    <div id='multi_toggle'>
+                        <div id='radar-dropdown' class='layer-dropdown'>
+                            <div class='dropdown-header'>
+                                <h3>Radar</h3> <div class='layer-dropdown-arrow'> <i style='color: white;' class="fa fa-chevron-down fa-2x"></i></div>
+                            </div>
+                            <div class='layer-dropdown-content' id='radar'>
+                                <div class='toggles'>
+                                    <h4 class='toggle-label'>NEXRAD</h4>
+                                    <input value=19 id="nexrad_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                                    <label for="nexrad_toggle"></label>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -154,7 +172,9 @@
 
 
         <div class='wrap push' style='left: 15.625em; transition: left 300ms ease;'>
-            <a href="#menu" id='layers-link' class="menu-link"><img class='layers-img' src='css/images/layers.png'></a>
+            <div class ='leaflet-bar leaflet-control'>
+                <a href="#menu" id='layers-link' class="menu-link leaflet-bar-part leaflet-bar-part-single"><img class='layers-img' src='css/images/layers.png'></a>
+            </div>
             <div id="mapid"> </div>
         </div>
         
