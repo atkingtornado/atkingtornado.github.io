@@ -99,11 +99,10 @@ span{
 
 #time_container{
     height: 30px;
-    bottom: 40px;
-    z-index: 1000;
-    width: 100%;
+    top: 10px;
+    z-index: 400;
     position: fixed;
-    text-align: right;
+    display: none;
 }
 
 #time_container h3{
@@ -152,6 +151,11 @@ span{
 .transform-active-right {
   -webkit-transform: translate3d(50px, 0px, 0px);
   -moz-transform: translate3d(50px, 0px, 0px);
+}
+
+.transform-active-left {
+  -webkit-transform: translate3d(-150px, 0px, 0px);
+  -moz-transform: translate3d(-150px, 0px, 0px);
 }
 
 .layer-select {

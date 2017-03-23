@@ -283,7 +283,7 @@ $(document).ready(function(){
 
     $("#layers-link").on('touchstart',function() {
       $('#scrubber_container').toggleClass('transform-active');
-      $('#time_container').toggleClass('transform-active');
+      $('#time_container').toggleClass('transform-active-left');
       $('#layers-link').toggleClass('transform-active-right');
       $('.leaflet-control-locate').toggleClass('transform-active-right');
       menuIsOpen=true
@@ -291,7 +291,7 @@ $(document).ready(function(){
 
     $("#layers-close").on('touchstart',function() {
       $('#scrubber_container').toggleClass('transform-active');
-      $('#time_container').toggleClass('transform-active');
+      $('#time_container').toggleClass('transform-active-left');
       $('#layers-link').toggleClass('transform-active-right');
       $('.leaflet-control-locate').toggleClass('transform-active-right');
       menuIsOpen=false
@@ -299,7 +299,7 @@ $(document).ready(function(){
 
     $("#layers-link").on('click',function() {
       $('#scrubber_container').toggleClass('transform-active');
-      $('#time_container').toggleClass('transform-active');
+      $('#time_container').toggleClass('transform-active-left');
       $('#layers-link').toggleClass('transform-active-right');
       $('.leaflet-control-locate').toggleClass('transform-active-right');
       menuIsOpen=true
@@ -307,7 +307,7 @@ $(document).ready(function(){
 
     $("#layers-close").on('click',function() {
       $('#scrubber_container').toggleClass('transform-active');
-      $('#time_container').toggleClass('transform-active');
+      $('#time_container').toggleClass('transform-active-left');
       $('#layers-link').toggleClass('transform-active-right');
       $('.leaflet-control-locate').toggleClass('transform-active-right');
       menuIsOpen=false
