@@ -7,59 +7,6 @@ $(document).ready(function(){
     $('#radar').hide()
 
 
-    L.Control.WMSLegend = L.Control.extend({
-        options: {
-            position: 'topleft',
-            uri: ''
-        },
-
-        onAdd: function () {
-            var controlClassName = 'leaflet-control-wms-legend',
-                legendClassName = 'wms-legend',
-                stop = L.DomEvent.stopPropagation;
-            this.container = L.DomUtil.create('div', controlClassName);
-            this.img = L.DomUtil.create('img', legendClassName, this.container);
-            this.img.src = this.options.uri;
-            this.img.alt = 'Legend';
-
-            L.DomEvent
-                .on(this.img, 'click', this._click, this)
-                .on(this.container, 'click', this._click, this)
-                .on(this.img, 'mousedown', stop)
-                .on(this.img, 'dblclick', stop)
-                .on(this.img, 'click', L.DomEvent.preventDefault)
-                .on(this.img, 'click', stop);
-            this.height = null;
-            this.width = null;
-            return this.container;
-        },
-        _click: function (e) {
-            L.DomEvent.stopPropagation(e);
-            L.DomEvent.preventDefault(e);
-            // toggle legend visibility
-            var style = window.getComputedStyle(this.img);
-            if (style.display === 'none') {
-                this.container.style.height = this.height + 'px';
-                this.container.style.width = this.width + 'px';
-                this.img.style.display = this.displayStyle;
-            }
-            else {
-                if (this.width === null && this.height === null) {
-                    // Only do inside the above check to prevent the container
-                    // growing on successive uses
-                    this.height = this.container.offsetHeight;
-                    this.width = this.container.offsetWidth;
-                }
-                this.displayStyle = this.img.style.display;
-                this.img.style.display = 'none';
-                this.container.style.height = '20px';
-                this.container.style.width = '20px';
-            }
-        },
-    });
-
-
-
     $('.menu-link').bigSlide({
         side: 'right',
     });
@@ -141,7 +88,7 @@ $(document).ready(function(){
  
                 active_layer = $(this).parent()[0].id
                 $.getJSON("https://realearth.ssec.wisc.edu/api/products?products=" + active_layer, function( data ) {
-                    active_times = data[0].times
+                    active_times = data[0].times.slice(data[0].times.length-10, data[0].times.length)
 
                     times_length = active_times.length
 
@@ -155,10 +102,18 @@ $(document).ready(function(){
                 $('<div id=opacity_' + $(this).parent()[0].id + '></div>').insertAfter($(this).parent()[0]);
                 $('#opacity_' + $(this).parent()[0].id).html('<p class=opacity-display id=opacity_display_' + $(this).parent()[0].id + '>60%</p>');
                 $('#opacity_' + $(this).parent()[0].id).append(opacityscrubber.elt);
+                $('#time_container').show()
             }else{
                 map.removeLayer(all_layers[ndx])
                 active_layer = false
                 active_times = false
+
+                time_slider.options.steps = 1;
+                time_slider.stepRatios = time_slider.calculateStepRatios();
+                prev_scrub_tick = false
+                time_slider.setStep(0, 0, snap=false)
+
+                $('#time_container').hide()
 
                 $('#opacity_' + $(this).parent()[0].id).remove()
             }
@@ -169,8 +124,7 @@ $(document).ready(function(){
 
             active_layer = $(this).parent()[0].id
             $.getJSON("https://realearth.ssec.wisc.edu/api/products?products=" + active_layer, function( data ) {
-                active_times = data[0].times.slice(0, 10)
-
+                active_times = data[0].times.slice(data[0].times.length-10, data[0].times.length)
                 times_length = active_times.length
 
                 time_slider.options.steps = times_length;
@@ -184,6 +138,7 @@ $(document).ready(function(){
             $('#opacity_' + $(this).parent()[0].id).append(opacityscrubber.elt);
             
             $('#opacity_' + prev_div).remove()
+            $('#time_container').show()
             map.removeLayer(all_layers[prev_ndx])
         }
 
@@ -248,7 +203,7 @@ $(document).ready(function(){
         snap: true,
         animationCallback: function(x, y) {
 
-            value = this.getStep()[0] - 1
+            value = Math.round(this.getStep()[0] - 1)
             times_length = active_times.length
             if (times_length > 1 && prev_scrub_tick != value){
                 console.log('dragging')
@@ -268,7 +223,21 @@ $(document).ready(function(){
                 if (prev_scrub_tick != false && menuIsOpen != true){
                     var curr_time_product = active_layer + '_' + date + '_' + time
                     var curr_time_layer = L.tileLayer('http://wms.ssec.wisc.edu/products/'+curr_time_product+'/{z}/{x}/{y}.png');
+
+                    curr_time_layer.on('loading', function(){
+			            $('#spinner').show()
+			        })
+			        curr_time_layer.on('load', function(){
+			            setTimeout(
+			              function() 
+			              {
+			                 $('#spinner').hide()
+			              }, 500);
+			        })
+
                     map.addLayer(curr_time_layer)
+
+
 
                     prev_layers.push(curr_time_layer);
                     if (prev_layers.length > 5){
@@ -285,12 +254,24 @@ $(document).ready(function(){
                 while(prev_layers.length > 1){
                     map.removeLayer(prev_layers[0])
                     prev_layers.shift()
+                    console.log('in loop')
                 }
                 var layer_opacity  = parseFloat($( "#opacity_" +  active_layer).text().replace('%',''))/100.0 
                 prev_layers[0].setOpacity(layer_opacity) 
 
                 var ndx = $('#' + active_layer + ' :input').val()
                 all_layers[ndx] = prev_layers[0]
+
+                all_layers[ndx].on('loading', function(){
+            		$('#spinner').show()
+		        })
+		        all_layers[ndx].on('load', function(){
+		            setTimeout(
+		              function() 
+		              {
+		                 $('#spinner').hide()
+		              }, 500);
+		        })
 
             }
         }
@@ -302,7 +283,6 @@ $(document).ready(function(){
 
     $("#layers-link").on('touchstart',function() {
       $('#scrubber_container').toggleClass('transform-active');
-      $('#time_container').show()
       $('#time_container').toggleClass('transform-active');
       $('#layers-link').toggleClass('transform-active-right');
       $('.leaflet-control-locate').toggleClass('transform-active-right');
@@ -311,7 +291,6 @@ $(document).ready(function(){
 
     $("#layers-close").on('touchstart',function() {
       $('#scrubber_container').toggleClass('transform-active');
-      $('#time_container').show()
       $('#time_container').toggleClass('transform-active');
       $('#layers-link').toggleClass('transform-active-right');
       $('.leaflet-control-locate').toggleClass('transform-active-right');
@@ -320,7 +299,6 @@ $(document).ready(function(){
 
     $("#layers-link").on('click',function() {
       $('#scrubber_container').toggleClass('transform-active');
-      $('#time_container').show()
       $('#time_container').toggleClass('transform-active');
       $('#layers-link').toggleClass('transform-active-right');
       $('.leaflet-control-locate').toggleClass('transform-active-right');
@@ -329,7 +307,6 @@ $(document).ready(function(){
 
     $("#layers-close").on('click',function() {
       $('#scrubber_container').toggleClass('transform-active');
-      $('#time_container').show()
       $('#time_container').toggleClass('transform-active');
       $('#layers-link').toggleClass('transform-active-right');
       $('.leaflet-control-locate').toggleClass('transform-active-right');
