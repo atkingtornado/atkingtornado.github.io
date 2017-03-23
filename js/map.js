@@ -11,6 +11,8 @@ $(document).ready(function(){
         side: 'right',
     });
 
+    $('input[type=checkbox]').removeAttr('checked');
+
     var basemap = L.tileLayer.provider('CartoDB.Positron')
     var basemap_lines = L.tileLayer.provider('Stamen.TonerLines')
     basemap_lines.setZIndex(999);
@@ -99,7 +101,7 @@ $(document).ready(function(){
 
                 });
 
-                $('<div id=opacity_' + $(this).parent()[0].id + '></div>').insertAfter($(this).parent()[0]);
+                $('<div class="opacity-div" id=opacity_' + $(this).parent()[0].id + '></div>').insertAfter($(this).parent()[0]);
                 $('#opacity_' + $(this).parent()[0].id).html('<p class=opacity-display id=opacity_display_' + $(this).parent()[0].id + '>60%</p>');
                 $('#opacity_' + $(this).parent()[0].id).append(opacityscrubber.elt);
                 $('#time_container').show()
