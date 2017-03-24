@@ -47,7 +47,11 @@ $(document).ready(function(){
     	}
     })
 
-    $('input[type=checkbox]').removeAttr('checked');
+    $('input[type=checkbox]').each(function () {
+      $(this).prop('checked', false);
+    });
+
+    $('input[type=checkbox]').removeProp('checked');
 
 
     var basemap = L.tileLayer.provider('CartoDB.Positron')
