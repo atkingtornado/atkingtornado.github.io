@@ -99,7 +99,26 @@ $(document).ready(function(){
 
         if(prev_layerid==layerid || !prev_layerid){
             if(this.checked) {
-            	curr_layer = L.tileLayer('http://wms.ssec.wisc.edu/products/'+layerid+'/{z}/{x}/{y}.png');
+                var toggle_id = $(this)[0].id
+                console.log(toggle_id)
+                if (toggle_id == 'test_1_toggle'){
+
+                  curr_layer = L.tileLayer('http://sharp.weather.ou.edu/tbell/GOES16_02/20170324_2142/{z}/{x}/{-y}.png');
+                }else{
+                  curr_layer = L.tileLayer('http://wms.ssec.wisc.edu/products/'+layerid+'/{z}/{x}/{y}.png');
+                  $.getJSON("https://realearth.ssec.wisc.edu/api/products?products=" + layerid, function( data ) {
+                      active_times = data[0].times.slice(data[0].times.length-10, data[0].times.length)
+
+                      times_length = active_times.length
+
+                      time_slider.options.steps = times_length;
+                      time_slider.stepRatios = time_slider.calculateStepRatios();
+                      prev_scrub_tick = false
+                      time_slider.setStep(times_length, 0, snap=false)
+
+                  });
+                }
+
                 map.addLayer(curr_layer)
                 curr_layer.setOpacity(0.75);
 
@@ -109,17 +128,7 @@ $(document).ready(function(){
                 prev_ndx = all_layers.length-1
  
                 active_layer = layerid
-                $.getJSON("https://realearth.ssec.wisc.edu/api/products?products=" + layerid, function( data ) {
-                    active_times = data[0].times.slice(data[0].times.length-10, data[0].times.length)
 
-                    times_length = active_times.length
-
-                    time_slider.options.steps = times_length;
-                    time_slider.stepRatios = time_slider.calculateStepRatios();
-                    prev_scrub_tick = false
-                    time_slider.setStep(times_length, 0, snap=false)
-
-                });
 
                 $('<div class="opacity-div" id=opacity_' + $(this).parent()[0].id + '></div>').insertAfter($(this).parent()[0]);
                 $('#opacity_' + $(this).parent()[0].id).html('<p class=opacity-display id=opacity_display_' + $(this).parent()[0].id + '>60%</p>');
@@ -292,6 +301,7 @@ $(document).ready(function(){
 
                 if (prev_scrub_tick != false && menuIsOpen != true){
                     var curr_time_product = active_layer + '_' + date + '_' + time
+                    console.log(curr_time_product)
                     var curr_time_layer = L.tileLayer('http://wms.ssec.wisc.edu/products/'+curr_time_product+'/{z}/{x}/{y}.png');
 
                     curr_time_layer.on('loading', function(){
