@@ -6,12 +6,13 @@ $(document).ready(function(){
     $('#goes-16').hide()
     $('#radar').hide()
 
-
     $('.menu-link').bigSlide({
         side: 'right',
     });
 
+
     $('input[type=checkbox]').removeAttr('checked');
+
 
     var basemap = L.tileLayer.provider('CartoDB.Positron')
     var basemap_lines = L.tileLayer.provider('Stamen.TonerLines')
@@ -218,7 +219,30 @@ $(document).ready(function(){
                 date = date_time[0]
                 time = date_time[1]
 
-                $('#time').text(curr_time);
+                year = date.substring( 0, 4 )
+                month = date.substring( 4, 6 )
+                day = date.substring( 6, 8 )
+                hh = time.substring( 0, 2 )
+                mm = time.substring( 2, 4 )
+                ss = time.substring( 4, 6 )
+
+                date_time_string = year+'-'+month+'-'+day+' '+hh+':'+mm+':'+ss+ ' UTC'
+
+
+                if (!$('#UTC_toggle').prop('checked')){
+                	$('#time').text(hh+':'+mm+':'+ss+ ' UTC');
+                }
+                else{
+                	var userdate = new Date(date_time_string);
+					console.log(userdate.toString())
+					timezone = userdate.toString().match(/\(([A-Za-z\s].*)\)/)[1]
+					hh = ('0' + userdate.getHours()).slice(-2)
+					mm = ('0' + userdate.getMinutes()).slice(-2)
+					ss = ('0' + userdate.getSeconds()).slice(-2)
+
+					$('#time').text(hh+':'+mm+':'+ss+ ' ' + timezone);
+                }
+
 
 
 
@@ -287,7 +311,25 @@ $(document).ready(function(){
       $('#scrubber_container').toggleClass('transform-active');
       $('#time_container').toggleClass('transform-active-left');
       $('#layers-link').toggleClass('transform-active-right');
+      $('#options-link').toggleClass('transform-active-right');
       $('.leaflet-control-locate').toggleClass('transform-active-right');
+
+      $('#options-content').hide()
+      $('#layers-content').show()
+
+      menuIsOpen=true
+    });
+
+    $("#options-link").on('touchstart',function() {
+      $('#scrubber_container').toggleClass('transform-active');
+      $('#time_container').toggleClass('transform-active-left');
+      $('#layers-link').toggleClass('transform-active-right');
+      $('#options-link').toggleClass('transform-active-right');
+      $('.leaflet-control-locate').toggleClass('transform-active-right');
+
+      $('#options-content').show()
+      $('#layers-content').hide()
+
       menuIsOpen=true
     });
 
@@ -295,6 +337,16 @@ $(document).ready(function(){
       $('#scrubber_container').toggleClass('transform-active');
       $('#time_container').toggleClass('transform-active-left');
       $('#layers-link').toggleClass('transform-active-right');
+      $('#options-link').toggleClass('transform-active-right');
+      $('.leaflet-control-locate').toggleClass('transform-active-right');
+      menuIsOpen=false
+    });
+
+    $("#options-close").on('touchstart',function() {
+      $('#scrubber_container').toggleClass('transform-active');
+      $('#time_container').toggleClass('transform-active-left');
+      $('#layers-link').toggleClass('transform-active-right');
+      $('#options-link').toggleClass('transform-active-right');
       $('.leaflet-control-locate').toggleClass('transform-active-right');
       menuIsOpen=false
     });
@@ -303,7 +355,26 @@ $(document).ready(function(){
       $('#scrubber_container').toggleClass('transform-active');
       $('#time_container').toggleClass('transform-active-left');
       $('#layers-link').toggleClass('transform-active-right');
+      $('#options-link').toggleClass('transform-active-right');
       $('.leaflet-control-locate').toggleClass('transform-active-right');
+
+      $('#options-content').hide()
+      $('#layers-content').show()
+
+
+      menuIsOpen=true
+    });
+
+    $("#options-link").on('click',function() {
+      $('#scrubber_container').toggleClass('transform-active');
+      $('#time_container').toggleClass('transform-active-left');
+      $('#layers-link').toggleClass('transform-active-right');
+      $('#options-link').toggleClass('transform-active-right');
+      $('.leaflet-control-locate').toggleClass('transform-active-right');
+
+      $('#options-content').show()
+      $('#layers-content').hide()
+
       menuIsOpen=true
     });
 
@@ -311,14 +382,25 @@ $(document).ready(function(){
       $('#scrubber_container').toggleClass('transform-active');
       $('#time_container').toggleClass('transform-active-left');
       $('#layers-link').toggleClass('transform-active-right');
+      $('#options-link').toggleClass('transform-active-right');
       $('.leaflet-control-locate').toggleClass('transform-active-right');
       menuIsOpen=false
     });
 
+    $("#options-close").on('click',function() {
+      $('#scrubber_container').toggleClass('transform-active');
+      $('#time_container').toggleClass('transform-active-left');
+      $('#layers-link').toggleClass('transform-active-right');
+      $('#options-link').toggleClass('transform-active-right');
+      $('.leaflet-control-locate').toggleClass('transform-active-right');
+      menuIsOpen=false
+    });
+
+
+
     $('.dropdown-header').click(function(){
         $(this).children('.layer-dropdown-arrow').toggleClass('rotated');
     });
-
 
     $('.dropdown-header').click(function(){
 

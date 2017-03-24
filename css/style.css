@@ -98,6 +98,20 @@ span{
     transform: rotateX(180deg);;
 }
 
+#options-link{
+    box-shadow: 0 1px 5px rgba(0,0,0,0.65);
+    position: fixed;
+    z-index: 1000;
+    top: 120px;
+    right: 10px;
+    height: 45px;
+    width: 45px;
+}
+
+.options-container{
+  padding-left: 5px;
+}
+
 #layers-link{
       box-shadow: 0 1px 5px rgba(0,0,0,0.65);
     position: fixed;
@@ -132,6 +146,30 @@ span{
     color:#992727;
 }
 #layers-close:hover{
+    color:darkgrey;
+}
+#options-close-div{
+    box-shadow: inset 0px 0px 5px rgba(25,25,25,0.85);
+    padding-right: 13px;
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-bottom: 10px;
+    height: 40px;
+    background: rgba(25,25,25,0.65);
+}
+#options-close-div h3{
+    margin-top: 8px;
+    font-size: 20px;
+}
+#options-close{
+    float: right;
+    color: #f4f4f4;
+    padding: 5px;
+}
+#options-close:active{
+    color:#992727;
+}
+#options-close:hover{
     color:darkgrey;
 }
 .layers-img{
@@ -204,8 +242,8 @@ span{
 }
 
 .transform-active-left {
-  -webkit-transform: translate3d(-180px, 0px, 0px);
-  -moz-transform: translate3d(-180px, 0px, 0px);
+  -webkit-transform: translate3d(-250px, 0px, 0px);
+  -moz-transform: translate3d(-250px, 0px, 0px);
 }
 
 .layer-select {

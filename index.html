@@ -36,7 +36,7 @@
 <html> 
     <body>
          <nav id="menu" class="panel" role="navigation"> 
-            <div class='menu-content'> 
+            <div id='layers-content'> 
                 <div id='layers-close-div'>
                 <h3>Layer Control</h3>
                     <a href="#menu" id='layers-close' class="menu-link"><i class="fa fa-times fa-2x" aria-hidden="true"></i></a>
@@ -171,12 +171,35 @@
                 </div>
 
             </div>
+            <div id='options-content'> 
+                <div id='options-close-div'>
+                    <h3>Options</h3>
+                    <a href="#menu" id='options-close' class="menu-link"><i class="fa fa-times fa-2x" aria-hidden="true"></i></a>
+                </div> 
+                <div class='scroll-div'>
+                    <div class='options-container'>  
+                        <div id='UTC' class='utc-toggle toggles'>
+                            <h4 class='toggle-label'>Local Time Display</h4>
+                            <input id="UTC_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                            <label for="UTC_toggle"></label>
+                        </div>
+                        <div id='advanced' class='advanced-toggle toggles'>
+                            <h4 class='toggle-label'>Advanced Mode</h4>
+                            <input id="advanced_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                            <label for="advanced_toggle"></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </nav>
 
 
         <div class='wrap push' style='left: 15.625em; transition: left 300ms ease;'>
             <div class ='leaflet-bar leaflet-control'>
-                <a href="#menu" id='layers-link' class="menu-link leaflet-bar-part leaflet-bar-part-single"><img class='layers-img' src='css/images/layers.png'></a>
+                <a href="#menu" id='layers-link' class="transform menu-link leaflet-bar-part leaflet-bar-part-single"><img class='layers-img' src='css/images/layers.png'></a>
+            </div>
+            <div class ='leaflet-bar leaflet-control'>
+                <a href="#menu" id='options-link' class="transform menu-link leaflet-bar-part leaflet-bar-part-single"><span><i style='margin-top: 10px; color:#444' class="fa fa-cog fa-2x" aria-hidden="true"></i></span></a>
             </div>
             <div id="mapid"> </div>
         </div>
