@@ -102,7 +102,7 @@ span{
     box-shadow: 0 1px 5px rgba(0,0,0,0.65);
     position: fixed;
     z-index: 1000;
-    top: 120px;
+    bottom: 40px;
     right: 10px;
     height: 45px;
     width: 45px;
@@ -242,8 +242,8 @@ span{
 }
 
 .transform-active-left {
-  -webkit-transform: translate3d(-250px, 0px, 0px);
-  -moz-transform: translate3d(-250px, 0px, 0px);
+  -webkit-transform: translate3d(-400px, 0px, 0px);
+  -moz-transform: translate3d(-400px, 0px, 0px);
 }
 
 .layer-select {

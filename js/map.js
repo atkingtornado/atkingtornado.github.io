@@ -2,14 +2,50 @@ $(document).ready(function(){
 
 
 	$('#time_container').hide()
-    $('#conus-goes').hide()
-    $('#goes-16').hide()
-    $('#radar').hide()
+    $('.layer-dropdown-content').hide()
+
 
     $('.menu-link').bigSlide({
         side: 'right',
     });
 
+    $('#UTC_toggle').on('change', function() {
+    	if (active_times){
+    		curr_time = active_times[value]
+            date_time = curr_time.split('.')
+
+            date = date_time[0]
+            time = date_time[1]
+
+            year = date.substring( 0, 4 )
+            month = date.substring( 4, 6 )
+            day = date.substring( 6, 8 )
+            hh = time.substring( 0, 2 )
+            mm = time.substring( 2, 4 )
+            ss = time.substring( 4, 6 )
+
+            date_time_string = year+'-'+month+'-'+day+' '+hh+':'+mm+':'+ss+ ' UTC'
+
+
+            if (!$('#UTC_toggle').prop('checked')){
+            	$('#time').text(date_time_string);
+            }
+            else{
+            	var userdate = new Date(date_time_string);
+				console.log(userdate.toString())
+				timezone = userdate.toString().match(/\(([A-Za-z\s].*)\)/)[1]
+				year =  userdate.getFullYear()
+                month = ('0' + (parseInt(userdate.getMonth())+1).toString()).slice(-2)
+                day = userdate.getDate()
+				hh = ('0' + userdate.getHours()).slice(-2)
+				mm = ('0' + userdate.getMinutes()).slice(-2)
+				ss = ('0' + userdate.getSeconds()).slice(-2)
+
+				date_time_string = year+'-'+month+'-'+day+' '+hh+':'+mm+':'+ss+ ' ' + timezone
+				$('#time').text(date_time_string);
+            }
+    	}
+    })
 
     $('input[type=checkbox]').removeAttr('checked');
 
@@ -29,68 +65,37 @@ $(document).ready(function(){
         attributionControl: false,
     });
 
-    var conus_vis = L.tileLayer('https://mesonet.agron.iastate.edu/cache/tile.py/1.0.0/goes-vis-1km-900913/{z}/{x}/{y}.png');
-    var conus_ir = L.tileLayer('https://mesonet.agron.iastate.edu/cache/tile.py/1.0.0/goes-ir-4km-900913/{z}/{x}/{y}.png');
-    var nexrad = L.tileLayer('https://mesonet.agron.iastate.edu/cache/tile.py/1.0.0/nexrad-n0q-900913/{z}/{x}/{y}.png');
-    var temp2m = L.tileLayer.wms('https://nowcoast.noaa.gov/arcgis/services/nowcoast/analysis_meteohydro_sfc_rtma_time/MapServer/WMSServer?', {
-        layers: '17',
-        format: 'image/png',
-        transparent: true,
-        version: '1.3.0',
-    });
-    var dwpt2m = L.tileLayer.wms('https://nowcoast.noaa.gov/arcgis/services/nowcoast/analysis_meteohydro_sfc_rtma_time/MapServer/WMSServer?', {
-        layers: '13',
-        format: 'image/png',
-        transparent: true,
-        version: '1.3.0',
-    });
-
-    var goes16_band1 = L.tileLayer('https://realearth.ssec.wisc.edu/products/G16-ABI-FD-BAND01/{z}/{x}/{y}.png');
-    var goes16_band2 = L.tileLayer('https://realearth.ssec.wisc.edu/products/G16-ABI-FD-BAND02/{z}/{x}/{y}.png');
-    var goes16_band3 = L.tileLayer('https://realearth.ssec.wisc.edu/products/G16-ABI-FD-BAND03/{z}/{x}/{y}.png');
-    var goes16_band4 = L.tileLayer('https://realearth.ssec.wisc.edu/products/G16-ABI-FD-BAND04/{z}/{x}/{y}.png');
-    var goes16_band5 = L.tileLayer('https://realearth.ssec.wisc.edu/products/G16-ABI-FD-BAND05/{z}/{x}/{y}.png');
-    var goes16_band6 = L.tileLayer('https://realearth.ssec.wisc.edu/products/G16-ABI-FD-BAND06/{z}/{x}/{y}.png');
-    var goes16_band7 = L.tileLayer('https://realearth.ssec.wisc.edu/products/G16-ABI-FD-BAND07/{z}/{x}/{y}.png');
-    var goes16_band8 = L.tileLayer('https://realearth.ssec.wisc.edu/products/G16-ABI-FD-BAND08/{z}/{x}/{y}.png');
-    var goes16_band9 = L.tileLayer('https://realearth.ssec.wisc.edu/products/G16-ABI-FD-BAND09/{z}/{x}/{y}.png');
-    var goes16_band10 = L.tileLayer('https://realearth.ssec.wisc.edu/products/G16-ABI-FD-BAND10/{z}/{x}/{y}.png');
-    var goes16_band11 = L.tileLayer('https://realearth.ssec.wisc.edu/products/G16-ABI-FD-BAND11/{z}/{x}/{y}.png');
-    var goes16_band12 = L.tileLayer('https://realearth.ssec.wisc.edu/products/G16-ABI-FD-BAND12/{z}/{x}/{y}.png');
-    var goes16_band13 = L.tileLayer('https://realearth.ssec.wisc.edu/products/G16-ABI-FD-BAND13/{z}/{x}/{y}.png');
-    var goes16_band14 = L.tileLayer('https://realearth.ssec.wisc.edu/products/G16-ABI-FD-BAND14/{z}/{x}/{y}.png');
-    var goes16_band15 = L.tileLayer('https://realearth.ssec.wisc.edu/products/G16-ABI-FD-BAND15/{z}/{x}/{y}.png');
-    var goes16_band16 = L.tileLayer('https://realearth.ssec.wisc.edu/products/G16-ABI-FD-BAND16/{z}/{x}/{y}.png');
-
-
-    // uri = 'http://nowcoast.noaa.gov/arcgis/services/nowcoast/analysis_meteohydro_sfc_rtma_time/MapServer/WmsServer?REQUEST=GetLegendGraphic%26VERSION=1.3.0%26FORMAT=image/png%26LAYER=17%26TRANSPARENT=true%26LEGEND_OPTIONS=layout:3qa'
-    // L.wmsLegend(uri);
-
-    var all_layers = [basemap, conus_vis, conus_ir, goes16_band1, goes16_band2,goes16_band3, goes16_band4, goes16_band5, goes16_band6, goes16_band7, goes16_band8, goes16_band9, goes16_band10, goes16_band11, goes16_band12, goes16_band13, goes16_band14, goes16_band15, goes16_band16, nexrad,test]
+    var all_layers = [basemap]
+    var all_overlays = []
     var active_layer = false
     var active_times = false
-    var prev_ndx = false
+    var prev_layerid = false
     var prev_div = false
+    var prev_ndx = false
     var menuIsOpen = false
 
     $('.single_toggle').on('change', 'input.cmn-toggle', function() {
 
         $('.single_toggle input.cmn-toggle').not(this).prop('checked', false);         
-        var ndx = $(this).val()
+        var layerid = $(this).parent()[0].id
 
         var opacityscrubber = new ScrubberView();
-        opacityscrubber.min(0).max(100).step(1).value(60)
+        opacityscrubber.min(0).max(100).step(1).value(75)
 
-        all_layers[ndx].setOpacity(0.7);
 
-        if(prev_ndx==ndx || !prev_ndx){
+        if(prev_layerid==layerid || !prev_layerid){
             if(this.checked) {
-                map.addLayer(all_layers[ndx])
+            	curr_layer = L.tileLayer('http://wms.ssec.wisc.edu/products/'+layerid+'/{z}/{x}/{y}.png');
+                map.addLayer(curr_layer)
+                curr_layer.setOpacity(0.75);
 
-                prev_layers.push(all_layers[ndx]);
+                prev_layers.push(curr_layer);
+
+                all_layers.push(curr_layer);
+                prev_ndx = all_layers.length-1
  
-                active_layer = $(this).parent()[0].id
-                $.getJSON("https://realearth.ssec.wisc.edu/api/products?products=" + active_layer, function( data ) {
+                active_layer = layerid
+                $.getJSON("https://realearth.ssec.wisc.edu/api/products?products=" + layerid, function( data ) {
                     active_times = data[0].times.slice(data[0].times.length-10, data[0].times.length)
 
                     times_length = active_times.length
@@ -107,7 +112,7 @@ $(document).ready(function(){
                 $('#opacity_' + $(this).parent()[0].id).append(opacityscrubber.elt);
                 $('#time_container').show()
             }else{
-                map.removeLayer(all_layers[ndx])
+                map.removeLayer(all_layers[prev_ndx])
                 active_layer = false
                 active_times = false
 
@@ -121,11 +126,17 @@ $(document).ready(function(){
                 $('#opacity_' + $(this).parent()[0].id).remove()
             }
         }else{
-            map.addLayer(all_layers[ndx])
-            prev_layers.push(all_layers[ndx]);
+        	curr_layer = L.tileLayer('http://wms.ssec.wisc.edu/products/'+layerid+'/{z}/{x}/{y}.png');
+            map.addLayer(curr_layer)
+            curr_layer.setOpacity(0.75);
+            map.removeLayer(all_layers[prev_ndx])
+
+            prev_layers.push(curr_layer);
+            all_layers.push(curr_layer);
+            prev_ndx = all_layers.length-1
 
 
-            active_layer = $(this).parent()[0].id
+            active_layer = layerid
             $.getJSON("https://realearth.ssec.wisc.edu/api/products?products=" + active_layer, function( data ) {
                 active_times = data[0].times.slice(data[0].times.length-10, data[0].times.length)
                 times_length = active_times.length
@@ -142,32 +153,40 @@ $(document).ready(function(){
             
             $('#opacity_' + prev_div).remove()
             $('#time_container').show()
-            map.removeLayer(all_layers[prev_ndx])
         }
 
-        prev_ndx = ndx
+        prev_layerid = layerid
         prev_div = $(this).parent()[0].id     
 
         opacityscrubber.onValueChanged = function (value) {
             $('#opacity_display_' + prev_div).html(value+'%');
-            all_layers[ndx].setOpacity(value/100.0)
+            all_layers[prev_ndx].setOpacity(value/100.0)
         }
 
     });
     
-    $('#multi_toggle').on('change', 'input.cmn-toggle', function() {  
+    $('.multi_toggle').on('change', 'input.cmn-toggle', function() {  
+    	var layerid = $(this).parent()[0].id
 
         var opacityscrubber = new ScrubberView();
         opacityscrubber.min(0).max(100).step(1).value(60)
 
         var ndx = $(this).val()  
         if(this.checked) {
-            map.addLayer(all_layers[ndx])
+            curr_layer = L.tileLayer('http://wms.ssec.wisc.edu/products/'+layerid+'/{z}/{x}/{y}.png');
+            map.addLayer(curr_layer)
+          	curr_layer.setOpacity(0.75)
+            all_overlays.push(curr_layer)
+
             $('<div id=opacity_' + $(this).parent()[0].id + '></div>').insertAfter($(this).parent()[0]);
             $('#opacity_' + $(this).parent()[0].id).html('<p class=opacity-display id=opacity_display_' + $(this).parent()[0].id + '>60%</p>');
             $('#opacity_' + $(this).parent()[0].id).append(opacityscrubber.elt);
         }else{
-            map.removeLayer(all_layers[ndx])
+        	for(i=0;i<all_overlays.length;i++){
+        		if(all_overlays[i]._url == 'http://wms.ssec.wisc.edu/products/'+layerid+'/{z}/{x}/{y}.png')
+        		map.removeLayer(all_overlays[i])
+        	}
+            
             $('#opacity_' + $(this).parent()[0].id).remove()
         }
 
@@ -175,7 +194,12 @@ $(document).ready(function(){
 
         opacityscrubber.onValueChanged = function (value) {
             $('#opacity_display_' + div).html(value+'%');
-            all_layers[ndx].setOpacity(value/100.0)
+            for(i=0;i<all_overlays.length;i++){
+        		if(all_overlays[i]._url == 'http://wms.ssec.wisc.edu/products/'+layerid +'/{z}/{x}/{y}.png'){
+        			all_overlays[i].setOpacity(value/100.0)
+        		}
+        	}
+            
         }
 
 
@@ -230,17 +254,21 @@ $(document).ready(function(){
 
 
                 if (!$('#UTC_toggle').prop('checked')){
-                	$('#time').text(hh+':'+mm+':'+ss+ ' UTC');
+                	$('#time').text(date_time_string);
                 }
                 else{
                 	var userdate = new Date(date_time_string);
 					console.log(userdate.toString())
 					timezone = userdate.toString().match(/\(([A-Za-z\s].*)\)/)[1]
+					year =  userdate.getFullYear()
+	                month = ('0' + (parseInt(userdate.getMonth())+1).toString()).slice(-2)
+	                day = userdate.getDate()
 					hh = ('0' + userdate.getHours()).slice(-2)
 					mm = ('0' + userdate.getMinutes()).slice(-2)
 					ss = ('0' + userdate.getSeconds()).slice(-2)
 
-					$('#time').text(hh+':'+mm+':'+ss+ ' ' + timezone);
+					date_time_string = year+'-'+month+'-'+day+' '+hh+':'+mm+':'+ss+ ' ' + timezone
+					$('#time').text(date_time_string);
                 }
 
 
@@ -285,7 +313,7 @@ $(document).ready(function(){
                 var layer_opacity  = parseFloat($( "#opacity_" +  active_layer).text().replace('%',''))/100.0 
                 prev_layers[0].setOpacity(layer_opacity) 
 
-                var ndx = $('#' + active_layer + ' :input').val()
+                var ndx = prev_ndx
                 all_layers[ndx] = prev_layers[0]
 
                 all_layers[ndx].on('loading', function(){
