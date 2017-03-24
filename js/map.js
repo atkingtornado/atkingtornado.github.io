@@ -82,6 +82,16 @@ $(document).ready(function(){
         var opacityscrubber = new ScrubberView();
         opacityscrubber.min(0).max(100).step(1).value(75)
 
+        var layer_info = $(this).data("layer-info")
+        if (typeof layer_info != 'undefined'){
+          $('#layer-info').text(layer_info)
+        }
+        else{
+          $('#layer-info').text('')
+        }
+
+        console.log(layer_info)
+
 
         if(prev_layerid==layerid || !prev_layerid){
             if(this.checked) {
@@ -258,18 +268,20 @@ $(document).ready(function(){
                 }
                 else{
                 	var userdate = new Date(date_time_string);
-					console.log(userdate.toString())
-					timezone = userdate.toString().match(/\(([A-Za-z\s].*)\)/)[1]
-					year =  userdate.getFullYear()
-	                month = ('0' + (parseInt(userdate.getMonth())+1).toString()).slice(-2)
-	                day = userdate.getDate()
-					hh = ('0' + userdate.getHours()).slice(-2)
-					mm = ('0' + userdate.getMinutes()).slice(-2)
-					ss = ('0' + userdate.getSeconds()).slice(-2)
+        					console.log(userdate.toString())
+        					timezone = userdate.toString().match(/\(([A-Za-z\s].*)\)/)[1]
+        					year =  userdate.getFullYear()
+        	                month = ('0' + (parseInt(userdate.getMonth())+1).toString()).slice(-2)
+        	                day = userdate.getDate()
+        					hh = ('0' + userdate.getHours()).slice(-2)
+        					mm = ('0' + userdate.getMinutes()).slice(-2)
+        					ss = ('0' + userdate.getSeconds()).slice(-2)
 
-					date_time_string = year+'-'+month+'-'+day+' '+hh+':'+mm+':'+ss+ ' ' + timezone
-					$('#time').text(date_time_string);
+        					date_time_string = year+'-'+month+'-'+day+' '+hh+':'+mm+':'+ss+ ' ' + timezone
+        					$('#time').text(date_time_string);
                 }
+
+                $('#layer-info').text()
 
 
 

@@ -184,8 +184,11 @@ span{
 }
 
 #time_container{
+    padding-left: 10px;
+    padding-right: 10px;
+    background: rgba(50,50,50,0.85);
     box-shadow: rgba(0, 0, 0, 0.65098) 0px 1px 5px;
-    height: 30px;
+    height: 50px;
     top: 10px;
     z-index: 400;
     position: fixed;
@@ -194,12 +197,15 @@ span{
 
 #time_container h3{
     height: 30px;
-    background: rgba(50,50,50,0.85);
+    color: #f4f4f4;
+    width: 100%;
     margin: auto;
     line-height: 30px;
     vertical-align: middle;
-    padding-left: 10px;
-    padding-right: 10px;
+}
+#time_container p{
+    color: #f4f4f4;
+    margin: auto;
 }
 
 #time_bars{
@@ -327,13 +333,17 @@ h4{
 
 }
 .toggle-label{
+    font-size: 12px;
     display: inline-block;
     color: #f4f4f4;
-    padding: 5px;
+    /* padding: 5px; */
+    padding-left: 5px;
+    padding-right: 20px;
     margin: 0px;
     display: table-cell;
     vertical-align: middle;
     font-weight: bold;
+    line-height: 12px;
 }
 
 .cmn-toggle {
