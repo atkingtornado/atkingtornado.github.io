@@ -78,6 +78,19 @@ $(document).ready(function(){
     var prev_ndx = false
     var menuIsOpen = false
 
+    $.getJSON("/out.geojson", function(json) {
+	    console.log(json); // this will show the info it in firebug console
+		L.geoJson(json, {
+		    style: function (feature) {
+		        return {color: feature.properties.color};
+		    },
+		    onEachFeature: function (feature, layer) {
+		        layer.bindPopup(feature.properties.description);
+		    }
+		}).addTo(map);
+
+	});
+
     $('.single_toggle').on('change', 'input.cmn-toggle', function() {
 
         $('.single_toggle input.cmn-toggle').not(this).prop('checked', false);         
