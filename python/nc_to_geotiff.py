@@ -3,6 +3,7 @@ import argparse
 import logging
 import os
 import sys
+import tempfile
 
 import gdal
 import numpy as np
@@ -13,12 +14,19 @@ from datetime import datetime
 from glob import glob
 from netCDF4 import Dataset
 
-LEVELS = '4-8'
+LEVELS = '0-9'
 
 
 def nc_to_tiff(nc_file, out_dir):
+
     nc = Dataset(nc_file)
 
+    # Get the netcdf attributes
+    attrs = {}
+    for key in nc.ncattrs():
+        attrs.update({key: nc.getncattr(key)})
+
+    # Turn the data in geoTiffs
     x = nc.variables['x'][:]
     y = nc.variables['y'][:]
 
@@ -33,21 +41,38 @@ def nc_to_tiff(nc_file, out_dir):
                                      false_easting=proj.false_easting, false_northing=proj.false_northing,
                                      secant_latitudes=None, standard_parallels=[proj.standard_parallel])
 
+    # Get some stuff for the geotiff
     nx = data.shape[0]
     ny = data.shape[1]
-    xmin, ymin, xmax, ymax = [min(x), min(y), max(x), max(y)]
+    xres = attrs['pixel_x_size'] * 1e3
+    yres = attrs['pixel_y_size'] * 1e3
 
-    xres = (xmax - xmin) / float(nx)
-    yres = (ymax - ymin) / float(ny)
+    # If all the tiles weren't written to nc, then the arrays will be masked
+    # Need to make sure we have the minx and max y; if the arrays are masked, that's not guarenteed
+    # So we need to calculate min x and max y from the data we have and the resolution
+    try:
+        for i in range(0, np.size(x)):
+            if ~x.mask[i]:
+                value = x[i]
+                xmin = value - i*xres
+                break
+
+        for i in range(0, np.size(y)):
+            if ~y.mask[i]:
+                value = x[i]
+                ymax = value + i*yres
+                break
+    except AttributeError:  # This means the data is all there!
+        xmin, ymin, xmax, ymax = [np.min(x), np.min(y), np.max(x), np.max(y)]
+
     geotransform = (xmin, xres, 0, ymax, 0, -yres)
 
     # Get the filename figured out
-    fname = nc_file.split('/')[-1].replace('.nc', '.tiff')
+    fname = nc_file.split('/')[-1].replace('.nc4', '.tiff')
     fname = os.path.join(out_dir, fname)
 
-    # create the 3-band raster file
+    # create the  raster file
     dst_ds = gdal.GetDriverByName('GTiff').Create(fname, ny, nx, 1, gdal.GDT_Byte)
-
     dst_ds.SetGeoTransform(geotransform)  # specify coords
     srs = osr.SpatialReference()  # establish encoding
     srs.ImportFromProj4(map_proj.proj4_init)
@@ -59,53 +84,40 @@ def nc_to_tiff(nc_file, out_dir):
 
     del dst_ds
 
-    return fname
+    return fname, attrs
 
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('-i', action='store', dest='in_dir', help='Data Directory ')
+    parser.add_argument('-i', action='store', dest='in_file', help='Input File')
     parser.add_argument('-o', action='store', dest='out_dir', help='Output directory')
-    parser.add_argument('-b', action='store', dest='band', type=int, help='Band to process')
-    parser.add_argument('--reprocess', action='store_true', default=False,)
-    parser.add_argument('-f', action='store', dest='files', type=str, nargs='*', help='Files to reprocess')
     args = parser.parse_args()
 
+    if 'partial' in args.in_file:
+        print("Only a partial file, don't process this")
+        sys.exit()
+        
     # Get the directory containing the necessary gdal scripts
     bin_dir = '{exec_prefix}/bin/'.format(exec_prefix=sys.exec_prefix)
 
-    if args.reprocess:
-        out_dir = args.out_dir  # Use the dir straight from the command line
-        if not os.path.exists(out_dir):
-            os.makedirs(out_dir)
+    # Make a temporary directory to store the tiff
+    tmp_dir = tempfile.TemporaryDirectory()
 
-        tiffs = []
-        for f in args.files:
-            tif = nc_to_tiff(f, out_dir)
-            tiffs.append(tif)
-    else:
-        # TODO - Implement live stuff
-        print('Can only reprocess right now. Exiting')
-        sys.exit()
+    # Create the tiff
+    tiff, info = nc_to_tiff(args.in_file, tmp_dir)
 
+    # Make output directory if it doesn't exist
+    band = str(info['channel_id']).zfill(2)
+    date = datetime.strptime(info['start_date_time'], '%Y%j%H%M%S')
 
+    out_dir = os.path.join(args.out_dir, 'GOES16_{band}/{time}'.format(band=band, time=date.strftime('%Y%m%d_%H%M')))
+    if not os.path.exists(out_dir):
+        os.makedirs(out_dir)
 
     # TODO - Use subprocess, not os.system
-    cmd = '{bin}/gdal_merge.py -o {out_tiff} {tiffs}'
-    cmd = cmd.format(bin=bin_dir, out_tiff=os.path.join(out_dir, 'tmp.tiff'), tiffs=' '.join(tiffs))
-    os.system(cmd)
-
     cmd = '{bin}/gdal2tiles.py -z {levels} --srcnodata=255,255,255 {tiff} {out_dir}'
-    cmd = cmd.format(bin=bin_dir, levels=LEVELS, tiff=os.path.join(out_dir, 'tmp.tiff'), out_dir=out_dir)
+    cmd = cmd.format(bin=bin_dir, levels=LEVELS, tiff=tiff, out_dir=out_dir)
     os.system(cmd)
-    '''
 
-    files = glob("/Users/tbupper90/Data/goes16/*.nc")
-    tiffs = []
-    for f in files:
-        tif = nc_to_tiff(f)
-
-        tiffs.append(tif)
-
-    os.system('/Users/tbupper90/anaconda/envs/satwx/bin/gdal_merge.py -o test.tif {}'.format(' '.join(tiffs)))
-    '''
+    # Get rid of the temp stuff
+    tmp_dir.cleanup()
