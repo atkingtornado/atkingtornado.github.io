@@ -96,7 +96,7 @@ if __name__ == '__main__':
     if 'partial' in args.in_file:
         print("Only a partial file, don't process this")
         sys.exit()
-        
+
     # Get the directory containing the necessary gdal scripts
     bin_dir = '{exec_prefix}/bin/'.format(exec_prefix=sys.exec_prefix)
 
@@ -104,7 +104,7 @@ if __name__ == '__main__':
     tmp_dir = tempfile.TemporaryDirectory()
 
     # Create the tiff
-    tiff, info = nc_to_tiff(args.in_file, tmp_dir)
+    tiff, info = nc_to_tiff(args.in_file, tmp_dir.name)
 
     # Make output directory if it doesn't exist
     band = str(info['channel_id']).zfill(2)
