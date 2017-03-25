@@ -78,7 +78,7 @@ $(document).ready(function(){
     var prev_ndx = false
     var menuIsOpen = false
 
-    $.getJSON("out.geojson", function(json) {
+    $.getJSON("js/out.geojson", function(json) {
 	    console.log(json); // this will show the info it in firebug console
 		L.geoJson(json, {
 		    style: function (feature) {
