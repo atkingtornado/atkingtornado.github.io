@@ -159,24 +159,25 @@ $(document).ready(function(){
 
     //Keyboard looping controls
     $('body').keydown(function(e){
+      key = e.key || e.keyCode || e.which
     	if (active_layer != false){
-
     		var curr_step = time_slider.getStep()[0]
-			if(e.key==','){
-				if(curr_step != 0){
-					time_slider.setStep(curr_step-1,0)	
-				}
-			}
-			else if(e.key=='.'){
-				if(curr_step != times_length){
-					time_slider.setStep(curr_step+1,0)				
-				}
-			}
+  			if(key==',' || key==188){
+  				if(curr_step != 0){
+  					time_slider.setStep(curr_step-1,0)	
+  				}
+  			}
+  			else if(key=='.' || key==190){
+  				if(curr_step != times_length){
+  					time_slider.setStep(curr_step+1,0)				
+  				}
+  			}
     	}
     });
     $('body').keyup(function(e){
+      key = e.key || e.keyCode || e.which
     	if (active_layer != false){
-			if(e.key==',' || e.key=='.'){
+			if(key==',' || key=='.' || key == 188 || key == 190){
 				setTimeout(function(){
 					time_slider.callDragStopCallback(1);
 				},500)
