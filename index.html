@@ -37,9 +37,9 @@
     <body>
          <nav id="menu" class="panel" role="navigation"> 
             <div id='layers-content'> 
-                <div id='layers-close-div'>
+                <div class='close-div' id='layers-close-div'>
                 <h3>Layers</h3>
-                    <a href="#menu" id='layers-close' class="menu-link"><i class="fa fa-times fa-2x" aria-hidden="true"></i></a>
+                    <a href="#menu" id='layers-close' class="close menu-link"><i class="fa fa-times fa-2x" aria-hidden="true"></i></a>
                 </div> 
                 <div class='scroll-div'>                  
                     <div id='visible-dropdown' class='layer-dropdown'>
@@ -168,10 +168,26 @@
                 </div>
 
             </div>
+            <div id='sectors-content'> 
+                <div class='close-div' id='sectors-close-div'>
+                    <h3>Sector Options</h3>
+                    <a href="#menu" id='sectors-close' class="close menu-link"><i class="fa fa-times fa-2x" aria-hidden="true"></i></a>
+                </div> 
+                <div class='scroll-div'>
+                    <div class='sectors-container'>  
+                        <div class='sector-select sector-selected'>
+                            <h4>CONUS</h4>
+                        </div>
+                        <div class='sector-select'>
+                            <h4>Mesoscale</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div id='options-content'> 
-                <div id='options-close-div'>
+                <div class='close-div' id='options-close-div'>
                     <h3>Options</h3>
-                    <a href="#menu" id='options-close' class="menu-link"><i class="fa fa-times fa-2x" aria-hidden="true"></i></a>
+                    <a href="#menu" id='options-close' class="close menu-link"><i class="fa fa-times fa-2x" aria-hidden="true"></i></a>
                 </div> 
                 <div class='scroll-div'>
                     <div class='options-container'>  
@@ -195,6 +211,10 @@
             <div class ='leaflet-bar leaflet-control'>
                 <a href="#menu" id='layers-link' class="transform menu-link leaflet-bar-part leaflet-bar-part-single"><img class='layers-img' src='css/images/layers-hres.png'></a>
             </div>
+            <div class ='leaflet-bar leaflet-control'>
+                <a href="#menu" id='sectors-link' class="transform menu-link leaflet-bar-part leaflet-bar-part-single"><i style='margin-top: 3px; color:#444' class="fa fa-globe fa-3x" aria-hidden="true"></i></a>
+            </div>
+            
             <div class ='leaflet-bar leaflet-control'>
                 <a href="#menu" id='options-link' class="transform menu-link leaflet-bar-part leaflet-bar-part-single"><span><i style='margin-top: 5px; color:#444' class="fa fa-cog fa-3x" aria-hidden="true"></i></span></a>
             </div>

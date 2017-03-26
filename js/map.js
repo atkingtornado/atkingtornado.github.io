@@ -34,6 +34,14 @@ $(document).ready(function(){
         });
         return all_layers.length-1
 	}
+	function toggleUI(){
+	  $('#scrubber_container').toggleClass('transform-active');
+      $('#time_container').toggleClass('transform-active-left');
+      $('#layers-link').toggleClass('transform-active-right');
+      $('#sectors-link').toggleClass('transform-active-right');
+      $('#options-link').toggleClass('transform-active-right');
+      $('.leaflet-control-locate').toggleClass('transform-active-right');
+	}
 
 	//Things to do on page load
 	$('#time_container').hide()
@@ -84,94 +92,48 @@ $(document).ready(function(){
     	}
     })
 
+
+    var $cols = $('.sector-select').on('touchstart click',function() {
+	    $cols.removeClass('sector-selected');
+	    $(this).addClass('sector-selected');
+	});
+
+
+
+
     //UI animations
-    $("#layers-link").on('touchstart',function() {
-      $('#scrubber_container').toggleClass('transform-active');
-      $('#time_container').toggleClass('transform-active-left');
-      $('#layers-link').toggleClass('transform-active-right');
-      $('#options-link').toggleClass('transform-active-right');
-      $('.leaflet-control-locate').toggleClass('transform-active-right');
-
+    $("#layers-link").on('touchstart click',function() {
+      toggleUI()
       $('#options-content').hide()
+      $('#sectors-content').hide()
       $('#layers-content').show()
 
       menuIsOpen=true
     });
 
-    $("#options-link").on('touchstart',function() {
-      $('#scrubber_container').toggleClass('transform-active');
-      $('#time_container').toggleClass('transform-active-left');
-      $('#layers-link').toggleClass('transform-active-right');
-      $('#options-link').toggleClass('transform-active-right');
-      $('.leaflet-control-locate').toggleClass('transform-active-right');
-
+    $("#options-link").on('touchstart click',function() {
+      toggleUI()
       $('#options-content').show()
+      $('#sectors-content').hide()
       $('#layers-content').hide()
 
       menuIsOpen=true
     });
 
-    $("#layers-close").on('touchstart',function() {
-      $('#scrubber_container').toggleClass('transform-active');
-      $('#time_container').toggleClass('transform-active-left');
-      $('#layers-link').toggleClass('transform-active-right');
-      $('#options-link').toggleClass('transform-active-right');
-      $('.leaflet-control-locate').toggleClass('transform-active-right');
-      menuIsOpen=false
-    });
-
-    $("#options-close").on('touchstart',function() {
-      $('#scrubber_container').toggleClass('transform-active');
-      $('#time_container').toggleClass('transform-active-left');
-      $('#layers-link').toggleClass('transform-active-right');
-      $('#options-link').toggleClass('transform-active-right');
-      $('.leaflet-control-locate').toggleClass('transform-active-right');
-      menuIsOpen=false
-    });
-
-    $("#layers-link").on('click',function() {
-      $('#scrubber_container').toggleClass('transform-active');
-      $('#time_container').toggleClass('transform-active-left');
-      $('#layers-link').toggleClass('transform-active-right');
-      $('#options-link').toggleClass('transform-active-right');
-      $('.leaflet-control-locate').toggleClass('transform-active-right');
-
+    $("#sectors-link").on('touchstart click',function() {
+      toggleUI()
       $('#options-content').hide()
-      $('#layers-content').show()
-
-
-      menuIsOpen=true
-    });
-
-    $("#options-link").on('click',function() {
-      $('#scrubber_container').toggleClass('transform-active');
-      $('#time_container').toggleClass('transform-active-left');
-      $('#layers-link').toggleClass('transform-active-right');
-      $('#options-link').toggleClass('transform-active-right');
-      $('.leaflet-control-locate').toggleClass('transform-active-right');
-
-      $('#options-content').show()
+      $('#sectors-content').show()
       $('#layers-content').hide()
 
       menuIsOpen=true
     });
 
-    $("#layers-close").on('click',function() {
-      $('#scrubber_container').toggleClass('transform-active');
-      $('#time_container').toggleClass('transform-active-left');
-      $('#layers-link').toggleClass('transform-active-right');
-      $('#options-link').toggleClass('transform-active-right');
-      $('.leaflet-control-locate').toggleClass('transform-active-right');
-      menuIsOpen=false
-    });
 
-    $("#options-close").on('click',function() {
-      $('#scrubber_container').toggleClass('transform-active');
-      $('#time_container').toggleClass('transform-active-left');
-      $('#layers-link').toggleClass('transform-active-right');
-      $('#options-link').toggleClass('transform-active-right');
-      $('.leaflet-control-locate').toggleClass('transform-active-right');
-      menuIsOpen=false
+    $(".close").on('click',function() {
+    	console.log('test')
+    	toggleUI()
+      	menuIsOpen=false
     });
 
     $('.dropdown-header').click(function(){
