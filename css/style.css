@@ -255,12 +255,49 @@ span{
 #scrubber_container {
     box-shadow: rgba(0, 0, 0, 0.65098) 0px 1px 5px;
     position: fixed;
-    bottom: 0;
-    width: 100%;
+    bottom: 0px;
+    width: calc(100% - 100px);
+    width: -webkit-calc(100% - 100px);
+    width: -o-calc(100% - 100px); /* opera */
+    width: -webkit-calc(100% - 100px); /* google, safari */
+    width: -moz-calc(100% - 100px); /* firefox */
     overflow: hidden; 
     z-index: 1000;
 }
 
+#play-button{
+    color: white;
+    position: fixed;
+    left: 45px;
+    padding-top: 10px;
+    cursor: pointer;
+}
+#step-back-button{
+    position: fixed;
+    color: white;
+    left: 10px;
+    padding-top: 10px;
+    cursor: pointer;
+}
+#step-forward-button{
+    color: white;
+    position: fixed;
+    right: 10px;
+    padding-top: 10px;
+    cursor: pointer;
+}
+
+#time_control_container{
+    box-shadow: rgba(0, 0, 0, 0.65098) 0px 1px 5px;
+    position: fixed;
+    bottom: 0px;
+    right:0px;
+    width: 100px;
+    overflow: hidden;
+    z-index: 1000;
+    height: 35px;
+    background:rgba(50,50,50,0.85);
+}
 .transform {
   -webkit-transition: .3s ease;
   -moz-transition: .3s ease;
