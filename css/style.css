@@ -44,7 +44,7 @@
   display: none;
   z-index: 9999;
   width: 50px;
-  height: 50px;
+  height: 60px;
   position: fixed;
   bottom: 40px;
   left: 10px;
@@ -256,11 +256,11 @@ span{
     box-shadow: rgba(0, 0, 0, 0.65098) 0px 1px 5px;
     position: fixed;
     bottom: 0px;
-    width: calc(100% - 100px);
-    width: -webkit-calc(100% - 100px);
-    width: -o-calc(100% - 100px); /* opera */
-    width: -webkit-calc(100% - 100px); /* google, safari */
-    width: -moz-calc(100% - 100px); /* firefox */
+    width: calc(100% - 150px);
+    width: -webkit-calc(100% - 150px);
+    width: -o-calc(100% - 150px); /* opera */
+    width: -webkit-calc(100% - 150px); /* google, safari */
+    width: -moz-calc(100% - 150px); /* firefox */
     overflow: hidden; 
     z-index: 1000;
 }
@@ -268,7 +268,7 @@ span{
 #play-button{
     color: white;
     position: fixed;
-    left: 40px;
+    left: 65px;
     padding-top: 10px;
     cursor: pointer;
 }
@@ -276,7 +276,7 @@ span{
   display: none;
     color: white;
     position: fixed;
-    left: 38px;
+    left: 63px;
     padding-top: 10px;
     cursor: pointer;
 }
@@ -285,7 +285,10 @@ span{
     color: white;
     left: 10px;
     padding-top: 10px;
+    padding-right: 20px;
+    height: 100%;
     cursor: pointer;
+    border-right: 2px solid rgba(25,25,25,0.40);
 }
 #step-forward-button{
     color: white;
@@ -293,6 +296,9 @@ span{
     right: 10px;
     padding-top: 10px;
     cursor: pointer;
+    padding-left: 20px;
+    height: 100%;
+    border-left: 2px solid rgba(25,25,25,0.40);
 }
 
 #time_control_container{
@@ -300,7 +306,7 @@ span{
     position: fixed;
     bottom: 0px;
     right:0px;
-    width: 100px;
+    width: 150px;
     overflow: hidden;
     z-index: 1000;
     height: 45px;
