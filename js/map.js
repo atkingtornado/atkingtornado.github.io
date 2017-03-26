@@ -240,7 +240,7 @@ $(document).ready(function(){
     	}
     });
     var loop= false
-    $('#play-button').on('touchstart click',function() {
+    $('#play-button').on('click',function() {
     	if (active_layer != false){
     		$('#play-button').hide()
     		$('#pause-button').show()
@@ -252,7 +252,7 @@ $(document).ready(function(){
 			   time_slider.setStep(curr_step+1,0)  
 			}, 500);
 
-			$('#pause-button').on('touchstart click',function() {
+			$('#pause-button').on('click',function() {
 		    	$('#play-button').show()
 		    	$('#pause-button').hide()
 		    	 clearInterval(loop);
