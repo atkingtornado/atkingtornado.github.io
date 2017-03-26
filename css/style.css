@@ -117,6 +117,9 @@ span{
     height: 45px;
     width: 45px;
 }
+.control-adjust{
+  top:160px;
+}
 .sector-select{
   margin-top: 10px;
     margin-left: 10px;
@@ -129,6 +132,10 @@ span{
 }
 .sector-select:hover {
     border: 2px solid rgba(140, 225, 150,0.5);
+}
+.fa-arrows-alt{
+    margin-top: 10px;
+    color: #444;
 }
 .sector-select h4{
     text-align: center;
@@ -157,6 +164,15 @@ span{
     position: fixed;
     z-index: 1000;
     top: 10px;
+    right: 10px;
+    height: 45px;
+    width: 45px;
+}
+#fullscreen-link{
+    box-shadow: 0 1px 5px rgba(0,0,0,0.65);
+    position: fixed;
+    z-index: 1000;
+    top: 175px;
     right: 10px;
     height: 45px;
     width: 45px;

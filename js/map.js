@@ -40,6 +40,7 @@ $(document).ready(function(){
       $('#layers-link').toggleClass('transform-active-right');
       $('#sectors-link').toggleClass('transform-active-right');
       $('#options-link').toggleClass('transform-active-right');
+      $('#fullscreen-link').toggleClass('transform-active-right');
       $('.leaflet-control-locate').toggleClass('transform-active-right');
 	}
 
@@ -266,6 +267,9 @@ $(document).ready(function(){
         attributionControl: false,
     });
 
+	$('#fullscreen-link').on('click', function(){
+		$(document).toggleFullScreen();
+	})
     var all_layers = [basemap]
     var all_overlays = []
     var active_layer = false

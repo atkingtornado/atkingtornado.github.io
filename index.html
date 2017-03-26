@@ -28,6 +28,7 @@
     <script src="js/dragdealer.js"></script>
     <script src="js/simplebar.js"></script>
     <script src="js/jquery.vibrate.min.js"></script>
+    <script src='js/jquery.fullscreen-min.js'></script>
 
 
 
@@ -36,6 +37,7 @@
 
 <html> 
     <body>
+        <div id='all-content'>
          <nav id="menu" class="panel" role="navigation"> 
             <div id='layers-content'> 
                 <div class='close-div' id='layers-close-div'>
@@ -243,10 +245,12 @@
             </div>
             <div class ='leaflet-bar leaflet-control'>
                 <a href="#menu" id='sectors-link' class="transform menu-link leaflet-bar-part leaflet-bar-part-single vibrate"><i style='margin-top: 3px; color:#444' class="fa fa-globe fa-3x" aria-hidden="true"></i></a>
-            </div>
-            
+            </div>            
             <div class ='leaflet-bar leaflet-control'>
                 <a href="#menu" id='options-link' class="transform menu-link leaflet-bar-part leaflet-bar-part-single vibrate"><span><i style='margin-top: 5px; color:#444' class="fa fa-cog fa-3x" aria-hidden="true"></i></span></a>
+            </div>
+            <div class ='leaflet-bar leaflet-control'>
+                <a id='fullscreen-link' class="transform leaflet-bar-part leaflet-bar-part-single vibrate"><span><i class="fa fa-arrows-alt fa-2x"></i></span></a>
             </div>
             <div id="mapid"> </div>
         </div>
@@ -265,5 +269,6 @@
 
 
         <div id='spinner'><img src="css/images/ring-alt.svg" /></div>
+    </div>
     </body>
 </html>
