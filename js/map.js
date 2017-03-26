@@ -52,7 +52,10 @@ $(document).ready(function(){
     $('input[type=checkbox]').each(function () {
       $(this).prop('checked', false);
     });
-
+    $(".vibrate").vibrate("short");
+	$(".vibrate-toggle").vibrate({
+		pattern:[5,200,20]
+	});
 
     //Instantly change time display if user changes preference
     $('#UTC_toggle').on('change', function() {

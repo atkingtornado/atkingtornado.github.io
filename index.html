@@ -27,6 +27,7 @@
     <script src="js/iso8601.min.js"></script>
     <script src="js/dragdealer.js"></script>
     <script src="js/simplebar.js"></script>
+    <script src="js/jquery.vibrate.min"></script>
 
 
 
@@ -39,7 +40,7 @@
             <div id='layers-content'> 
                 <div class='close-div' id='layers-close-div'>
                 <h3>Layers</h3>
-                    <a href="#menu" id='layers-close' class="close menu-link"><i class="fa fa-times fa-2x" aria-hidden="true"></i></a>
+                    <a href="#menu" id='layers-close' class="close menu-link vibrate"><i class="fa fa-times fa-2x" aria-hidden="true"></i></a>
                 </div> 
                 <div class='scroll-div'>                  
                     <div id='visible-dropdown' class='layer-dropdown'>
@@ -50,12 +51,12 @@
                         <div class='layer-dropdown-content' id='visible'>
                             <div id='G16-ABI-FD-BAND01' class='single_toggle toggles'>
                                 <h4 class='toggle-label'>GOES-16 Blue Visible Band</h4>
-                                <input data-layer-info='GOES-16 Band 1: Blue Visible ' id="goes16_1_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                                <input data-layer-info='GOES-16 Band 1: Blue Visible ' id="goes16_1_toggle" class="cmn-toggle cmn-toggle-round-flat vibrate-toggle" type="checkbox">
                                 <label for="goes16_1_toggle"></label>
                             </div>
                             <div id='G16-ABI-FD-BAND02' class='single_toggle toggles'>
                                 <h4 class='toggle-label'>GOES-16 Red Visible Band</h4>
-                                <input data-layer-info='GOES-16 Band 2: Red Visible' id="goes16_2_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                                <input data-layer-info='GOES-16 Band 2: Red Visible' id="goes16_2_toggle" class="cmn-toggle cmn-toggle-round-flat vibrate-toggle" type="checkbox">
                                 <label for="goes16_2_toggle"></label>
                             </div>
                         </div>
@@ -67,22 +68,22 @@
                         <div class='layer-dropdown-content' id='nearinfrared'>
                             <div id='G16-ABI-FD-BAND03' class='single_toggle toggles'>
                                 <h4 class='toggle-label'>GOES-16 Vegetation NIR Band</h4>
-                                <input data-layer-info='GOES-16 Band 3: Vegetation NIR' id="goes16_3_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                                <input data-layer-info='GOES-16 Band 3: Vegetation NIR' id="goes16_3_toggle" class="cmn-toggle cmn-toggle-round-flat vibrate-toggle" type="checkbox">
                                 <label for="goes16_3_toggle"></label>
                             </div>
                             <div id='G16-ABI-FD-BAND04' class='single_toggle toggles'>
                                 <h4 class='toggle-label'>GOES-16 Cirrus NIR Band</h4>
-                                <input data-layer-info='GOES-16 Band 4: Cirrus NIR' id="goes16_4_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                                <input data-layer-info='GOES-16 Band 4: Cirrus NIR' id="goes16_4_toggle" class="cmn-toggle cmn-toggle-round-flat vibrate-toggle" type="checkbox">
                                 <label for="goes16_4_toggle"></label>
                             </div>
                             <div id='G16-ABI-FD-BAND05' class='single_toggle toggles'>
                                 <h4 class='toggle-label'>GOES-16 Snow/Ice NIR Band</h4>
-                                <input data-layer-info='GOES-16 Band 5: Snow/Ice NIR' id="goes16_5_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                                <input data-layer-info='GOES-16 Band 5: Snow/Ice NIR' id="goes16_5_toggle" class="cmn-toggle cmn-toggle-round-flat vibrate-toggle" type="checkbox">
                                 <label for="goes16_5_toggle"></label>
                             </div>
                             <div id='G16-ABI-FD-BAND06' class='single_toggle toggles'>
                                 <h4 class='toggle-label'>GOES-16 Cloud Particle Size NIR Band</h4>
-                                <input data-layer-info='GOES-16 Band 6: Cloud Particle Size NIR' id="goes16_6_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                                <input data-layer-info='GOES-16 Band 6: Cloud Particle Size NIR' id="goes16_6_toggle" class="cmn-toggle cmn-toggle-round-flat vibrate-toggle" type="checkbox">
                                 <label for="goes16_6_toggle"></label>
                             </div>
                         </div>
@@ -94,52 +95,52 @@
                         <div class='layer-dropdown-content' id='infrared'>
                             <div id='G16-ABI-FD-BAND07' class='single_toggle toggles'>
                                 <h4 class='toggle-label'>GOES-16 Shortwave Window IR Band</h4>
-                                <input data-layer-info='GOES-16 Band 7: Shortwave Window IR' id="goes16_7_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                                <input data-layer-info='GOES-16 Band 7: Shortwave Window IR' id="goes16_7_toggle" class="cmn-toggle cmn-toggle-round-flat vibrate-toggle" type="checkbox">
                                 <label for="goes16_7_toggle"></label>
                             </div>
                             <div id='G16-ABI-FD-BAND08' class='single_toggle toggles'>
                                 <h4 class='toggle-label'>GOES-16 Upper-level Water Vapor IR Band</h4>
-                                <input data-layer-info='GOES-16 Band 8: Upper-level Water Vapor IR' id="goes16_8_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                                <input data-layer-info='GOES-16 Band 8: Upper-level Water Vapor IR' id="goes16_8_toggle" class="cmn-toggle cmn-toggle-round-flat vibrate-toggle" type="checkbox">
                                 <label for="goes16_8_toggle"></label>
                             </div>
                             <div id='G16-ABI-FD-BAND09' class='single_toggle toggles'>
                                 <h4 class='toggle-label'>GOES-16 Mid-level Water Vapor IR Band</h4>
-                                <input data-layer-info='GOES-16 Band 9: Mid-level Water Vapor IR' id="goes16_9_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                                <input data-layer-info='GOES-16 Band 9: Mid-level Water Vapor IR' id="goes16_9_toggle" class="cmn-toggle cmn-toggle-round-flat vibrate-toggle" type="checkbox">
                                 <label for="goes16_9_toggle"></label>
                             </div>
                             <div id='G16-ABI-FD-BAND10' class='single_toggle toggles'>
                                 <h4 class='toggle-label'>GOES-16 Low-level Water Vapor IR Band</h4>
-                                <input data-layer-info='GOES-16 Band 10: Low-level Water Vapor IR' id="goes16_10_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                                <input data-layer-info='GOES-16 Band 10: Low-level Water Vapor IR' id="goes16_10_toggle" class="cmn-toggle cmn-toggle-round-flat vibrate-toggle" type="checkbox">
                                 <label for="goes16_10_toggle"></label>
                             </div>
                             <div id='G16-ABI-FD-BAND11' class='single_toggle toggles'>
                                 <h4 class='toggle-label'>GOES-16 Cloud-Top Phase IR Band</h4>
-                                <input data-layer-info='GOES-16 Band 11: Cloud-Top Phase IR' id="goes16_11_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                                <input data-layer-info='GOES-16 Band 11: Cloud-Top Phase IR' id="goes16_11_toggle" class="cmn-toggle cmn-toggle-round-flat vibrate-toggle" type="checkbox">
                                 <label for="goes16_11_toggle"></label>
                             </div>
                             <div id='G16-ABI-FD-BAND12' class='single_toggle toggles'>
                                 <h4 class='toggle-label'>GOES-16 Ozone IR Band</h4>
-                                <input data-layer-info='GOES-16 Band 12: Ozone IR' id="goes16_12_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                                <input data-layer-info='GOES-16 Band 12: Ozone IR' id="goes16_12_toggle" class="cmn-toggle cmn-toggle-round-flat vibrate-toggle" type="checkbox">
                                 <label for="goes16_12_toggle"></label>
                             </div>
                             <div id='G16-ABI-FD-BAND13' class='single_toggle toggles'>
                                 <h4 class='toggle-label'>GOES-16 Clean Window IR Band</h4>
-                                <input data-layer-info='GOES-16 Band 13: Clean Window IR' id="goes16_13_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                                <input data-layer-info='GOES-16 Band 13: Clean Window IR' id="goes16_13_toggle" class="cmn-toggle cmn-toggle-round-flat vibrate-toggle" type="checkbox">
                                 <label for="goes16_13_toggle"></label>
                             </div>
                             <div id='G16-ABI-FD-BAND14' class='single_toggle toggles'>
                                 <h4 class='toggle-label'>GOES-16 Legacy Window IR Band</h4>
-                                <input data-layer-info='GOES-16 Band 14: Legacy Window IR' id="goes16_14_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                                <input data-layer-info='GOES-16 Band 14: Legacy Window IR' id="goes16_14_toggle" class="cmn-toggle cmn-toggle-round-flat vibrate-toggle" type="checkbox">
                                 <label for="goes16_14_toggle"></label>
                             </div>
                             <div id='G16-ABI-FD-BAND15' class='single_toggle toggles'>
                                 <h4 class='toggle-label'>GOES-16 Dirty Window IR Band</h4>
-                                <input data-layer-info='GOES-16 Band 15: Dirty Window IR' id="goes16_15_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                                <input data-layer-info='GOES-16 Band 15: Dirty Window IR' id="goes16_15_toggle" class="cmn-toggle cmn-toggle-round-flat vibrate-toggle" type="checkbox">
                                 <label for="goes16_15_toggle"></label>
                             </div>
                             <div id='G16-ABI-FD-BAND16' class='single_toggle toggles'>
                                 <h4 class='toggle-label'>GOES-16 Carbon Dioxide IR Band</h4>
-                                <input data-layer-info='GOES-16 Band 16: Carbon Dioxide IR' id="goes16_16_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                                <input data-layer-info='GOES-16 Band 16: Carbon Dioxide IR' id="goes16_16_toggle" class="cmn-toggle cmn-toggle-round-flat vibrate-toggle" type="checkbox">
                                 <label for="goes16_16_toggle"></label>
                             </div>
                         </div>
@@ -153,12 +154,12 @@
                         <div class='layer-dropdown-content' id='overlays'>
                             <div id='nexrhres' class='multi_toggle toggles'>
                                 <h4 class='toggle-label'>Filtered NEXRAD</h4>
-                                <input id="nexrad_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                                <input id="nexrad_toggle" class="cmn-toggle cmn-toggle-round-flat vibrate-toggle" type="checkbox">
                                 <label for="nexrad_toggle"></label>
                             </div>
                             <div id='SPCcoday1' class='multi_toggle toggles'>
                                 <h4 class='toggle-label'>SPC Day1 Outlook</h4>
-                                <input id="SPCcoday1_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                                <input id="SPCcoday1_toggle" class="cmn-toggle cmn-toggle-round-flat vibrate-toggle" type="checkbox">
                                 <label for="SPCcoday1_toggle"></label>
                             </div>
                             
@@ -171,7 +172,7 @@
             <div id='sectors-content'> 
                 <div class='close-div' id='sectors-close-div'>
                     <h3>Sector Options</h3>
-                    <a href="#menu" id='sectors-close' class="close menu-link"><i class="fa fa-times fa-2x" aria-hidden="true"></i></a>
+                    <a href="#menu" id='sectors-close' class="close menu-link vibrate"><i class="fa fa-times fa-2x" aria-hidden="true"></i></a>
                 </div> 
                 <div class='scroll-div'>
                     <div class='sectors-container'>  
@@ -187,18 +188,18 @@
             <div id='options-content'> 
                 <div class='close-div' id='options-close-div'>
                     <h3>Options</h3>
-                    <a href="#menu" id='options-close' class="close menu-link"><i class="fa fa-times fa-2x" aria-hidden="true"></i></a>
+                    <a href="#menu" id='options-close' class="close menu-link vibrate"><i class="fa fa-times fa-2x" aria-hidden="true"></i></a>
                 </div> 
                 <div class='scroll-div'>
                     <div class='options-container'>  
                         <div id='UTC' class='utc-toggle toggles'>
                             <h4 class='toggle-label'>Local Time Display</h4>
-                            <input id="UTC_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                            <input id="UTC_toggle" class="cmn-toggle cmn-toggle-round-flat vibrate-toggle" type="checkbox">
                             <label for="UTC_toggle"></label>
                         </div>
                         <div id='advanced' class='advanced-toggle toggles'>
                             <h4 class='toggle-label'>Advanced Mode</h4>
-                            <input value=1 id="advanced_toggle" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                            <input value=1 id="advanced_toggle" class="cmn-toggle cmn-toggle-round-flat vibrate-toggle" type="checkbox">
                             <label for="advanced_toggle"></label>
                         </div>
                     </div>
@@ -209,14 +210,14 @@
 
         <div class='wrap push' style='left: 15.625em; transition: left 300ms ease;'>
             <div class ='leaflet-bar leaflet-control'>
-                <a href="#menu" id='layers-link' class="transform menu-link leaflet-bar-part leaflet-bar-part-single"><img class='layers-img' src='css/images/layers-hres.png'></a>
+                <a href="#menu" id='layers-link' class="transform menu-link leaflet-bar-part leaflet-bar-part-single vibrate"><img class='layers-img' src='css/images/layers-hres.png'></a>
             </div>
             <div class ='leaflet-bar leaflet-control'>
-                <a href="#menu" id='sectors-link' class="transform menu-link leaflet-bar-part leaflet-bar-part-single"><i style='margin-top: 3px; color:#444' class="fa fa-globe fa-3x" aria-hidden="true"></i></a>
+                <a href="#menu" id='sectors-link' class="transform menu-link leaflet-bar-part leaflet-bar-part-single vibrate"><i style='margin-top: 3px; color:#444' class="fa fa-globe fa-3x" aria-hidden="true"></i></a>
             </div>
             
             <div class ='leaflet-bar leaflet-control'>
-                <a href="#menu" id='options-link' class="transform menu-link leaflet-bar-part leaflet-bar-part-single"><span><i style='margin-top: 5px; color:#444' class="fa fa-cog fa-3x" aria-hidden="true"></i></span></a>
+                <a href="#menu" id='options-link' class="transform menu-link leaflet-bar-part leaflet-bar-part-single vibrate"><span><i style='margin-top: 5px; color:#444' class="fa fa-cog fa-3x" aria-hidden="true"></i></span></a>
             </div>
             <div id="mapid"> </div>
         </div>
