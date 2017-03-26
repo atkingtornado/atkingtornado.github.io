@@ -216,6 +216,30 @@ $(document).ready(function(){
     })
 
 
+    $('#step-back-button').on('touchstart click',function() {
+    	if (active_layer != false){
+    		var curr_step = time_slider.getStep()[0]
+  			if(curr_step != 0){
+  				time_slider.setStep(curr_step-1,0)	
+  				setTimeout(function(){
+					time_slider.callDragStopCallback(1);
+				},500)
+  			}
+    	}
+    });
+    $('#step-forward-button').on('touchstart click',function() {
+    	if (active_layer != false){
+    		var curr_step = time_slider.getStep()[0]
+  			if(curr_step != 0){
+  				time_slider.setStep(curr_step+1,0)	
+  				setTimeout(function(){
+					time_slider.callDragStopCallback(1);
+				},500)
+  			}
+    	}
+    });
+
+
     //Keyboard looping controls
     $('body').keydown(function(e){
       key = e.key || e.keyCode || e.which
