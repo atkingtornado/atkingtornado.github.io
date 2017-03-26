@@ -57,6 +57,10 @@ $(document).ready(function(){
 	    duration: 20,
 	    trigger: "touchstart"
 	});
+	$(".vibrate-light").vibrate({
+	    duration: 10,
+	    trigger: "touchstart"
+	});
 	$(".vibrate-toggle").vibrate({
 		pattern:[5,200,20]
 	});
