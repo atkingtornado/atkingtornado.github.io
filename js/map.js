@@ -52,7 +52,11 @@ $(document).ready(function(){
     $('input[type=checkbox]').each(function () {
       $(this).prop('checked', false);
     });
-    $(".vibrate").vibrate("short");
+
+    $(".vibrate").vibrate({
+	    duration: 20,
+	    trigger: "touchstart"
+	});
 	$(".vibrate-toggle").vibrate({
 		pattern:[5,200,20]
 	});
