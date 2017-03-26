@@ -1,5 +1,6 @@
 import argparse
-# TODO - Implement logging
+import json
+# TODO - Implement logging1
 import logging
 import os
 import sys
@@ -13,9 +14,9 @@ import osr
 from datetime import datetime
 from glob import glob
 from netCDF4 import Dataset
+from shutil import rmtree
 
 LEVELS = '0-9'
-
 
 def nc_to_tiff(nc_file, out_dir):
 
@@ -86,11 +87,38 @@ def nc_to_tiff(nc_file, out_dir):
 
     return fname, attrs
 
+
+def make_json(name, root_dir, scour_hours):
+    # Get the directory names, should be of format %Y%m%d_%H%M
+    dirs = os.listdir(root_dir)
+
+    # Go through each directory and see if it's still needed
+    avail_dates = []
+    for dir in dirs:
+        print(dir)
+        if '.json' in dir:
+            print('made it here')
+            continue
+        dt = datetime.strptime(dir, '%Y%m%d_%H%M')
+
+        # If this directory's valid time out of the keeper range, delete it
+        if (datetime.now()-dt).total_seconds() > scour_hours*3600:
+            rmtree(os.path.join(root_dir, dir))
+        else:  # If not add it to the json
+            avail_dates.append(dt.strftime('%Y%m%d.%H%M00'))
+
+    # Write out the json
+    j = {'times': avail_dates}
+    with open(os.path.join(root_dir, name), 'w') as f:
+        json.dump(j, f)
+
+
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
     parser.add_argument('-i', action='store', dest='in_file', help='Input File')
     parser.add_argument('-o', action='store', dest='out_dir', help='Output directory')
+    parser.add_argument('-s', action='store', dest='scour', type=int, help='Number of hours to keep')
     args = parser.parse_args()
 
     if 'partial' in args.in_file:
@@ -106,11 +134,14 @@ if __name__ == '__main__':
     # Create the tiff
     tiff, info = nc_to_tiff(args.in_file, tmp_dir.name)
 
-    # Make output directory if it doesn't exist
     band = str(info['channel_id']).zfill(2)
     date = datetime.strptime(info['start_date_time'], '%Y%j%H%M%S')
+    domain = info['source_scene']
 
-    out_dir = os.path.join(args.out_dir, 'GOES16_{band}/{time}'.format(band=band, time=date.strftime('%Y%m%d_%H%M')))
+    # Make output directory if it doesn't exist
+    out_dir = os.path.join(args.out_dir, 'GOES16_{band}/{domain}/{time}/ '.format(band=band,
+                                                                                  time=date.strftime('%Y%m%d_%H%M'),
+                                                                                  domain=domain))
     if not os.path.exists(out_dir):
         os.makedirs(out_dir)
 
@@ -121,3 +152,9 @@ if __name__ == '__main__':
 
     # Get rid of the temp stuff
     tmp_dir.cleanup()
+
+    # Scour directory and create a json file from what's left
+    directory = os.path.join(args.out_dir, 'GOES16_{band}/{domain}/'.format(band=band,
+                                                                            domain=domain))
+    json_fn = 'GOES16_{band}_{domain}.json'.format(band=band, domain=domain)
+    make_json(json_fn, directory, args.scour)
