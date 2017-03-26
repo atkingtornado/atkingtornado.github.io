@@ -8,7 +8,7 @@
 
 .dragdealer {
   position: relative;
-  height: 35px;
+  height: 45px;
   background: rgba(50,50,50,0.85);
 }
 .dragdealer .handle {
@@ -19,7 +19,7 @@
 }
 .dragdealer .red-bar {
   width: 100px;
-  height: 35px;
+  height: 45px;
   background: #2074B6;
   color: #FFF;
   font-size: 14px;
