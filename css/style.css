@@ -268,7 +268,7 @@ span{
 #play-button{
     color: white;
     position: fixed;
-    left: 65px;
+    left: 67px;
     padding-top: 10px;
     cursor: pointer;
 }
@@ -283,7 +283,7 @@ span{
 #step-back-button{
     position: fixed;
     color: white;
-    left: 10px;
+    left: 15px;
     padding-top: 10px;
     padding-right: 20px;
     height: 100%;
@@ -293,7 +293,7 @@ span{
 #step-forward-button{
     color: white;
     position: fixed;
-    right: 10px;
+    right: 15px;
     padding-top: 10px;
     cursor: pointer;
     padding-left: 20px;
@@ -302,7 +302,7 @@ span{
 }
 
 #time_control_container{
-    box-shadow: rgba(0, 0, 0, 0.65098) 0px 1px 5px;
+    border-left: 2px solid rgba(25,25,25,0.40);
     position: fixed;
     bottom: 0px;
     right:0px;
