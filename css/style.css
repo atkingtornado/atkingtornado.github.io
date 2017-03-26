@@ -272,6 +272,14 @@ span{
     padding-top: 10px;
     cursor: pointer;
 }
+#pause-button{
+  display: none;
+    color: white;
+    position: fixed;
+    left: 45px;
+    padding-top: 10px;
+    cursor: pointer;
+}
 #step-back-button{
     position: fixed;
     color: white;

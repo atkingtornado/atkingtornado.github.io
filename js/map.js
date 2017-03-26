@@ -42,7 +42,8 @@ $(document).ready(function(){
       $('#options-link').toggleClass('transform-active-right');
       $('#fullscreen-link').toggleClass('transform-active-right');
       $('.leaflet-control-locate').toggleClass('transform-active-right');
-	}
+      $('#time_control_container').toggleClass('transform-active');
+     }
 
 	//Things to do on page load
 	$('#time_container').hide()
@@ -238,7 +239,29 @@ $(document).ready(function(){
   			}
     	}
     });
+    var loop= false
+    $('#play-button').on('touchstart click',function() {
+    	if (active_layer != false){
+    		$('#play-button').hide()
+    		$('#pause-button').show()
+    		var loop = setInterval(function(){ 
+    			var curr_step = time_slider.getStep()[0]
+    			if (curr_step == 10){
+    				curr_step = -1
+    			}	
+			   time_slider.setStep(curr_step+1,0)  
+			}, 500);
 
+			$('#pause-button').on('touchstart click',function() {
+		    	$('#play-button').show()
+		    	$('#pause-button').hide()
+		    	 clearInterval(loop);
+		    	 setTimeout(function(){
+					time_slider.callDragStopCallback(1);
+				},500)
+		    })							
+    	}
+    });
 
     //Keyboard looping controls
     $('body').keydown(function(e){
