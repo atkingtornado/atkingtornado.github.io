@@ -49,7 +49,7 @@ $(document).ready(function(){
     $('.menu-link').bigSlide({
         side: 'right',
     });
-    $('input[type=checkbox]').each(function () {
+    $('input[type=checkbox] .layer-dropdown').each(function () {
       $(this).prop('checked', false);
     });
     $('#haptic_toggle').prop('checked', true);
@@ -136,10 +136,32 @@ $(document).ready(function(){
     })
 
 
-    var $cols = $('.sector-select').on('touchstart click',function() {
-	    $cols.removeClass('sector-selected');
+    var $goes_sector = $('.goes-sector-select').on('touchstart click',function() {
+	    $goes_sector.removeClass('sector-selected');
 	    $(this).addClass('sector-selected');
 	});
+	var $zoom_sector = $('.sector-zoom').on('touchstart click',function() {
+	    $zoom_sector.removeClass('sector-selected');
+	    $(this).addClass('sector-selected');
+
+	    var sector = $(this).find('.zoom-label')[0].innerHTML
+
+	    if(sector=='Central Great Plains'){
+	    	map.setView([40, -98], 6);
+	    }
+	    else if(sector=='Northern Great Plains'){
+	    	map.setView([47, -98], 6);
+	    }
+	    else if(sector=='Southern Great Plains'){
+	    	map.setView([32, -98], 6);
+	    }
+  		else if(sector=='North America'){
+	    	map.setView([50, -103], 3);
+	    }
+
+	    //map.setView([lat, lng], zoom);
+	});
+
 
 
 

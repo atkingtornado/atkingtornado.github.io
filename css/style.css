@@ -136,6 +136,10 @@ span{
     line-height: 30px;
     margin:0;
 }
+.sectors-div h3{
+      margin-left: 10px;
+    margin-bottom: 0px;
+}
 .sector-selected{
   border: 2px solid #8ce196;
   background: rgba(140, 225, 150,0.3);
