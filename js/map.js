@@ -130,7 +130,7 @@ $(document).ready(function(){
     });
 
 
-    $(".close").on('click',function() {
+    $(".close").on('touchstart click',function() {
     	console.log('test')
     	toggleUI()
       	menuIsOpen=false
