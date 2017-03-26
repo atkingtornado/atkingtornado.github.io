@@ -176,11 +176,14 @@
                 </div> 
                 <div class='scroll-div'>
                     <div class='sectors-container '>  
-                        <div class='sector-select sector-selected'>
-                            <h4>CONUS</h4>
-                        </div>
-                        <div class='sector-select '>
-                            <h4>Mesoscale</h4>
+                        <div class='sectors-div' id='goes-sectors'>
+                            <h3>GOES-16 Sector</h3>
+                            <div class='sector-select sector-selected'>
+                                <h4>CONUS</h4>
+                            </div>
+                            <div class='sector-select '>
+                                <h4>Mesoscale</h4>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -201,6 +204,11 @@
                             <h4 class='toggle-label'>Advanced Mode</h4>
                             <input value=1 id="advanced_toggle" class="cmn-toggle cmn-toggle-round-flat vibrate-toggle" type="checkbox">
                             <label for="advanced_toggle"></label>
+                        </div>
+                        <div id='haptic' class='haptic-toggle toggles'>
+                            <h4 class='toggle-label'>Mobile Haptic Feedback</h4>
+                            <input id="haptic_toggle" class="cmn-toggle cmn-toggle-round-flat vibrate-toggle" type="checkbox">
+                            <label for="haptic_toggle"></label>
                         </div>
                     </div>
                 </div>

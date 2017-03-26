@@ -52,6 +52,8 @@ $(document).ready(function(){
     $('input[type=checkbox]').each(function () {
       $(this).prop('checked', false);
     });
+    $('#haptic_toggle').prop('checked', true);
+
 
     $(".vibrate").vibrate({
 	    duration: 20,
@@ -63,6 +65,36 @@ $(document).ready(function(){
 	});
 	$(".vibrate-toggle").vibrate({
 		pattern:[5,200,20]
+	});
+
+
+	$('#haptic_toggle').on('change', function() {
+		if (!$('#haptic_toggle').prop('checked')){
+			$(".vibrate").vibrate({
+			    duration: 0,
+			    trigger: "touchstart"
+			});
+			$(".vibrate-light").vibrate({
+			    duration: 0,
+			    trigger: "touchstart"
+			});
+			$(".vibrate-toggle").vibrate({
+				duration: 0
+			});
+		}
+		else{
+			$(".vibrate").vibrate({
+			    duration: 20,
+			    trigger: "touchstart"
+			});
+			$(".vibrate-light").vibrate({
+			    duration: 20,
+			    trigger: "touchstart"
+			});
+			$(".vibrate-toggle").vibrate({
+				pattern:[5,200,20]
+			});
+		}
 	});
 
     //Instantly change time display if user changes preference
