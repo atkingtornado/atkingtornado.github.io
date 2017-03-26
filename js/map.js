@@ -147,17 +147,21 @@ $(document).ready(function(){
 	    var sector = $(this).find('.zoom-label')[0].innerHTML
 
 	    if(sector=='Central Great Plains'){
-	    	map.setView([40, -98], 6);
+	    	map.setView([40, -100], 5);
 	    }
 	    else if(sector=='Northern Great Plains'){
-	    	map.setView([47, -98], 6);
+	    	map.setView([47, -100], 5);
 	    }
 	    else if(sector=='Southern Great Plains'){
-	    	map.setView([32, -98], 6);
+	    	map.setView([32, -100], 5);
 	    }
   		else if(sector=='North America'){
 	    	map.setView([50, -103], 3);
 	    }
+	    else if(sector=='CONUS'){
+	    	map.setView([40, -103], 4);
+	    }
+
 
 	    //map.setView([lat, lng], zoom);
 	});
