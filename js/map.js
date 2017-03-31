@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-	var num_times = 20
+	var num_times = 15
 	var preload_finished=false
 
 	function preLoadLoop(){
@@ -22,11 +22,15 @@ $(document).ready(function(){
 			}
 			load_layer.on('load',function(){
 				console.log('loaded')
-				while(load_layers.length > 0){
+				while(load_layers.length > 1){
 		            map.removeLayer(load_layers[0])
 		            load_layers.shift()
 		        } 
-		        preload_finished = true
+		        setTimeout(function(){
+		        	map.removeLayer(load_layers[0])
+					load_layers.shift()
+				},200)
+				        preload_finished = true
 
 		        return true
 			})
