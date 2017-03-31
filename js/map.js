@@ -1,37 +1,168 @@
 $(document).ready(function(){
 
+	var num_times = 20
+	var preload_finished=false
+
+	function preLoadLoop(){
+		if (active_layer != false){
+			$('#play').hide()
+			$('#time_spinner').show()
+			load_layers = []
+			for(i=0;i<num_times;i++){
+			    curr_time = active_times[i]
+	            date_time = curr_time.split('.')
+
+	            date = date_time[0]
+	            time = date_time[1]
+
+	 			load_layer = L.tileLayer('http://wms.ssec.wisc.edu/products/'+active_layer + '_' + date + '_' + time+'/{z}/{x}/{y}.png')
+	 			load_layer.setOpacity(0.0);  
+	       		map.addLayer(load_layer)
+	 			load_layers.push(load_layer)
+			}
+			load_layer.on('load',function(){
+				console.log('loaded')
+				while(load_layers.length > 0){
+		            map.removeLayer(load_layers[0])
+		            load_layers.shift()
+		        } 
+		        preload_finished = true
+
+		        return true
+			})
+		}
+
+	}
+	function startLoop(){
+		var tile_loop = false
+		
+		if (active_layer != false){
+    		$('#time_spinner').hide()
+    		$('#pause').show()
+
+    		var tile_loop = setInterval(function(){ 
+    			var curr_step = time_slider.getStep()[0]
+    			if (curr_step == num_times){
+    				clearInterval(tile_loop)
+
+					time_slider.setStep(0,0,snap=false) 
+					pauseLoop()
+
+    			}
+    			else{
+    				time_slider.setStep(curr_step+1,0,snap=false)  
+    			}	
+			   
+			}, 200);
+			
+		}
+		return tile_loop
+	}
+	function pauseLoop(){
+		setTimeout(function(){
+			if (tile_loop != false){
+				tile_loop = startLoop()
+			}
+		},1200)
+
+	}
+	function stopLoop(loop){
+		tile_loop = false
+		preload_finished = false
+		$('#play').show()
+    	$('#pause').hide()
+    	 clearInterval(loop);
+    	 setTimeout(function(){
+			time_slider.callDragStopCallback(1);
+		},200)
+    	return false
+	}
+
+	tile_loop = false
+    $('#play').on('click',function() {
+    	console.log('durr')
+    	preLoadLoop()
+		preload_test = setInterval(function(){ 
+			if(preload_finished == true){
+				clearInterval(preload_test)
+				tile_loop = startLoop()
+				preload_finished = false
+			}
+			else{
+
+			}
+		}, 200);
+			
+    })
+    $('#pause').on('click',function() {
+    	tile_loop = stopLoop(tile_loop)
+	})
+    $('.menu-link').on('click',function() {
+    	tile_loop = stopLoop(tile_loop)
+    })
+    $('body').keydown(function(e){
+    	key = e.key || e.keyCode || e.which
+    	if(key == ' '){
+    		if(tile_loop != false){
+    			tile_loop = stopLoop(tile_loop)
+    		}
+    		else{
+    			preLoadLoop()
+				preload_test = setInterval(function(){ 
+					console.log(preload_finished)
+					if(preload_finished == true){
+						clearInterval(preload_test)
+						tile_loop = startLoop()
+						preload_finished = false
+					}
+					else{
+
+					}
+				}, 200);
+    		}
+    	}
+    })
+
+
 	//Function to add layer to map and perform required actions
-	function addMapLayer(url,layerid) {
-		console.log('add layer', layerid, url)
-        curr_layer = L.tileLayer(url);
-        curr_layer.on('loading', function(){
-            $('#spinner').show()
-        })
-        curr_layer.on('load', function(){
-            setTimeout(
-              function() 
-              {
-                 $('#spinner').hide()
-              }, 800);
-        })
+	function addMapLayer(url,layerid,opacity=0.75,timelayer=false) {
+    	curr_layer = L.tileLayer(url);
+      
 
-        map.addLayer(curr_layer)
-        curr_layer.setOpacity(0.75);  
+	    if(timelayer == false){
 
-	    prev_layers.push(curr_layer);
-	    all_layers.push(curr_layer);
-	    active_layer = layerid
+	        curr_layer.on('loading', function(){
+	            $('#spinner').show()
+	        })
+	        curr_layer.on('load', function(){
+	            setTimeout(
+	              function() 
+	              {
+	                 $('#spinner').hide()
+	              }, 800);
+	        })
+	        curr_layer.setOpacity(opacity);  
+	        map.addLayer(curr_layer)
+		    prev_layers.push(curr_layer);
+		    active_layer = layerid
+		   	$.getJSON("https://realearth.ssec.wisc.edu/api/products?products=" + active_layer, function( data ) {
+		   		all_layers.push(curr_layer);
+	            active_times = data[0].times.slice(data[0].times.length-num_times, data[0].times.length)
+	            times_length = active_times.length
 
+	            time_slider.options.steps = times_length;
+	            time_slider.stepRatios = time_slider.calculateStepRatios();
+	            prev_scrub_tick = false
+	            time_slider.setStep(times_length, 0, snap=false)
+	        });
+	    }
+	    else{
+	    	curr_layer.setOpacity(opacity);  
+	        map.addLayer(curr_layer)
+		    prev_layers.push(curr_layer);	    
+		    active_layer = layerid
+	    }
 
-        $.getJSON("https://realearth.ssec.wisc.edu/api/products?products=" + active_layer, function( data ) {
-            active_times = data[0].times.slice(data[0].times.length-10, data[0].times.length)
-            times_length = active_times.length
-
-            time_slider.options.steps = times_length;
-            time_slider.stepRatios = time_slider.calculateStepRatios();
-            prev_scrub_tick = false
-            time_slider.setStep(times_length, 0, snap=false)
-        });
         return all_layers.length-1
 	}
 	function toggleUI(){
@@ -202,8 +333,8 @@ $(document).ready(function(){
 
 
     $(".close").on('touchstart click',function() {
-    	console.log('test')
     	toggleUI()
+
       	menuIsOpen=false
     });
 
@@ -217,7 +348,7 @@ $(document).ready(function(){
     })
 
 
-    $('#step-back-button').on('touchstart click',function() {
+    $('#step-back').on('touchstart click',function() {
     	if (active_layer != false){
     		var curr_step = time_slider.getStep()[0]
   			if(curr_step != 0){
@@ -228,7 +359,7 @@ $(document).ready(function(){
   			}
     	}
     });
-    $('#step-forward-button').on('touchstart click',function() {
+    $('#step-forward').on('touchstart click',function() {
     	if (active_layer != false){
     		var curr_step = time_slider.getStep()[0]
   			if(curr_step != 0){
@@ -239,29 +370,7 @@ $(document).ready(function(){
   			}
     	}
     });
-    var loop= false
-    $('#play-button').on('click',function() {
-    	if (active_layer != false){
-    		$('#play-button').hide()
-    		$('#pause-button').show()
-    		var loop = setInterval(function(){ 
-    			var curr_step = time_slider.getStep()[0]
-    			if (curr_step == 10){
-    				curr_step = -1
-    			}	
-			   time_slider.setStep(curr_step+1,0)  
-			}, 500);
 
-			$('#pause-button').on('click',function() {
-		    	$('#play-button').show()
-		    	$('#pause-button').hide()
-		    	 clearInterval(loop);
-		    	 setTimeout(function(){
-					time_slider.callDragStopCallback(1);
-				},500)
-		    })							
-    	}
-    });
 
     //Keyboard looping controls
     $('body').keydown(function(e){
@@ -433,7 +542,8 @@ $(document).ready(function(){
 
     //Initialize time slider and looping functions
     var time_slider = new Dragdealer('scrubber_container',{
-        snap: true,
+        snap: false,
+        slide: false,
         animationCallback: function(x, y) {
 
             value = Math.round(this.getStep()[0] - 1)
@@ -474,32 +584,9 @@ $(document).ready(function(){
 					date_time_string = year+'-'+month+'-'+day+' '+hh+':'+mm+':'+ss+ ' ' + timezone
 					$('#time').text(date_time_string);
                 }
-
-                $('#layer-info').text()
-
-
-
-
                 if (prev_scrub_tick != false && menuIsOpen != true){
-                    var curr_time_product = active_layer + '_' + date + '_' + time
-                    var curr_time_layer = L.tileLayer('http://wms.ssec.wisc.edu/products/'+curr_time_product+'/{z}/{x}/{y}.png');
+                    addMapLayer('http://wms.ssec.wisc.edu/products/'+active_layer + '_' + date + '_' + time+'/{z}/{x}/{y}.png', active_layer, 1,true)
 
-                    curr_time_layer.on('loading', function(){
-			            $('#spinner').show()
-			        })
-			        curr_time_layer.on('load', function(){
-			           	setTimeout(
-			              function() 
-			              {
-			                 $('#spinner').hide()
-			              }, 800);
-			        })
-
-                    map.addLayer(curr_time_layer)
-
-
-
-                    prev_layers.push(curr_time_layer);
                     if (prev_layers.length > 5){
                         map.removeLayer(prev_layers[0])
                         prev_layers.shift()
