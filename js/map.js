@@ -16,24 +16,24 @@ $(document).ready(function(){
 	            time = date_time[1]
 
 	 			load_layer = L.tileLayer('http://wms.ssec.wisc.edu/products/'+active_layer + '_' + date + '_' + time+'/{z}/{x}/{y}.png')
-	 			load_layer.setOpacity(0.0);  
-	       		map.addLayer(load_layer)
-	 			load_layers.push(load_layer)
-			}
-			load_layer.on('load',function(){
-				console.log('loaded')
-				while(load_layers.length > 1){
-		            map.removeLayer(load_layers[0])
-		            load_layers.shift()
-		        } 
-		        setTimeout(function(){
-		        	map.removeLayer(load_layers[0])
-					load_layers.shift()
-				},200)
-				        preload_finished = true
+	 			load_layer.setOpacity(0.0); 
 
-		        return true
-			})
+	 			load_obj = {}
+	 			load_layers.push(load_layer)
+	 			load_layer.on('load',function(){
+	 				index = load_layers.findIndex(x => x._url==this._url);
+	 				map.removeLayer(load_layers[index])
+	 				load_layers.splice(index,1)
+	 				console.log(load_layers)
+	 				if(load_layers.length == 0){
+	 					preload_finished = true
+	 					return true
+	 				}
+	 			})
+	 			
+	 			map.addLayer(load_layer)
+			}
+
 		}
 
 	}
@@ -73,7 +73,6 @@ $(document).ready(function(){
 	function stopLoop(loop){
 		tile_loop = false
 		preload_finished = false
-		console.log(preload_finished)
 		$('#play').show()
     	$('#pause').hide()
     	 clearInterval(loop);
@@ -85,7 +84,6 @@ $(document).ready(function(){
 
 	tile_loop = false
     $('#play').on('click',function() {
-    	console.log('durr')
     	preLoadLoop()
 		preload_test = setInterval(function(){ 
 			if(preload_finished == true){
@@ -114,7 +112,6 @@ $(document).ready(function(){
     		else{
     			preLoadLoop()
 				preload_test = setInterval(function(){ 
-					console.log(preload_finished)
 					if(preload_finished == true){
 						clearInterval(preload_test)
 						tile_loop = startLoop()
@@ -132,8 +129,7 @@ $(document).ready(function(){
 	//Function to add layer to map and perform required actions
 	function addMapLayer(url,layerid,opacity=0.75,timelayer=false) {
     	curr_layer = L.tileLayer(url);
-      
-    	console.log(timelayer)
+
 	    if(timelayer == false){
 
 	        curr_layer.on('loading', function(){
@@ -439,6 +435,15 @@ $(document).ready(function(){
     var prev_div = false
     var prev_ndx = false
     var menuIsOpen = false
+
+    // map.on('movestart',function(){
+    // 	if(!$('#play').is(":visible")){
+    // 		$('#pause').trigger('click');
+    // 		if($('#time_spinner').is(":visible")){
+    // 			$('#time_spinner').hide()
+    // 		}
+    // 	}
+    // })
 
 
     //Add layer to map and remove previous layer
