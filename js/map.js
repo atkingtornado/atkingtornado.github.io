@@ -73,6 +73,7 @@ $(document).ready(function(){
 	function stopLoop(loop){
 		tile_loop = false
 		preload_finished = false
+		console.log(preload_finished)
 		$('#play').show()
     	$('#pause').hide()
     	 clearInterval(loop);
@@ -132,7 +133,7 @@ $(document).ready(function(){
 	function addMapLayer(url,layerid,opacity=0.75,timelayer=false) {
     	curr_layer = L.tileLayer(url);
       
-
+    	console.log(timelayer)
 	    if(timelayer == false){
 
 	        curr_layer.on('loading', function(){
@@ -148,9 +149,9 @@ $(document).ready(function(){
 	        curr_layer.setOpacity(opacity);  
 	        map.addLayer(curr_layer)
 		    prev_layers.push(curr_layer);
+		    all_layers.push(curr_layer);
 		    active_layer = layerid
 		   	$.getJSON("https://realearth.ssec.wisc.edu/api/products?products=" + active_layer, function( data ) {
-		   		all_layers.push(curr_layer);
 	            active_times = data[0].times.slice(data[0].times.length-num_times, data[0].times.length)
 	            times_length = active_times.length
 
