@@ -8,6 +8,8 @@ $(document).ready(function(){
 		var dfr = $.Deferred();
 		if (active_layer != false){
 			preload_ongoing = true
+			console.log('here')
+			$('.handle').fadeOut()
 			$('#play').hide()
 			$('#time_spinner').show()
 			load_layers = []
@@ -63,7 +65,7 @@ $(document).ready(function(){
     				time_slider.setStep(curr_step+1,0,snap=false)  
     			}	
 			   
-			}, 200);
+			}, loop_speed);
 			
 		}
 		return tile_loop
@@ -81,6 +83,7 @@ $(document).ready(function(){
 		preload_finished = false
 		console.log(loop_move)
 		if(loop_move == false){
+			$('.handle').fadeIn()
 			$('#play').show()
     		$('#pause').hide()
 		}
@@ -205,6 +208,16 @@ $(document).ready(function(){
      }
 
 	//Things to do on page load
+	var speedscrubber = new ScrubberView();
+	speedscrubber.min(1).max(20).step(1).value(5);
+	$('#speedscrubber').append(speedscrubber.elt);
+	var loop_speed = loop_speed = 1000 * (1/(speedscrubber.value()))
+
+	var framesscrubber = new ScrubberView();
+	framesscrubber.min(5).max(30).step(1).value(15);
+	$('#framesscrubber').append(framesscrubber.elt);
+	
+
 	$('#time_container').hide()
     $('.layer-dropdown-content').hide()
     $('.menu-link').bigSlide({
@@ -227,6 +240,18 @@ $(document).ready(function(){
 	$(".vibrate-toggle").vibrate({
 		pattern:[5,200,20]
 	});
+
+    speedscrubber.onValueChanged = function (value) {
+        $('.speed-display').html(value + ' FPS');
+        loop_speed = 1000 * (1/(value))
+        console.log(loop_speed)
+    }
+
+    framesscrubber.onValueChanged = function (value) {
+        $('.frames-display').html(value);
+        num_times = value
+        console.log(num_times)
+    }
 
 
 	$('#haptic_toggle').on('change', function() {
