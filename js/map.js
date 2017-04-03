@@ -1,10 +1,13 @@
 $(document).ready(function(){
 
 	var num_times = 15
-	var preload_finished=false
+	var preload_finished = false
+	var preload_ongoing = false
 
 	function preLoadLoop(){
+		var dfr = $.Deferred();
 		if (active_layer != false){
+			preload_ongoing = true
 			$('#play').hide()
 			$('#time_spinner').show()
 			load_layers = []
@@ -18,16 +21,15 @@ $(document).ready(function(){
 	 			load_layer = L.tileLayer('http://wms.ssec.wisc.edu/products/'+active_layer + '_' + date + '_' + time+'/{z}/{x}/{y}.png')
 	 			load_layer.setOpacity(0.0); 
 
-	 			load_obj = {}
 	 			load_layers.push(load_layer)
 	 			load_layer.on('load',function(){
 	 				index = load_layers.findIndex(x => x._url==this._url);
 	 				map.removeLayer(load_layers[index])
 	 				load_layers.splice(index,1)
-	 				console.log(load_layers)
 	 				if(load_layers.length == 0){
 	 					preload_finished = true
-	 					return true
+	 					preload_ongoing = false
+	 					dfr.resolve()
 	 				}
 	 			})
 	 			
@@ -35,10 +37,14 @@ $(document).ready(function(){
 			}
 
 		}
+		else{
+			dfr.resolve()
+		}
+		return dfr.promise();
 
 	}
 	function startLoop(){
-		var tile_loop = false
+		tile_loop = false
 		
 		if (active_layer != false){
     		$('#time_spinner').hide()
@@ -73,8 +79,17 @@ $(document).ready(function(){
 	function stopLoop(loop){
 		tile_loop = false
 		preload_finished = false
-		$('#play').show()
-    	$('#pause').hide()
+		console.log(loop_move)
+		if(loop_move == false){
+			$('#play').show()
+    		$('#pause').hide()
+		}
+		else{
+			$('#time_spinner').show()
+			$('#pause').hide()
+			$('#play').hide()
+		}
+
     	 clearInterval(loop);
     	 setTimeout(function(){
 			time_slider.callDragStopCallback(1);
@@ -82,7 +97,8 @@ $(document).ready(function(){
     	return false
 	}
 
-	tile_loop = false
+	var tile_loop = false
+	var preload_test = false
     $('#play').on('click',function() {
     	preLoadLoop()
 		preload_test = setInterval(function(){ 
@@ -100,8 +116,19 @@ $(document).ready(function(){
     $('#pause').on('click',function() {
     	tile_loop = stopLoop(tile_loop)
 	})
+	// $('#time_spinner').on('click',function() {
+ //    	clearInterval(preload_test)
+ //    	$('#time_spinner').hide()
+ //    	$('#play').show()
+	// })
     $('.menu-link').on('click',function() {
     	tile_loop = stopLoop(tile_loop)
+    	clearInterval(preload_test)
+    	clearInterval(preloading)
+    	loop_move = false
+    	if($('#time_spinner').is(":visible")){
+			$('#time_spinner').hide()
+    	}
     })
     $('body').keydown(function(e){
     	key = e.key || e.keyCode || e.which
@@ -427,6 +454,7 @@ $(document).ready(function(){
 	$('#fullscreen-link').on('click', function(){
 		$(document).toggleFullScreen();
 	})
+
     var all_layers = [basemap]
     var all_overlays = []
     var active_layer = false
@@ -436,14 +464,41 @@ $(document).ready(function(){
     var prev_ndx = false
     var menuIsOpen = false
 
-    // map.on('movestart',function(){
-    // 	if(!$('#play').is(":visible")){
-    // 		$('#pause').trigger('click');
-    // 		if($('#time_spinner').is(":visible")){
-    // 			$('#time_spinner').hide()
-    // 		}
-    // 	}
-    // })
+
+    var loop_move = false
+    map.on('movestart',function(){
+    	if(!$('#play').is(":visible")){
+    		clearInterval(preload_test)
+    		loop_move = true
+    		$('#pause').trigger('click');
+    		
+    	}
+    })
+    preloading = false
+    map.on('moveend',function(){
+    	clearInterval(preloading)
+		if(loop_move){
+			if(preload_ongoing){
+				preloading = setInterval(function(){ 
+					console.log('preloading')
+					if (preload_ongoing == false){
+						console.log('loaded')
+						clearInterval(preloading)
+						loop_move = false
+						$('#time_spinner').hide()
+						$('#play').trigger('click');
+					}
+				}, 200);
+			}
+			else{
+				console.log('no preloading')
+				loop_move = false
+				$('#time_spinner').hide()
+				$('#play').trigger('click');
+				
+			}
+		}
+    })
 
 
     //Add layer to map and remove previous layer
