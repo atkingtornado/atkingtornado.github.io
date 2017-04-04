@@ -4,45 +4,64 @@ $(document).ready(function(){
 	var preload_finished = false
 	var preload_ongoing = false
 
+	function addLoopLayer(layer, callback) {
+		console.log(preload_ongoing)
+		if(preload_ongoing != false){
+			layer.on('load',function(){
+				map.removeLayer(layer)
+				callback();
+			})	 
+			map.addLayer(layer)	
+		} 
+	}
+	var loopTimes = function(arr) {
+	    addLoopLayer(arr[x],function(){
+	        // set x to next item
+	        x++;
+
+	        // any more items in array? continue loop
+	        if(x < arr.length ) {
+	        	progressCircle.animate(x/arr.length);
+	            loopTimes(arr);   
+	        }
+	        else{
+	        	progressCircle.animate(1.0);
+	        	preload_finished = true
+	        	preload_ongoing = false
+	        }
+	    }); 
+	}
+	var x = 0;
 	function preLoadLoop(){
-		var dfr = $.Deferred();
 		if (active_layer != false){
 			preload_ongoing = true
 			console.log('here')
 			$('.handle').fadeOut()
 			$('#play').hide()
 			$('#time_spinner').show()
+
+			if (num_times > active_times.length){
+				num_times = active_times.length
+			}
+			
 			load_layers = []
 			for(i=0;i<num_times;i++){
-			    curr_time = active_times[i]
-	            date_time = curr_time.split('.')
 
+				curr_time = active_times[i]
+	            date_time = curr_time.split('.')
 	            date = date_time[0]
 	            time = date_time[1]
 
-	 			load_layer = L.tileLayer('http://wms.ssec.wisc.edu/products/'+active_layer + '_' + date + '_' + time+'/{z}/{x}/{y}.png')
+				load_layer = L.tileLayer('http://wms.ssec.wisc.edu/products/'+active_layer + '_' + date + '_' + time+'/{z}/{x}/{y}.png')
 	 			load_layer.setOpacity(0.0); 
-
 	 			load_layers.push(load_layer)
-	 			load_layer.on('load',function(){
-	 				index = load_layers.findIndex(x => x._url==this._url);
-	 				map.removeLayer(load_layers[index])
-	 				load_layers.splice(index,1)
-	 				if(load_layers.length == 0){
-	 					preload_finished = true
-	 					preload_ongoing = false
-	 					dfr.resolve()
-	 				}
-	 			})
-	 			
-	 			map.addLayer(load_layer)
 			}
-
+			x=0
+			loopTimes(load_layers)
 		}
 		else{
-			dfr.resolve()
+			console.log('no active layers')
 		}
-		return dfr.promise();
 
 	}
 	function startLoop(){
@@ -84,6 +103,7 @@ $(document).ready(function(){
 		console.log(loop_move)
 		if(loop_move == false){
 			$('.handle').fadeIn()
+			time_slider.setStep(times_length, 0, snap=false)
 			$('#play').show()
     		$('#pause').hide()
 		}
@@ -108,6 +128,7 @@ $(document).ready(function(){
 			if(preload_finished == true){
 				clearInterval(preload_test)
 				tile_loop = startLoop()
+				progressCircle.animate(0.0);
 				preload_finished = false
 			}
 			else{
@@ -119,13 +140,19 @@ $(document).ready(function(){
     $('#pause').on('click',function() {
     	tile_loop = stopLoop(tile_loop)
 	})
-	// $('#time_spinner').on('click',function() {
- //    	clearInterval(preload_test)
- //    	$('#time_spinner').hide()
- //    	$('#play').show()
-	// })
+	$('#time_spinner').on('click',function() {
+		preload_ongoing = false
+		clearInterval(preload_test)
+		clearInterval(preloading)
+		if(tile_loop != false){
+			tile_loop = stopLoop(tile_loop)
+		}
+    	$('#time_spinner').hide()
+	})
     $('.menu-link').on('click',function() {
-    	tile_loop = stopLoop(tile_loop)
+    	if(tile_loop != false){
+			tile_loop = stopLoop(tile_loop)
+		}
     	clearInterval(preload_test)
     	clearInterval(preloading)
     	loop_move = false
@@ -216,6 +243,16 @@ $(document).ready(function(){
 	var framesscrubber = new ScrubberView();
 	framesscrubber.min(5).max(30).step(1).value(15);
 	$('#framesscrubber').append(framesscrubber.elt);
+
+	var progressCircle = new ProgressBar.Circle(time_spinner_view, {
+	  strokeWidth: 12,
+	  easing: 'easeInOut',
+	  duration: 100,
+	  color: '#2074B6',
+	  trailColor: '#eee',
+	  trailWidth: 2,
+	  svgStyle: null
+	});
 	
 
 	$('#time_container').hide()

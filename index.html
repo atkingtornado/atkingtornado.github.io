@@ -29,6 +29,7 @@
     <script src="js/simplebar.js"></script>
     <script src="js/jquery.vibrate.min.js"></script>
     <script src='js/jquery.fullscreen-min.js'></script>
+    <script src='js/progressbar.min.js'></script>
 
 
 
@@ -301,7 +302,9 @@
                 <i id='play-button' style='color:white;' class="fa fa-play fa-2x" aria-hidden="true"></i>
             </div>
 
-            <div id='time_spinner' class='time-control-div'><img style='margin-top:3px; margin-left:3px;' src="css/images/time_spinner.svg" height="40" width="40"/></div>
+            <div id='time_spinner' class='time-control-div'>
+                <div id='time_spinner_view'></div>
+            </div>
 
             <div id='pause' class='time-control-div'>
                 <i id='pause-button' class="fa fa-pause fa-2x" aria-hidden="true"></i>
