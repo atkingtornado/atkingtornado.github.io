@@ -94,7 +94,7 @@ $(document).ready(function(){
 			if (tile_loop != false){
 				tile_loop = startLoop()
 			}
-		},1200)
+		},1000)
 
 	}
 	function stopLoop(loop){
@@ -144,10 +144,10 @@ $(document).ready(function(){
 		preload_ongoing = false
 		clearInterval(preload_test)
 		clearInterval(preloading)
-		if(tile_loop != false){
-			tile_loop = stopLoop(tile_loop)
-		}
+		console.log(tile_loop)
+		tile_loop = stopLoop(tile_loop)
     	$('#time_spinner').hide()
+    	progressCircle.animate(0.0);
 	})
     $('.menu-link').on('click',function() {
     	if(tile_loop != false){
