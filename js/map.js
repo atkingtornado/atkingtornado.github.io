@@ -513,6 +513,16 @@ $(document).ready(function(){
    		}
    		$(this).toggleClass('rotated-y');
    });
+  $('#time_container_close').on('updateWidth',function(){
+  		var width = $("#time_container").width() + 10
+		console.log(width)
+		if($(this).hasClass( 'rotated-y' )){
+			$("#time_container").css({'-webkit-transform': 'translate3d(-' + width + 'px, 0px, 0px)', '-moz-transform': 'translate3d(70px, 0px, 0px)'});
+		}
+		else{
+			$("#time_container").css({'-webkit-transform': 'translate3d(0px, 0px, 0px)', '-moz-transform': 'translate3d(70px, 0px, 0px)'});
+		}
+  })
 
 
 
@@ -646,6 +656,8 @@ $(document).ready(function(){
             $('#opacity_display_' + prev_div).html(value+'%');
             all_layers[prev_ndx].setOpacity(value/100.0)
         }
+
+        $('#time_container_close').trigger('updateWidth')
 
     });
     
