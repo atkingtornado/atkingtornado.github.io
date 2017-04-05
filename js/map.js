@@ -504,12 +504,14 @@ $(document).ready(function(){
 
    $('#time_container_close').on('touchstart click',function() {
    		var width = $("#time_container").width() + 10
+
    		console.log(width)
+   		console.log('click')
    		if(!$(this).hasClass( 'rotated-y' )){
-   			$("#time_container").css({'-webkit-transform': 'translate3d(-' + width + 'px, 0px, 0px)', '-moz-transform': 'translate3d(70px, 0px, 0px)'});
+   			$("#time_container").css({'-webkit-transform': 'translate3d(-' + width + 'px, 0px, 0px)', '-moz-transform': 'translate3d(-' + width + 'px, 0px, 0px)'});
    		}
    		else{
-   			$("#time_container").css({'-webkit-transform': 'translate3d(0px, 0px, 0px)', '-moz-transform': 'translate3d(70px, 0px, 0px)'});
+   			$("#time_container").css({'-webkit-transform': 'translate3d(0px, 0px, 0px)', '-moz-transform': 'translate3d(0px, 0px, 0px)'});
    		}
    		$(this).toggleClass('rotated-y');
    });
@@ -517,10 +519,10 @@ $(document).ready(function(){
   		var width = $("#time_container").width() + 10
 		console.log(width)
 		if($(this).hasClass( 'rotated-y' )){
-			$("#time_container").css({'-webkit-transform': 'translate3d(-' + width + 'px, 0px, 0px)', '-moz-transform': 'translate3d(70px, 0px, 0px)'});
+			$("#time_container").css({'-webkit-transform': 'translate3d(-' + width + 'px, 0px, 0px)', '-moz-transform': 'translate3d(-' + width + 'px, 0px, 0px)'});
 		}
 		else{
-			$("#time_container").css({'-webkit-transform': 'translate3d(0px, 0px, 0px)', '-moz-transform': 'translate3d(70px, 0px, 0px)'});
+			$("#time_container").css({'-webkit-transform': 'translate3d(0px, 0px, 0px)', '-moz-transform': 'translate3d(0px, 0px, 0px)'});
 		}
   })
 
