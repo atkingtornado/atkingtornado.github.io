@@ -190,14 +190,10 @@ $(document).ready(function(){
 	    if(timelayer == false){
 
 	        curr_layer.on('loading', function(){
-	            $('#spinner').show()
+	             $('#spinner').show()
 	        })
 	        curr_layer.on('load', function(){
-	            setTimeout(
-	              function() 
-	              {
-	                 $('#spinner').hide()
-	              }, 800);
+                 $('#spinner').hide()
 	        })
 	        curr_layer.setOpacity(opacity);  
 	        map.addLayer(curr_layer)
@@ -370,19 +366,34 @@ $(document).ready(function(){
 	    var sector = $(this).find('.zoom-label')[0].innerHTML
 
 	    if(sector=='Central Great Plains'){
-	    	map.setView([40, -100], 5);
+	    	map.fitBounds([
+			    [43, -106],
+			    [32, -90]
+			]);
 	    }
 	    else if(sector=='Northern Great Plains'){
-	    	map.setView([47, -100], 5);
+	    	map.fitBounds([
+			    [50, -108],
+			    [39, -90]
+			]);
 	    }
 	    else if(sector=='Southern Great Plains'){
-	    	map.setView([32, -100], 5);
+	    	map.fitBounds([
+			    [25, -108],
+			    [37, -89]
+			]);
 	    }
   		else if(sector=='North America'){
-	    	map.setView([50, -103], 3);
+	    	map.fitBounds([
+			    [70, -167],
+			    [11, -46]
+			]);
 	    }
 	    else if(sector=='CONUS'){
-	    	map.setView([40, -103], 4);
+	    	map.fitBounds([
+			    [49, -128],
+			    [24, -65]
+			]);
 	    }
 
 
