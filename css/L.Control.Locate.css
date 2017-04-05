@@ -3,7 +3,6 @@
 	position: fixed;
 	top:105px;
 	right: 20px;
-	background: white;
 	width:35px;
 	height:35px
 
@@ -12,7 +11,7 @@
 
 .leaflet-control-locate a {
   font-size: 1.9em;
-  color: #444;
+  color:#f4f4f4;
   cursor: pointer;
 }
 .leaflet-control-locate.active a {

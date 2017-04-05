@@ -143,7 +143,7 @@ span{
 }
 .fa-arrows-alt{
     margin-top: 10px;
-    color: #444;
+    color: #f4f4f4;
 }
 .sector-select h4{
     text-align: center;
@@ -189,8 +189,7 @@ span{
     width: 45px;
 }
 .layers-img:hover{
-  background:#f4f4f4;;
-}
+  }
 .close-div{
     box-shadow: inset 0px 0px 5px rgba(25,25,25,0.85);
     padding-right: 13px;
@@ -449,7 +448,7 @@ html, body, #map {
   font-size: 12px;
   font-weight: bold;
   display: inline-block;
-  padding-right: 10px;
+  padding-right: 12px;
   float: right;
   margin: 0px;
   color: #f4f4f4;
