@@ -107,21 +107,34 @@ span{
 }
 
 #options-link{
-    box-shadow: 0 1px 5px rgba(0,0,0,0.65);
+/*    box-shadow: 0 1px 5px rgba(0,0,0,0.65);*/
+    background: none;
     position: fixed;
     z-index: 1000;
-    bottom: 55px;
+    top: 10px;
     right: 10px;
+    height: 45px;
+    width: 45px;
+}
+#share-link{
+  font-size: 2.1em;
+  cursor: pointer;
+  color:rgba(50,50,50,0.85);
+   background: none;
+    position: fixed;
+    z-index: 1000;
+    top: 18px;
+    right: 60px;
     height: 45px;
     width: 45px;
 }
 
 #sectors-link{
-    box-shadow: 0 1px 5px rgba(0,0,0,0.65);
+/*    box-shadow: 0 1px 5px rgba(0,0,0,0.65);*/
     position: fixed;
     z-index: 1000;
-    top: 65px;
-    right: 10px;
+    top: 120px;
+    right: 0px;
     height: 45px;
     width: 45px;
 }
@@ -170,23 +183,25 @@ span{
 }
 
 #layers-link{
-      box-shadow: 0 1px 5px rgba(0,0,0,0.65);
+/*      box-shadow: 0 1px 5px rgba(0,0,0,0.65);*/
     position: fixed;
     z-index: 1000;
-    top: 10px;
-    right: 10px;
+    top: 75px;
+    right: 0px;
     height: 45px;
     width: 45px;
+    border-top-left-radius: 5px;
 }
 #fullscreen-link{
     cursor: pointer;
-    box-shadow: 0 1px 5px rgba(0,0,0,0.65);
+    /*box-shadow: 0 1px 5px rgba(0,0,0,0.65);*/
     position: fixed;
     z-index: 1000;
-    top: 175px;
-    right: 10px;
+    top: 210px;
+    right: 0px;
     height: 45px;
     width: 45px;
+    border-bottom-left-radius: 5px;
 }
 .layers-img:hover{
   }

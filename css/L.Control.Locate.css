@@ -1,8 +1,8 @@
 /* Compatible with Leaflet 0.7 */
 .leaflet-control-locate{
 	position: fixed;
-	top:105px;
-	right: 20px;
+	top:150px;
+	right: 10px;
 	width:35px;
 	height:35px
 
