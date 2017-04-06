@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-	$.getJSON( "https://sharp.weather.ou.edu/tbell/GOES16_07/Mesoscale-1/GOES16_07_Mesoscale-1.json", function( data ) {
+	$.getJSON( "http://sharp.weather.ou.edu/tbell/GOES16_07/Mesoscale-1/GOES16_07_Mesoscale-1.json", function( data ) {
 	});
 
 	var num_times = 15
