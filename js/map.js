@@ -1,8 +1,15 @@
 $(document).ready(function(){
 
-	$.getJSON( "http://sharp.weather.ou.edu/tbell/GOES16_07/Mesoscale-1/GOES16_07_Mesoscale-1.json", function( data ) {
-	});
 
+ //    $.ajax({
+	//     url: 'http://sharp.weather.ou.edu/tbell/GOES16_07/Mesoscale-1/GOES16_07_Mesoscale-1.json?jsoncallback=?',
+	//     dataType: 'JSONP',
+	//     jsonpCallback: 'callback',
+	//     type: 'GET',
+	//     success: function (data) {
+	//         console.log(data);
+	//     }
+	// });
 	var num_times = 15
 	var preload_finished = false
 	var preload_ongoing = false

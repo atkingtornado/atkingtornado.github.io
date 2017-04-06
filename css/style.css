@@ -250,16 +250,16 @@ span{
     vertical-align: middle;
 }
 #time_container p{
-  padding-right: 10px;
+    padding-right: 10px;
     color: #f4f4f4;
     margin: auto;
 }
 #time_container_close{
-      border-top-right-radius: 3px;
+    border-top-right-radius: 3px;
     border-bottom-right-radius: 3px;
-      cursor: pointer;
+    cursor: pointer;
     margin: 0;
-    line-height:50px;
+    line-height: 48px;
     background: rgba(25,25,25,0.65);
     padding-right: 3px;
     padding-left: 3px;
