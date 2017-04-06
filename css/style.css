@@ -227,11 +227,13 @@ span{
 }
 
 #time_container{
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
     padding-left: 10px;
     padding-right: 25px;
     background: rgba(50,50,50,0.85);
     box-shadow: rgba(0, 0, 0, 0.65098) 0px 1px 5px;
-    height: 50px;
+    height: 45px;
     top: 10px;
     z-index: 400;
     position: fixed;
@@ -239,8 +241,8 @@ span{
 }
 
 #time_container h3{
-  padding-right: 5px;
-    height: 30px;
+    padding-right: 5px;
+    height: 25px;
     color: #f4f4f4;
     width: 100%;
     margin: auto;
@@ -253,9 +255,11 @@ span{
     margin: auto;
 }
 #time_container_close{
+      border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
       cursor: pointer;
     margin: 0;
-    line-height:54px;
+    line-height:50px;
     background: rgba(25,25,25,0.65);
     padding-right: 3px;
     padding-left: 3px;
