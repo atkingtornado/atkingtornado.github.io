@@ -522,16 +522,18 @@ $(document).ready(function(){
    		else{
    			$("#options_container").css({'-webkit-transform': 'translate3d(0px, 0px, 0px)', '-moz-transform': 'translate3d(0px, 0px, 0px)'});
    			$(".leaflet-control-locate").css({'-webkit-transform': 'translate3d(0px, 0px, 0px)', '-moz-transform': 'translate3d(0px, 0px, 0px)'});
-   			$("#fullscreen-link").toggleClass('active')
+   			$("#fullscreen-link").toggleClass('disabled')
+   			$(".leaflet-control-locate").toggleClass('disabled')
 
 
 			setTimeout(
 			function() 
 			{
-				$("#fullscreen-link").toggleClass('active')
+				$("#fullscreen-link").toggleClass('disabled')
+				$(".leaflet-control-locate").toggleClass('disabled')
+				console.log('here')
 
-			}, 500);
-
+			}, 600);
 
    		}
    		$(this).toggleClass('rotated-y');
