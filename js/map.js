@@ -47,12 +47,10 @@ $(document).ready(function(){
 			map.removeLayer(curr_layer)
 			all_layers.shift()
 			addMapLayer(url,prev_layerid,opacity=layer_opacity)
-			console.log(all_layers)
 		}
 	}
 
 	function addLoopLayer(layer, callback) {
-		console.log(preload_ongoing)
 		if(preload_ongoing != false){
 			layer.on('load',function(){
 				map.removeLayer(layer)
@@ -82,7 +80,6 @@ $(document).ready(function(){
 	function preLoadLoop(){
 		if (active_layer != false){
 			preload_ongoing = true
-			console.log('here')
 			$('.handle').fadeOut()
 			$('#play').hide()
 			$('#time_spinner').show()
@@ -147,7 +144,6 @@ $(document).ready(function(){
 	function stopLoop(loop){
 		tile_loop = false
 		preload_finished = false
-		console.log(loop_move)
 		if(loop_move == false){
 			$('.handle').fadeIn()
 			time_slider.setStep(times_length, 0, snap=false)
@@ -191,7 +187,6 @@ $(document).ready(function(){
 		preload_ongoing = false
 		clearInterval(preload_test)
 		clearInterval(preloading)
-		console.log(tile_loop)
 		tile_loop = stopLoop(tile_loop)
     	$('#time_spinner').hide()
     	progressCircle.animate(0.0);
@@ -203,9 +198,7 @@ $(document).ready(function(){
     	clearInterval(preload_test)
     	clearInterval(preloading)
     	loop_move = false
-    	if($('#time_spinner').is(":visible")){
-			$('#time_spinner').hide()
-    	}
+    	$('#time_spinner').trigger('click')
     })
     $('body').keydown(function(e){
     	key = e.key || e.keyCode || e.which
@@ -325,13 +318,11 @@ $(document).ready(function(){
     speedscrubber.onValueChanged = function (value) {
         $('.speed-display').html(value + ' FPS');
         loop_speed = 1000 * (1/(value))
-        console.log(loop_speed)
     }
 
     framesscrubber.onValueChanged = function (value) {
         $('.frames-display').html(value);
         num_times = value
-        console.log(num_times)
     }
 
 
@@ -675,9 +666,7 @@ $(document).ready(function(){
 		if(loop_move){
 			if(preload_ongoing){
 				preloading = setInterval(function(){ 
-					console.log('preloading')
 					if (preload_ongoing == false){
-						console.log('loaded')
 						clearInterval(preloading)
 						loop_move = false
 						$('#time_spinner').hide()
@@ -686,7 +675,6 @@ $(document).ready(function(){
 				}, 200);
 			}
 			else{
-				console.log('no preloading')
 				loop_move = false
 				$('#time_spinner').hide()
 				$('#play').trigger('click');
