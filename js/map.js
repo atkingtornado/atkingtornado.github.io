@@ -238,6 +238,7 @@ $(document).ready(function(){
       $('#fullscreen-link').toggleClass('transform-active-right');
       $('.leaflet-control-locate').toggleClass('transform-active-right');
       $('#time_control_container').toggleClass('transform-active');
+      $('#options_container').toggleClass('transform-active-right');
      }
 
 	//Things to do on page load
@@ -512,11 +513,21 @@ $(document).ready(function(){
     	}
     });
 
+    $('#options_container_close').on('touchstart click',function() {
+   		var width = 190
+   		if($(this).hasClass( 'rotated-y' )){
+   			$("#options_container").css({'-webkit-transform': 'translate3d(' + width + 'px, 0px, 0px)', '-moz-transform': 'translate3d(' + width + 'px, 0px, 0px)'});
+   			$(".leaflet-control-locate").css({'-webkit-transform': 'translate3d(' + width + 'px, 0px, 0px)', '-moz-transform': 'translate3d(' + width + 'px, 0px, 0px)'});
+   		}
+   		else{
+   			$("#options_container").css({'-webkit-transform': 'translate3d(0px, 0px, 0px)', '-moz-transform': 'translate3d(0px, 0px, 0px)'});
+   			$(".leaflet-control-locate").css({'-webkit-transform': 'translate3d(0px, 0px, 0px)', '-moz-transform': 'translate3d(0px, 0px, 0px)'});
+   		}
+   		$(this).toggleClass('rotated-y');
+   });
+
    $('#time_container_close').on('touchstart click',function() {
    		var width = $("#time_container").width() + 10
-
-   		console.log(width)
-   		console.log('click')
    		if(!$(this).hasClass( 'rotated-y' )){
    			$("#time_container").css({'-webkit-transform': 'translate3d(-' + width + 'px, 0px, 0px)', '-moz-transform': 'translate3d(-' + width + 'px, 0px, 0px)'});
    		}
@@ -527,7 +538,6 @@ $(document).ready(function(){
    });
   $('#time_container_close').on('updateWidth',function(){
   		var width = $("#time_container").width() + 10
-		console.log(width)
 		if($(this).hasClass( 'rotated-y' )){
 			$("#time_container").css({'-webkit-transform': 'translate3d(-' + width + 'px, 0px, 0px)', '-moz-transform': 'translate3d(-' + width + 'px, 0px, 0px)'});
 		}
