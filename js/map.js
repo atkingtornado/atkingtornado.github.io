@@ -487,7 +487,7 @@ $(document).ready(function(){
       	menuIsOpen=false
     });
 
-    $(".img-close").on('touchstart click',function() {
+    $(".img-close").on('click',function() {
     	toggleUI()
     	$('#img-container').fadeOut('fast')
     	var img = $('#screenshot');
@@ -567,6 +567,8 @@ $(document).ready(function(){
    			$("#options_container").css({'-webkit-transform': 'translate3d(0px, 0px, 0px)', '-moz-transform': 'translate3d(0px, 0px, 0px)'});
    			$(".leaflet-control-locate").css({'-webkit-transform': 'translate3d(0px, 0px, 0px)', '-moz-transform': 'translate3d(0px, 0px, 0px)'});
    			$("#fullscreen-link").toggleClass('disabled')
+   			$("#refresh-link").toggleClass('disabled')
+   			$("#share-link").toggleClass('disabled')
    			$(".leaflet-control-locate").toggleClass('disabled')
 
 
@@ -574,8 +576,9 @@ $(document).ready(function(){
 			function() 
 			{
 				$("#fullscreen-link").toggleClass('disabled')
+				$("#refresh-link").toggleClass('disabled')
+   				$("#share-link").toggleClass('disabled')
 				$(".leaflet-control-locate").toggleClass('disabled')
-				console.log('here')
 
 			}, 600);
 
@@ -583,11 +586,6 @@ $(document).ready(function(){
    		$(this).toggleClass('rotated-y');
    });
 
-    $("#options_container_close")
-	.on("animationend webkitAnimationEnd oAnimationEnd MSAnimationEnd",
-	 function(e){
-	    console.log('here')
-	 });
 
    $('#time_container_close').on('touchstart click',function() {
    		var width = $("#time_container").width() + 10
@@ -641,11 +639,15 @@ $(document).ready(function(){
 	})
 
 	$('#refresh-link').on('click', function(){
-		refreshLayers()
+		if(!$('#refresh-link').hasClass('disabled')){
+			refreshLayers()
+		}
 	})
 
 	$('#share-link').on('click', function(){
-		takeScreenshot()
+		if(!$('#share-link').hasClass('disabled')){
+			takeScreenshot()
+		}
 	})
 
     var all_layers = [basemap]
