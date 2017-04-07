@@ -30,6 +30,8 @@
     <script src="js/jquery.vibrate.min.js"></script>
     <script src='js/jquery.fullscreen-min.js'></script>
     <script src='js/progressbar.min.js'></script>
+    <script src='js/html2canvas.js'></script>
+    <script src='js/html2canvas.svg.js'></script>
 
 
 
@@ -293,10 +295,10 @@
                 <a id='fullscreen-link' class="transform leaflet-bar-part leaflet-bar-part-single vibrate"><span><i class="fa fa-arrows-alt fa-2x"></i></span></a>
             </div>
              <div class ='leaflet-bar leaflet-control'>
-                <a id='share-link' class="transform leaflet-bar-part leaflet-bar-part-single vibrate"><span><i style='margin-top: 9px;font-size: 2.5em;' class="fa fa-share-square-o fa-2x"></i></span></a>
+                <a id='share-link' class="transform leaflet-bar-part leaflet-bar-part-single vibrate"><span><i style='margin-top: 11px;font-size: 2.2em;' class="fa fa-share-square-o fa-2x"></i></span></a>
             </div>
             <div class ='leaflet-bar leaflet-control'>
-                <a id='refresh-link' class="transform leaflet-bar-part leaflet-bar-part-single vibrate"><span><i style='margin-top: 8px;font-size: 2.5em;' class="fa fa-refresh fa-2x"></i></span></a>
+                <a id='refresh-link' class="transform leaflet-bar-part leaflet-bar-part-single vibrate"><span><i style='margin-top: 10px;font-size: 2.2em;' class="fa fa-refresh fa-2x"></i></span></a>
             </div>
         </div>
 
@@ -329,7 +331,9 @@
             
         </div>
 
-
+        <div id='img-container'>
+        <img id='screenshot'/>
+        </div>
 
 
         <div id='spinner'><img src="css/images/ring-alt.svg" /></div>

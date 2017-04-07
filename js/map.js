@@ -10,9 +10,46 @@ $(document).ready(function(){
 	//         console.log(data);
 	//     }
 	// });
+	L_PREFER_CANVAS=true;
 	var num_times = 15
 	var preload_finished = false
 	var preload_ongoing = false
+	$('#img-container').hide()
+	function takeScreenshot(){
+		$('#img-container').fadeIn('fast')
+		html2canvas(document.getElementById("mapid"), {
+	        useCORS: true,
+	        preferCanvas: true,
+	        onrendered: function(canvas) {
+	        	var img_width = $('#img-container').width()
+	        	var img_height = $('#img-container').height()
+                var extra_canvas = document.createElement("canvas");
+                extra_canvas.setAttribute('width',img_width);
+                extra_canvas.setAttribute('height',img_height);
+                var ctx = extra_canvas.getContext('2d');
+                ctx.drawImage(canvas,0,0,canvas.width, canvas.height,0,0,img_width,img_height);
+                var dataURL = extra_canvas.toDataURL();
+                var img = $('#screenshot');
+                img.attr('src', dataURL);
+                // insert the thumbnail at the top of the page
+                $('#img-container').append(img);	      
+                
+
+		      }
+	    });
+	}
+
+	function refreshLayers(){
+		if (active_layer != false){
+			var url = curr_layer._url
+		    var layer_opacity  = parseFloat($( "#opacity_" +  active_layer).text().replace('%',''))/100.0 
+
+			map.removeLayer(curr_layer)
+			all_layers.shift()
+			addMapLayer(url,prev_layerid,opacity=layer_opacity)
+			console.log(all_layers)
+		}
+	}
 
 	function addLoopLayer(layer, callback) {
 		console.log(preload_ongoing)
@@ -555,6 +592,7 @@ $(document).ready(function(){
    		}
    		$(this).toggleClass('rotated-y');
    });
+
   $('#time_container_close').on('updateWidth',function(){
   		var width = $("#time_container").width() + 10
 		if($(this).hasClass( 'rotated-y' )){
@@ -563,7 +601,7 @@ $(document).ready(function(){
 		else{
 			$("#time_container").css({'-webkit-transform': 'translate3d(0px, 0px, 0px)', '-moz-transform': 'translate3d(0px, 0px, 0px)'});
 		}
-  })
+  });
 
 
 
@@ -586,12 +624,21 @@ $(document).ready(function(){
         zoom: 5,
         layers: [basemap,basemap_lines, coastlines],
         attributionControl: false,
+        preferCanvas: true,
     });
 
 	$('#fullscreen-link').on('click', function(){
 		if(!$('#fullscreen-link').hasClass('disabled')){
 			$(document).toggleFullScreen();
 		}
+	})
+
+	$('#refresh-link').on('click', function(){
+		refreshLayers()
+	})
+
+	$('#share-link').on('click', function(){
+		takeScreenshot()
 	})
 
     var all_layers = [basemap]
