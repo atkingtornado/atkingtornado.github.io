@@ -190,9 +190,6 @@ span{
     width: 45px;
     background:none;
 }
-#fullscreen-link:hover{
-  background-color: rgba(25,25,25,0.75);
-}
 #share-link{
     color: #f4f4f4;
     cursor: pointer;
@@ -204,11 +201,17 @@ span{
     width: 45px;
     background:none;
 }
-#share-link:hover{
-  background-color: rgba(25,25,25,0.75);
+#refresh-link{
+    color: #f4f4f4;
+    cursor: pointer;
+    /*box-shadow: 0 1px 5px rgba(0,0,0,0.65);*/
+    position: fixed;
+    z-index: 1000;
+    right: 135px;
+    height: 45px;
+    width: 45px;
+    background:none;
 }
-.layers-img:hover{
-  }
 .close-div{
     box-shadow: inset 0px 0px 5px rgba(25,25,25,0.85);
     padding-right: 13px;

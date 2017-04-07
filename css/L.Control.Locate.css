@@ -16,6 +16,9 @@
   cursor: pointer;
       background: none;
 }
+.leaflet-control-locate a:hover {
+	background:none;
+}
 .leaflet-control-locate.active a {
   color: #2074B6;
 }
