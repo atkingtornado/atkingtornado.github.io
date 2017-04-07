@@ -80,7 +80,7 @@ $(document).ready(function(){
 	function preLoadLoop(){
 		if (active_layer != false){
 			preload_ongoing = true
-			$('.handle').fadeOut()
+			$('.handle').css('opacity','0')
 			$('#play').hide()
 			$('#time_spinner').show()
 
@@ -145,7 +145,7 @@ $(document).ready(function(){
 		tile_loop = false
 		preload_finished = false
 		if(loop_move == false){
-			$('.handle').fadeIn()
+			$('.handle').css('opacity','100')
 			time_slider.setStep(times_length, 0, snap=false)
 			$('#play').show()
     		$('#pause').hide()
@@ -291,6 +291,7 @@ $(document).ready(function(){
 	  svgStyle: null
 	});
 	
+	$('.handle').toggleClass('transform')
 
 	$('#time_container').hide()
     $('.layer-dropdown-content').hide()
