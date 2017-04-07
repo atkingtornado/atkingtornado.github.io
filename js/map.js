@@ -522,9 +522,26 @@ $(document).ready(function(){
    		else{
    			$("#options_container").css({'-webkit-transform': 'translate3d(0px, 0px, 0px)', '-moz-transform': 'translate3d(0px, 0px, 0px)'});
    			$(".leaflet-control-locate").css({'-webkit-transform': 'translate3d(0px, 0px, 0px)', '-moz-transform': 'translate3d(0px, 0px, 0px)'});
+   			$("#fullscreen-link").toggleClass('active')
+
+
+			setTimeout(
+			function() 
+			{
+				$("#fullscreen-link").toggleClass('active')
+
+			}, 500);
+
+
    		}
    		$(this).toggleClass('rotated-y');
    });
+
+    $("#options_container_close")
+	.on("animationend webkitAnimationEnd oAnimationEnd MSAnimationEnd",
+	 function(e){
+	    console.log('here')
+	 });
 
    $('#time_container_close').on('touchstart click',function() {
    		var width = $("#time_container").width() + 10
@@ -570,7 +587,9 @@ $(document).ready(function(){
     });
 
 	$('#fullscreen-link').on('click', function(){
-		$(document).toggleFullScreen();
+		if(!$('#fullscreen-link').hasClass('disabled')){
+			$(document).toggleFullScreen();
+		}
 	})
 
     var all_layers = [basemap]
