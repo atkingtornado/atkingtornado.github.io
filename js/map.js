@@ -14,8 +14,8 @@ $(document).ready(function(){
 	var num_times = 15
 	var preload_finished = false
 	var preload_ongoing = false
-	$('#img-container').hide()
 	function takeScreenshot(){
+		toggleUI()
 		$('#img-container').fadeIn('fast')
 		html2canvas(document.getElementById("mapid"), {
 	        useCORS: true,
@@ -485,6 +485,13 @@ $(document).ready(function(){
     	toggleUI()
 
       	menuIsOpen=false
+    });
+
+    $(".img-close").on('touchstart click',function() {
+    	toggleUI()
+    	$('#img-container').fadeOut('fast')
+    	var img = $('#screenshot');
+        img.attr('src', '');
     });
 
     $('.dropdown-header').click(function(){

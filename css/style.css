@@ -177,8 +177,8 @@ span{
 #img-container{
   background:rgba(50,50,50,0.85);
   position:absolute;
-  width: 75%;
-  height: 75%;
+  width: 50%;
+  height: 50%;
   z-index: 9999;
   margin: auto;
   top: 0;
@@ -186,6 +186,7 @@ span{
   bottom: 0;
   left: 0;
   border-radius: 5px;
+  display: none;
 }
 #screenshot{
   position: absolute;
@@ -261,6 +262,19 @@ span{
     color:#992727;
 }
 .close:hover{
+    color:darkgrey;
+}
+
+
+.img-close{
+    float: right;
+    color: #f4f4f4;
+    padding: 5px;
+}
+.img-close:active{
+    color:#992727;
+}
+.img-close:hover{
     color:darkgrey;
 }
 
