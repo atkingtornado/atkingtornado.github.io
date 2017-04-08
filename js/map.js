@@ -291,7 +291,6 @@ $(document).ready(function(){
 	  svgStyle: null
 	});
 	
-	$('.handle').toggleClass('transform')
 
 	$('#time_container').hide()
     $('.layer-dropdown-content').hide()
