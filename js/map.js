@@ -235,8 +235,9 @@ $(document).ready(function(){
 	        curr_layer.on('load', function(){
                  $('#spinner').hide()
 	        })
-	        curr_layer.setOpacity(opacity);  
+	        curr_layer.setOpacity(0.0);  
 	        map.addLayer(curr_layer)
+	        curr_layer.setOpacity(opacity)
 		    prev_layers.push(curr_layer);
 		    all_layers.push(curr_layer);
 		    active_layer = layerid
@@ -621,6 +622,7 @@ $(document).ready(function(){
         layers: [basemap,basemap_lines, coastlines],
         attributionControl: false,
         preferCanvas: true,
+        fadeAnimation: false
     });
 
 	$('#fullscreen-link').on('click', function(){
@@ -837,15 +839,11 @@ $(document).ready(function(){
                 if (prev_scrub_tick != false && menuIsOpen != true){
                     addMapLayer('http://wms.ssec.wisc.edu/products/'+active_layer + '_' + date + '_' + time+'/{z}/{x}/{y}.png', active_layer, 1,true)
 
-                    if (prev_layers.length > 5){
+                    if (prev_layers.length > 2){
                         map.removeLayer(prev_layers[0])
                         prev_layers.shift()
                     }
-                    if (prev_layers.length > 2){
-                    	prev_layers[prev_layers.length-2].on('load', function(){
-                    		$('#spinner').show()
-                    	})
-                    }
+
                 }
 
             }
