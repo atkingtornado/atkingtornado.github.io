@@ -306,6 +306,7 @@ $(document).ready(function(){
       $('#layers-link').toggleClass('transform-active-right');
       $('#sectors-link').toggleClass('transform-active-right');
       $('#options-link').toggleClass('transform-active-right');
+      $('#menu-shadow').toggleClass('transform-active-right');
       $('#fullscreen-link').toggleClass('transform-active-right');
       $('.leaflet-control-locate').toggleClass('transform-active-right');
       $('#time_control_container').toggleClass('transform-active');
