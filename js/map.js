@@ -666,7 +666,7 @@ $(document).ready(function(){
         layers: [basemap,basemap_lines, coastlines],
         attributionControl: false,
         preferCanvas: true,
-        fadeAnimation: true
+        fadeAnimation: false
     });
 
 
@@ -884,7 +884,7 @@ $(document).ready(function(){
                 if (prev_scrub_tick != false && menuIsOpen != true){
                     addMapLayer('http://wms.ssec.wisc.edu/products/'+active_layer + '_' + date + '_' + time+'/{z}/{x}/{y}.png', active_layer, 1,true)
 
-                    if (prev_layers.length > 3){
+                    if (prev_layers.length > 4){
                         map.removeLayer(prev_layers[0])
                         prev_layers.shift()
                     }
