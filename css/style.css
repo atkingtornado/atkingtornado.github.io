@@ -1,6 +1,8 @@
 #mapid { height: 100%; }
 
-
+body{
+	overflow-x: hidden;
+}
 
 .panel {
   box-shadow: rgba(0, 0, 0, 0.65098) 0px 1px 5px;
