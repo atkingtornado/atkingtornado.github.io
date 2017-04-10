@@ -175,10 +175,11 @@ span{
   border-bottom: 2px solid rgba(25,25,25,0.40);
 }
 #img-container{
+  box-shadow: 0 1px 5px rgba(0,0,0,0.65);
   background:rgba(50,50,50,0.85);
   position:absolute;
-  width: 50%;
-  height: 50%;
+  width: 85%;
+  height: 85%;
   z-index: 9999;
   margin: auto;
   top: 0;
@@ -190,14 +191,82 @@ span{
 }
 #screenshot{
   position: absolute;
-    max-width: 85%;
-    max-height: 85%;
+    max-width: 75%;
+    max-height: 75%;
     margin: auto;
     top: 0;
     right: 0;
-    bottom: 0;
+    bottom: 30px;
     left: 0;
 }
+#savePNG{
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
+.button {
+  display: flex;
+  overflow: hidden;
+
+  margin: 0px;
+  padding: 12px 12px;
+
+  cursor: pointer;
+  user-select: none;
+  transition: all 60ms ease-in-out;
+  text-align: center;
+  white-space: nowrap;
+  text-decoration: none !important;
+  text-transform: none;
+  text-transform: capitalize;
+
+  color: #fff;
+  border: 0 none;
+  border-radius: 4px;
+
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.3;
+
+  -webkit-appearance: none;
+  -moz-appearance:    none;
+  appearance:         none;
+ 
+  justify-content: center;
+  align-items: center;
+  flex: 0 0 160px;
+
+  &:hover {
+    transition: all 60ms ease;
+    background: #064678;
+
+    opacity: .85;
+  }
+  
+  &:active {
+    transition: all 60ms ease;
+    opacity: .75;
+  }
+  
+  &:focus {
+    outline: 1px dotted #959595;
+    outline-offset: -4px;
+  }
+}
+
+.button.-dark {
+  color: #f4f4f4;
+  background: #2074B6;
+  
+   &:focus {
+    outline: 1px dotted white;
+    outline-offset: -4px;
+  }
+  &:hover {
+   background: #064678;
+  }
+}
+
 #layers-link{
 /*      box-shadow: 0 1px 5px rgba(0,0,0,0.65);*/
     position: fixed;
@@ -267,6 +336,7 @@ span{
 
 
 .img-close{
+    cursor: pointer;
     float: right;
     color: #f4f4f4;
     padding: 5px;

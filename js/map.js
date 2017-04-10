@@ -14,29 +14,64 @@ $(document).ready(function(){
 	var num_times = 15
 	var preload_finished = false
 	var preload_ongoing = false
+
+	function downloadCanvas(link, canvasId, filename) {
+	    link.href = document.getElementById(canvasId).toDataURL();
+	    link.download = filename;
+	}
 	function takeScreenshot(){
 		toggleUI()
+		refreshLayers()
 		$('#img-container').fadeIn('fast')
-		html2canvas(document.getElementById("mapid"), {
-	        useCORS: true,
-	        preferCanvas: true,
-	        onrendered: function(canvas) {
-	        	var img_width = $('#img-container').width()
-	        	var img_height = $('#img-container').height()
-                var extra_canvas = document.createElement("canvas");
-                extra_canvas.setAttribute('width',img_width);
-                extra_canvas.setAttribute('height',img_height);
-                var ctx = extra_canvas.getContext('2d');
-                ctx.drawImage(canvas,0,0,canvas.width, canvas.height,0,0,img_width,img_height);
-                var dataURL = extra_canvas.toDataURL();
-                var img = $('#screenshot');
-                img.attr('src', dataURL);
-                // insert the thumbnail at the top of the page
-                $('#img-container').append(img);	      
-                
+		$('#screenshot').hide()
+		var opts = {
+		  lines: 9 // The number of lines to draw
+		, length: 43 // The length of each line
+		, width: 15 // The line thickness
+		, radius: 39 // The radius of the inner circle
+		, scale: 0.75 // Scales overall size of the spinner
+		, corners: 1 // Corner roundness (0..1)
+		, color: '#f4f4f4' // #rgb or #rrggbb or array of colors
+		, opacity: 0.25 // Opacity of the lines
+		, rotate: 0 // The rotation offset
+		, direction: 1 // 1: clockwise, -1: counterclockwise
+		, speed: 1.1 // Rounds per second
+		, trail: 78 // Afterglow percentage
+		, fps: 20 // Frames per second when using setTimeout() as a fallback for CSS
+		, zIndex: 2e9 // The z-index (defaults to 2000000000)
+		, className: 'spinner' // The CSS class to assign to the spinner
+		, top: '50%' // Top position relative to parent
+		, left: '50%' // Left position relative to parent
+		, shadow: false // Whether to render a shadow
+		, hwaccel: false // Whether to use hardware acceleration
+		, position: 'absolute' // Element positioning
+		}
+		var target = document.getElementById('img-container')
+		var spinner = new Spinner(opts).spin(target);
 
-		      }
-	    });
+
+		var layer_opacity  = parseFloat($( "#opacity_" +  active_layer).text().replace('%',''))/100.0 
+		layer_opacities=[1.0,layer_opacity, 0.3, 0.5]
+		leafletImage(map,layer_opacities, function(err, canvas) {
+		    // now you have canvas
+		    // example thing to do with that canvas:
+		    var img = $('#screenshot');
+		    var link = $('#img-link');
+		    var dimensions = map.getSize();
+		    img.width = dimensions.x;
+		    img.height = dimensions.y;
+		    dataURL= canvas.toDataURL("image/png");
+
+		    img.attr('src', dataURL);
+		    link.attr('href', dataURL);
+		    link.attr('download', active_layer+'.png');
+		    spinner.stop()
+			$('#img-container').append(img);
+			$('#screenshot').fadeIn()
+
+		});
+
+
 	}
 
 	function refreshLayers(){
@@ -108,6 +143,7 @@ $(document).ready(function(){
 		}
 
 	}
+	var justPaused = false
 	function startLoop(){
 		tile_loop = false
 		
@@ -117,16 +153,19 @@ $(document).ready(function(){
 
     		var tile_loop = setInterval(function(){ 
     			var curr_step = time_slider.getStep()[0]
-    			if (curr_step == num_times){
+
+    			if(justPaused) {
+
+    				time_slider.setStep(0,snap=false)  
+    				justPaused = false
+    			}	
+    			else if (curr_step == num_times){
     				clearInterval(tile_loop)
-
-					time_slider.setStep(0,0,snap=false) 
 					pauseLoop()
-
     			}
     			else{
     				time_slider.setStep(curr_step+1,0,snap=false)  
-    			}	
+    			}
 			   
 			}, loop_speed);
 			
@@ -134,6 +173,7 @@ $(document).ready(function(){
 		return tile_loop
 	}
 	function pauseLoop(){
+		justPaused = true
 		setTimeout(function(){
 			if (tile_loop != false){
 				tile_loop = startLoop()
@@ -483,7 +523,10 @@ $(document).ready(function(){
     	toggleUI()
     	$('#img-container').fadeOut('fast')
     	var img = $('#screenshot');
+    	var link = $('#img-link');
         img.attr('src', '');
+        link.attr('href', '');
+        link.attr('download', '');
     });
 
     $('.dropdown-header').click(function(){
@@ -622,8 +665,9 @@ $(document).ready(function(){
         layers: [basemap,basemap_lines, coastlines],
         attributionControl: false,
         preferCanvas: true,
-        fadeAnimation: false
+        fadeAnimation: true
     });
+
 
 	$('#fullscreen-link').on('click', function(){
 		if(!$('#fullscreen-link').hasClass('disabled')){
@@ -839,7 +883,7 @@ $(document).ready(function(){
                 if (prev_scrub_tick != false && menuIsOpen != true){
                     addMapLayer('http://wms.ssec.wisc.edu/products/'+active_layer + '_' + date + '_' + time+'/{z}/{x}/{y}.png', active_layer, 1,true)
 
-                    if (prev_layers.length > 2){
+                    if (prev_layers.length > 3){
                         map.removeLayer(prev_layers[0])
                         prev_layers.shift()
                     }
