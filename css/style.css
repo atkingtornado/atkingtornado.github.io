@@ -520,6 +520,7 @@ span{
     display: none;
 }
 #time_spinner_view{
+width: 35px;
   padding:5px;
 }
 #play-button{
