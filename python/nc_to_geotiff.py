@@ -161,7 +161,7 @@ if __name__ == '__main__':
 
     # Make output directory if it doesn't exist
     out_dir = os.path.join(args.out_dir, 'GOES16_{band}/{domain}/{time}/ '.format(band=band,
-                                                                                  time=date.strftime('%Y%m%d_%H%M'),
+                                                                                  time=date.strftime('%Y%m%d_%H%M%S'),
                                                                                   domain=domain))
     if os.path.exists(out_dir):
         sys.exit()  # File already processed
