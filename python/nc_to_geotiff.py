@@ -15,6 +15,7 @@ from datetime import datetime
 from glob import glob
 from netCDF4 import Dataset
 from shutil import rmtree
+from time import sleep
 
 LEVELS = '0-9'
 
@@ -84,8 +85,9 @@ def nc_to_tiff(nc_file, out_dir):
     dst_ds.FlushCache()  # write to disk
 
     del dst_ds
+    nc.close()
 
-    return fname, attrs
+    return fname
 
 
 def make_json(name, root_dir, scour_hours):
@@ -110,29 +112,43 @@ def make_json(name, root_dir, scour_hours):
     # Write out the json
     j = {'times': avail_dates}
     with open(os.path.join(root_dir, name), 'w') as f:
-        json.dump(j, f)
+        f.write('func({text})'.format(text=json.dumps(j)))
+
+
+def get_nc_info(in_file):
+    nc = Dataset(in_file)
+
+    # Get the netcdf attributes
+    attrs = {}
+    for key in nc.ncattrs():
+        attrs.update({key: nc.getncattr(key)})
+
+    nc.close()
+    return attrs
 
 
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('-i', action='store', dest='in_file', help='Input File')
+    parser.add_argument('-i', action='store', dest='in_dir', help='Directory to look for new files in')
     parser.add_argument('-o', action='store', dest='out_dir', help='Output directory')
     parser.add_argument('-s', action='store', dest='scour', type=int, help='Number of hours to keep')
     args = parser.parse_args()
 
-    if 'partial' in args.in_file:
-        print("Only a partial file, don't process this")
-        sys.exit()
+    files = glob(os.path.join(args.in_dir, '*.nc4'))
+
+    files.sort()
+    print(files)
+    in_file = files[-1]
+
+    while 'partial' in in_file:
+        sleep(20)
 
     # Get the directory containing the necessary gdal scripts
     bin_dir = '{exec_prefix}/bin/'.format(exec_prefix=sys.exec_prefix)
 
-    # Make a temporary directory to store the tiff
-    tmp_dir = tempfile.TemporaryDirectory()
-
-    # Create the tiff
-    tiff, info = nc_to_tiff(args.in_file, tmp_dir.name)
+    # Get info from the netcdf so we can check if it's already processed
+    info = get_nc_info(in_file)
 
     band = str(info['channel_id']).zfill(2)
     date = datetime.strptime(info['start_date_time'], '%Y%j%H%M%S')
@@ -142,19 +158,37 @@ if __name__ == '__main__':
     out_dir = os.path.join(args.out_dir, 'GOES16_{band}/{domain}/{time}/ '.format(band=band,
                                                                                   time=date.strftime('%Y%m%d_%H%M'),
                                                                                   domain=domain))
-    if not os.path.exists(out_dir):
+    if os.path.exists(out_dir):
+        sys.exit()  # File already processed
+    else:
         os.makedirs(out_dir)
 
-    # TODO - Use subprocess, not os.system
-    cmd = '{bin}/gdal2tiles.py -z {levels} --srcnodata=255,255,255 {tiff} {out_dir}'
-    cmd = cmd.format(bin=bin_dir, levels=LEVELS, tiff=tiff, out_dir=out_dir)
-    os.system(cmd)
+    # Make a temporary directory to store the tiff
+    tmp_dir = tempfile.TemporaryDirectory()
 
-    # Get rid of the temp stuff
+    try:
+
+
+        # Create the tiff
+        tiff = nc_to_tiff(in_file, tmp_dir.name)
+
+        # TODO - Use subprocess, not os.system
+        cmd = '{bin}/gdal2tiles.py -z {levels} --srcnodata=255,255,255 {tiff} {out_dir}'
+        cmd = cmd.format(bin=bin_dir, levels=LEVELS, tiff=tiff, out_dir=out_dir)
+        os.system(cmd)
+
+
+        # Scour directory and create a json file from what's left
+        directory = os.path.join(args.out_dir, 'GOES16_{band}/{domain}/'.format(band=band,
+                                                                                domain=domain))
+        json_fn = 'GOES16_{band}_{domain}.json'.format(band=band, domain=domain)
+        make_json(json_fn, directory, args.scour)
+    except Exception as e:
+        # Get rid of the temp stuff
+        tmp_dir.cleanup()
+
+        # Want to get rid of the output directory so it is able to try again
+        rmtree(out_dir)
+
+    # Clean up the temporary stuff
     tmp_dir.cleanup()
-
-    # Scour directory and create a json file from what's left
-    directory = os.path.join(args.out_dir, 'GOES16_{band}/{domain}/'.format(band=band,
-                                                                            domain=domain))
-    json_fn = 'GOES16_{band}_{domain}.json'.format(band=band, domain=domain)
-    make_json(json_fn, directory, args.scour)
