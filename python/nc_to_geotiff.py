@@ -138,11 +138,14 @@ if __name__ == '__main__':
     files = glob(os.path.join(args.in_dir, '*.nc4'))
 
     files.sort()
-    print(files)
     in_file = files[-1]
 
     while 'partial' in in_file:
-        sleep(20)
+        sleep(5)
+        files = glob(os.path.join(args.in_dir, '*.nc4'))
+
+        files.sort()
+        in_file = files[-1]
 
     # Get the directory containing the necessary gdal scripts
     bin_dir = '{exec_prefix}/bin/'.format(exec_prefix=sys.exec_prefix)
