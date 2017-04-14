@@ -19,6 +19,7 @@ from time import sleep
 
 LEVELS = '0-9'
 
+
 def nc_to_tiff(nc_file, out_dir):
 
     nc = Dataset(nc_file)
@@ -110,8 +111,9 @@ def make_json(name, root_dir, date, scour_hours):
             # Must be another process kicked off after this one, so don't add it
             pass
         else:  # If not add it to the json
-            avail_dates.append(dt.strftime('%Y%m%d.%H%M00'))
+            avail_dates.append(dt.strftime('%Y%m%d_%H%M00'))
 
+    avail_dates.sort()
     # Write out the json
     j = {'times': avail_dates}
     with open(os.path.join(root_dir, name), 'w') as f:
