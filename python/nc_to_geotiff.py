@@ -90,7 +90,7 @@ def nc_to_tiff(nc_file, out_dir):
     return fname
 
 
-def make_json(name, root_dir, scour_hours):
+def make_json(name, root_dir, date, scour_hours):
     # Get the directory names, should be of format %Y%m%d_%H%M
     dirs = os.listdir(root_dir)
 
@@ -106,6 +106,9 @@ def make_json(name, root_dir, scour_hours):
         # If this directory's valid time out of the keeper range, delete it
         if (datetime.now()-dt).total_seconds() > scour_hours*3600:
             rmtree(os.path.join(root_dir, dir))
+        elif dt > date:
+            # Must be another process kicked off after this one, so don't add it
+            pass
         else:  # If not add it to the json
             avail_dates.append(dt.strftime('%Y%m%d.%H%M00'))
 
@@ -185,7 +188,7 @@ if __name__ == '__main__':
         directory = os.path.join(args.out_dir, 'GOES16_{band}/{domain}/'.format(band=band,
                                                                                 domain=domain))
         json_fn = 'GOES16_{band}_{domain}.json'.format(band=band, domain=domain)
-        make_json(json_fn, directory, args.scour)
+        make_json(json_fn, directory, date, args.scour)
     except Exception as e:
         # Get rid of the temp stuff
         tmp_dir.cleanup()
