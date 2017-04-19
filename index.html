@@ -50,7 +50,20 @@
                 <h3>Layers</h3>
                     <a href="#menu" id='layers-close' class="close menu-link vibrate"><i class="fa fa-times fa-2x" aria-hidden="true"></i></a>
                 </div> 
-                <div class='scroll-div'>                
+                <div class='scroll-div'> 
+                    <div id='test-dropdown' class='layer-dropdown'>
+
+                        <div class='dropdown-header '>
+                            <h3>Mesoscale-Test</h3> <div class='layer-dropdown-arrow'> <i style='color: white;' class="fa fa-chevron-down fa-2x"></i></div>
+                        </div>
+                        <div class='layer-dropdown-content' id='visible'>
+                            <div id='mesoscale-test' class='single_toggle toggles'>
+                                <h4 class='toggle-label'>Mesoscale Band 7 Test</h4>
+                                <input data-layer-info='GOES-16 Band 7: Shortwave Window IR' id="mesoscale_test_toggle" class="cmn-toggle cmn-toggle-round-flat vibrate-toggle" type="checkbox">
+                                <label for="mesoscale_test_toggle"></label>
+                            </div>
+                        </div>
+                    </div>                 
                     <div id='visible-dropdown' class='layer-dropdown'>
 
                         <div class='dropdown-header '>
@@ -62,7 +75,7 @@
                                 <input data-layer-info='GOES-16 Band 1: Blue Visible ' id="goes16_1_toggle" class="cmn-toggle cmn-toggle-round-flat vibrate-toggle" type="checkbox">
                                 <label for="goes16_1_toggle"></label>
                             </div>
-                            <div id='GOES16_02' class='single_toggle toggles'>
+                            <div id='G16-ABI-FD-BAND02' class='single_toggle toggles'>
                                 <h4 class='toggle-label'>GOES-16 Red Visible Band</h4>
                                 <input data-layer-info='GOES-16 Band 2: Red Visible' id="goes16_2_toggle" class="cmn-toggle cmn-toggle-round-flat vibrate-toggle" type="checkbox">
                                 <label for="goes16_2_toggle"></label>
@@ -186,13 +199,13 @@
                     <div class='sectors-container '>  
                         <div class='sectors-div' id='goes-sectors'>
                             <h3>GOES-16 Sector</h3>
-                            <div id='CONUS' class='sector-select goes-sector-select sector-selected'>
+                            <div class='sector-select goes-sector-select sector-selected'>
                                 <h4>CONUS</h4>
                             </div>
-                            <div id='Mesoscale-1' class='sector-select goes-sector-select'>
+                            <div class='sector-select goes-sector-select'>
                                 <h4>Mesoscale 1</h4>
                             </div>
-                            <div id='Mesoscale-2' class='sector-select goes-sector-select'>
+                            <div class='sector-select goes-sector-select'>
                                 <h4>Mesoscale 2</h4>
                             </div>
                         </div>
@@ -227,7 +240,7 @@
                         <h3>Loop Options</h3>  
                         <div id='speedscrubber' class='toggles'>
                             <h4>Loop Speed</h4>
-                            <p class="speed-display">10 FPS</p>
+                            <p class="speed-display">5 FPS</p>
                         </div>
                         <div id='framesscrubber' class='toggles'>
                             <h4>Number of Frames</h4>

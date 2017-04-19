@@ -1,7 +1,15 @@
 $(document).ready(function(){
 
 
-
+ //    $.ajax({
+	//     url: 'http://sharp.weather.ou.edu/tbell/GOES16_07/Mesoscale-1/GOES16_07_Mesoscale-1.json?jsoncallback=?',
+	//     dataType: 'JSONP',
+	//     jsonpCallback: 'callback',
+	//     type: 'GET',
+	//     success: function (data) {
+	//         console.log(data);
+	//     }
+	// });
 	L_PREFER_CANVAS=true;
 	var num_times = 15
 	var preload_finished = false
@@ -62,89 +70,25 @@ $(document).ready(function(){
 			$('#screenshot').fadeIn()
 
 		});
-	}
 
-	function getLayerTimes(layerid,callback){
-		$.ajax({
-		    url: 'http://sharp.weather.ou.edu/tbell/' + layerid + '/' + selected_goes_sector + '/' + layerid + '_' + selected_goes_sector + '.json',
-		    dataType: 'JSONP',
-		    jsonpCallback: 'func',
-		    type: 'GET',
-		    success: function (data) {
 
-		    	if (num_times > data.times.length){
-					num_times = data.times.length
-				}
-
-		        all_times  = data.times.sort().slice(data.times.length-num_times, data.times.length)
-	            times_length = all_times.length
-
-	            time_slider.options.steps = times_length;
-	            time_slider.stepRatios = time_slider.calculateStepRatios();
-	            prev_scrub_tick = false
-	            time_slider.setStep(times_length, 0, snap=false)
-
-	            callback(all_times)
-		    }
-		});
 	}
 
 	function refreshLayers(){
 		if (active_layer != false){
-			getLayerTimes(active_layer,function(all_times){
-				active_times = all_times
-				var url_date_time = active_times[active_times.length-1]
-				console.log(url_date_time)
-				console.log(active_times)
-				var url = 'http://sharp.weather.ou.edu/tbell/' + active_layer + '/' + selected_goes_sector  + '/' + url_date_time + '/{z}/{x}/{-y}.png'
-				var layer_opacity  = parseFloat($( "#opacity_" +  active_layer).text().replace('%',''))/100.0 
+			var url = curr_layer._url
+		    var layer_opacity  = parseFloat($( "#opacity_" +  active_layer).text().replace('%',''))/100.0 
 
-				map.removeLayer(curr_layer)
-				all_layers.shift()
-				addMapLayer(url,prev_layerid,opacity=layer_opacity)
-				
-				var date_time = url_date_time.split('_')
-				date = date_time[0]
-                time = date_time[1]
-
-                year = date.substring( 0, 4 )
-                month = date.substring( 4, 6 )
-                day = date.substring( 6, 8 )
-                hh = time.substring( 0, 2 )
-                mm = time.substring( 2, 4 )
-                ss = time.substring( 4, 6 )
-
-                date_time_string = year+'-'+month+'-'+day+' '+hh+':'+mm+':'+ss+ ' UTC'
-
-
-                if (!$('#UTC_toggle').prop('checked')){
-                	$('#time').text(date_time_string);
-                }
-                else{
-                	var userdate = new Date(date_time_string);
-					timezone = userdate.toString().match(/\(([A-Za-z\s].*)\)/)[1]
-					year =  userdate.getFullYear()
-	                month = ('0' + (parseInt(userdate.getMonth())+1).toString()).slice(-2)
-	                day = userdate.getDate()
-					hh = ('0' + userdate.getHours()).slice(-2)
-					mm = ('0' + userdate.getMinutes()).slice(-2)
-					ss = ('0' + userdate.getSeconds()).slice(-2)
-
-					date_time_string = year+'-'+month+'-'+day+' '+hh+':'+mm+':'+ss+ ' ' + timezone
-					$('#time').text(date_time_string);
-                }
-			})
+			map.removeLayer(curr_layer)
+			all_layers.shift()
+			addMapLayer(url,prev_layerid,opacity=layer_opacity)
 		}
 	}
 
 	function addLoopLayer(layer, callback) {
-
 		if(preload_ongoing != false){
 			layer.on('load',function(){
-				setTimeout(function(){
-					map.removeLayer(layer)
-				},100)
-				
+				map.removeLayer(layer)
 				callback();
 			})	 
 			map.addLayer(layer)	
@@ -175,14 +119,19 @@ $(document).ready(function(){
 			$('#play').hide()
 			$('#time_spinner').show()
 
+			if (num_times > active_times.length){
+				num_times = active_times.length
+			}
 			
 			load_layers = []
 			for(i=0;i<num_times;i++){
-				console.log('here')
 
-				var url_date_time = active_times[i]
+				curr_time = active_times[i]
+	            date_time = curr_time.split('.')
+	            date = date_time[0]
+	            time = date_time[1]
 
-				load_layer = L.tileLayer('http://sharp.weather.ou.edu/tbell/' + active_layer + '/' + selected_goes_sector  + '/' + url_date_time + '/{z}/{x}/{-y}.png')
+				load_layer = L.tileLayer('http://wms.ssec.wisc.edu/products/'+active_layer + '_' + date + '_' + time+'/{z}/{x}/{y}.png')
 	 			load_layer.setOpacity(0.0); 
 	 			load_layers.push(load_layer)
 			}
@@ -316,10 +265,7 @@ $(document).ready(function(){
 
 	//Function to add layer to map and perform required actions
 	function addMapLayer(url,layerid,opacity=0.75,timelayer=false) {
-    	curr_layer = L.tileLayer(url,{
-			bounds:bounds,
-			reuseTiles : true
-			});
+    	curr_layer = L.tileLayer(url);
 
 	    if(timelayer == false){
 
@@ -335,6 +281,15 @@ $(document).ready(function(){
 		    prev_layers.push(curr_layer);
 		    all_layers.push(curr_layer);
 		    active_layer = layerid
+		   	$.getJSON("https://realearth.ssec.wisc.edu/api/products?products=" + active_layer, function( data ) {
+	            active_times = data[0].times.slice(data[0].times.length-num_times, data[0].times.length)
+	            times_length = active_times.length
+
+	            time_slider.options.steps = times_length;
+	            time_slider.stepRatios = time_slider.calculateStepRatios();
+	            prev_scrub_tick = false
+	            time_slider.setStep(times_length, 0, snap=false)
+	        });
 	    }
 	    else{
 	    	curr_layer.setOpacity(opacity);  
@@ -356,12 +311,11 @@ $(document).ready(function(){
       $('.leaflet-control-locate').toggleClass('transform-active-right');
       $('#time_control_container').toggleClass('transform-active');
       $('#options_container').toggleClass('transform-active-right');
-      $('.leaflet-control-attribution').toggleClass('transform-active');
      }
 
 	//Things to do on page load
 	var speedscrubber = new ScrubberView();
-	speedscrubber.min(1).max(20).step(1).value(10);
+	speedscrubber.min(1).max(20).step(1).value(5);
 	$('#speedscrubber').append(speedscrubber.elt);
 	var loop_speed = loop_speed = 1000 * (1/(speedscrubber.value()))
 
@@ -481,29 +435,10 @@ $(document).ready(function(){
     	}
     })
 
-    var selected_goes_sector = 'CONUS'
-   	var southWest = L.latLng(17.837604, -127.089844)
-	var northEast = L.latLng(52.605133, -51.855469)
-	var bounds = L.latLngBounds(southWest, northEast);
 
     var $goes_sector = $('.goes-sector-select').on('touchstart click',function() {
 	    $goes_sector.removeClass('sector-selected');
 	    $(this).addClass('sector-selected');
-	    selected_goes_sector = $(this)[0].id
-
-	    if (selected_goes_sector=='CONUS'){
-	    	var southWest = L.latLng(17.837604, -127.089844)
-			var northEast = L.latLng(52.605133, -51.855469)
-	    }
-	    else if (selected_goes_sector=='Mesoscale-1'){
-	    	var southWest = L.latLng(31.887615, -83.611450)
-			var northEast = L.latLng(46.492011, -65.291748)
-	    }
-	    bounds = L.latLngBounds(southWest, northEast);
-
-	 //    southWest = L.latLng(13.02504085518189, 80.23609399795532),
-		// northEast = L.latLng(13.026849183135116, 80.23797690868378),
-
 	});
 	var $zoom_sector = $('.sector-zoom').on('touchstart click',function() {
 	    $zoom_sector.removeClass('sector-selected');
@@ -712,19 +647,15 @@ $(document).ready(function(){
 
 
     //Initialize map
-    var basemap = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', {
-        maxZoom: 18, 
-        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy; <a href="https://carto.com/attribution">CARTO</a>'
-      })
+    var basemap = L.tileLayer.provider('CartoDB.Positron')
     var basemap_lines = L.tileLayer.provider('Stamen.TonerLines')
-    //var coastlines = L.tileLayer('http://map1.vis.earthdata.nasa.gov/wmts-webmerc/Coastlines/default/2014-08-20/GoogleMapsCompatible_Level9/{z}/{y}/{x}.png')
+    var coastlines = L.tileLayer('http://map1.vis.earthdata.nasa.gov/wmts-webmerc/Coastlines/default/2014-08-20/GoogleMapsCompatible_Level9/{z}/{y}/{x}.png')
     
-
     basemap_lines.setZIndex(999);
-    basemap_lines.setOpacity(0.5);
+    basemap_lines.setOpacity(0.3);
 
-    // coastlines.setZIndex(998);
-    // coastlines.setOpacity(0.5);
+    coastlines.setZIndex(998);
+    coastlines.setOpacity(0.5);
 
     var test = L.tileLayer('test_dir/{z}/{x}/{-y}.png');
     
@@ -732,13 +663,11 @@ $(document).ready(function(){
         zoomControl: false,
         center: [40.31304, -98.78906],
         zoom: 5,
-        layers: [basemap,basemap_lines],
-        attributionControl: true,
+        layers: [basemap,basemap_lines, coastlines],
+        attributionControl: false,
         preferCanvas: true,
         fadeAnimation: false
     });
-
-    $('.leaflet-control-attribution').addClass('transform');
 
 
 	$('#fullscreen-link').on('click', function(){
@@ -819,27 +748,15 @@ $(document).ready(function(){
           $('#layer-info').text('')
         }
 
-
-
         if(prev_layerid==layerid || !prev_layerid){
             if(this.checked) {
+            	
+            	prev_ndx = addMapLayer('http://wms.ssec.wisc.edu/products/'+layerid+'/{z}/{x}/{y}.png',layerid)
 
-            	var parent_id =  $(this).parent()[0].id
-            	var parent_obj = $(this).parent()[0]
-            	getLayerTimes(layerid,function(all_times){
-            		active_times = all_times
-
-	            	
-	            	var url_date_time = active_times[active_times.length-1]
-	            	prev_ndx = addMapLayer('http://sharp.weather.ou.edu/tbell/' + layerid + '/' + selected_goes_sector  + '/' + url_date_time + '/{z}/{x}/{-y}.png',layerid)
-
-	    			$('<div class="opacity-div" id=opacity_' + parent_id+ '></div>').insertAfter(parent_obj);
-	                $('#opacity_' + parent_id).html('<p class=opacity-display id=opacity_display_' + parent_id + '>60%</p>');
-	                $('#opacity_' + parent_id).append(opacityscrubber.elt);
-	                $('#time_container').show()
-
-            	})
-
+                $('<div class="opacity-div" id=opacity_' + $(this).parent()[0].id + '></div>').insertAfter($(this).parent()[0]);
+                $('#opacity_' + $(this).parent()[0].id).html('<p class=opacity-display id=opacity_display_' + $(this).parent()[0].id + '>60%</p>');
+                $('#opacity_' + $(this).parent()[0].id).append(opacityscrubber.elt);
+                $('#time_container').show()
             }else{
                 map.removeLayer(all_layers[prev_ndx])
                 active_layer = false
@@ -855,12 +772,7 @@ $(document).ready(function(){
                 $('#opacity_' + $(this).parent()[0].id).remove()
             }
         }else{
-        	getLayerTimes(layerid,function(all_times){
-        		active_times = all_times
-            	var url_date_time = active_times[active_times.length-1]
-            	prev_ndx = addMapLayer('http://sharp.weather.ou.edu/tbell/' + layerid + '/' + selected_goes_sector  + '/' + url_date_time + '/{z}/{x}/{-y}.png',layerid)
-        	})
-			console.log(all_layers)
+        	prev_ndx = addMapLayer('http://wms.ssec.wisc.edu/products/'+layerid+'/{z}/{x}/{y}.png',layerid)
             map.removeLayer(all_layers[prev_ndx-1])
 
             $('<div id=opacity_' + $(this).parent()[0].id + '></div>').insertAfter($(this).parent()[0]);
@@ -938,7 +850,7 @@ $(document).ready(function(){
                 prev_scrub_tick = value
 
                 curr_time = active_times[value]
-                date_time = curr_time.split('_')
+                date_time = curr_time.split('.')
 
                 date = date_time[0]
                 time = date_time[1]
@@ -970,8 +882,9 @@ $(document).ready(function(){
 					$('#time').text(date_time_string);
                 }
                 if (prev_scrub_tick != false && menuIsOpen != true){
-                	addMapLayer('http://sharp.weather.ou.edu/tbell/' + active_layer + '/' + selected_goes_sector  + '/' +curr_time + '/{z}/{x}/{-y}.png',active_layer,1,true)
-                    if (prev_layers.length > 3){
+                    addMapLayer('http://wms.ssec.wisc.edu/products/'+active_layer + '_' + date + '_' + time+'/{z}/{x}/{y}.png', active_layer, 1,true)
+
+                    if (prev_layers.length > 4){
                         map.removeLayer(prev_layers[0])
                         prev_layers.shift()
                     }
