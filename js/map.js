@@ -94,8 +94,6 @@ $(document).ready(function(){
 			getLayerTimes(active_layer,function(all_times){
 				active_times = all_times
 				var url_date_time = active_times[active_times.length-1]
-				console.log(url_date_time)
-				console.log(active_times)
 				var url = 'http://sharp.weather.ou.edu/tbell/' + active_layer + '/' + selected_goes_sector  + '/' + url_date_time + '/{z}/{x}/{-y}.png'
 				var layer_opacity  = parseFloat($( "#opacity_" +  active_layer).text().replace('%',''))/100.0 
 
@@ -138,12 +136,11 @@ $(document).ready(function(){
 	}
 
 	function addLoopLayer(layer, callback) {
-
 		if(preload_ongoing != false){
 			layer.on('load',function(){
-				setTimeout(function(){
-					map.removeLayer(layer)
-				},100)
+				// setTimeout(function(){
+				// 	map.removeLayer(layer)
+				// },100)
 				
 				callback();
 			})	 
@@ -168,6 +165,7 @@ $(document).ready(function(){
 	    }); 
 	}
 	var x = 0;
+	var load_layers = []
 	function preLoadLoop(){
 		if (active_layer != false){
 			preload_ongoing = true
@@ -175,14 +173,14 @@ $(document).ready(function(){
 			$('#play').hide()
 			$('#time_spinner').show()
 
-			
-			load_layers = []
 			for(i=0;i<num_times;i++){
-				console.log('here')
-
 				var url_date_time = active_times[i]
 
-				load_layer = L.tileLayer('http://sharp.weather.ou.edu/tbell/' + active_layer + '/' + selected_goes_sector  + '/' + url_date_time + '/{z}/{x}/{-y}.png')
+				load_layer = L.tileLayer('http://sharp.weather.ou.edu/tbell/' + active_layer + '/' + selected_goes_sector  + '/' + url_date_time + '/{z}/{x}/{-y}.png',{
+					bounds:bounds,
+					reuseTiles : true,
+					maxNativeZoom:9
+					});
 	 			load_layer.setOpacity(0.0); 
 	 			load_layers.push(load_layer)
 			}
@@ -202,21 +200,46 @@ $(document).ready(function(){
     		$('#time_spinner').hide()
     		$('#pause').show()
 
+    		var layer_opacity  = parseFloat($( "#opacity_" +  active_layer).text().replace('%',''))/100.0 
+    		loopndx = 0
+
     		var tile_loop = setInterval(function(){ 
-    			var curr_step = time_slider.getStep()[0]
-
-    			if(justPaused) {
-
-    				time_slider.setStep(0,snap=false)  
-    				justPaused = false
-    			}	
-    			else if (curr_step == num_times){
+				if(loopndx == num_times){    				
     				clearInterval(tile_loop)
-					pauseLoop()
+    				pauseLoop()
+    			}
+    			else if (loopndx == 0){
+    				load_layers[loopndx].setOpacity(100)
+    				if(justPaused){
+    					load_layers[num_times-1].setOpacity(0)
+    				}
+    				setTimeDisplay(active_times[loopndx])
+    				// else{
+    				// 	map.removeLayer(curr_layer)
+    				// }
     			}
     			else{
-    				time_slider.setStep(curr_step+1,0,snap=false)  
+    				load_layers[loopndx].setOpacity(100)
+    				load_layers[loopndx-1].setOpacity(0)
+    				setTimeDisplay(active_times[loopndx])
     			}
+    			
+    			loopndx+=1
+
+    	// 		var curr_step = time_slider.getStep()[0]
+
+    	// 		if(justPaused) {
+
+    	// 			time_slider.setStep(0,snap=false)  
+    	// 			justPaused = false
+    	// 		}	
+    	// 		else if (curr_step == num_times){
+    	// 			clearInterval(tile_loop)
+					// pauseLoop()
+    	// 		}
+    	// 		else{
+    	// 			time_slider.setStep(curr_step+1,0,snap=false)  
+    	// 		}
 			   
 			}, loop_speed);
 			
@@ -233,11 +256,16 @@ $(document).ready(function(){
 
 	}
 	function stopLoop(loop){
+		while(load_layers.length > 0){
+            map.removeLayer(load_layers[0])
+            load_layers.shift()
+        }
+        setTimeDisplay(active_times[num_times-1])
 		tile_loop = false
 		preload_finished = false
 		if(loop_move == false){
 			$('.handle').css('opacity','100')
-			time_slider.setStep(times_length, 0, snap=false)
+			// time_slider.setStep(times_length, 0, snap=false)
 			$('#play').show()
     		$('#pause').hide()
 		}
@@ -248,10 +276,44 @@ $(document).ready(function(){
 		}
 
     	 clearInterval(loop);
-    	 setTimeout(function(){
-			time_slider.callDragStopCallback(1);
-		},200)
+  //   	 setTimeout(function(){
+		// 	time_slider.callDragStopCallback(1);
+		// },200)
     	return false
+	}
+
+	function setTimeDisplay(time){
+	   	curr_time = time
+        date_time = curr_time.split('_')
+
+        date = date_time[0]
+        time = date_time[1]
+
+        year = date.substring( 0, 4 )
+        month = date.substring( 4, 6 )
+        day = date.substring( 6, 8 )
+        hh = time.substring( 0, 2 )
+        mm = time.substring( 2, 4 )
+        ss = time.substring( 4, 6 )
+
+
+        if (!$('#UTC_toggle').prop('checked')){
+        	date_time_string = year+'-'+month+'-'+day+' '+hh+':'+mm+':'+ss+ ' UTC'
+        	$('#time').text(date_time_string);
+        }
+        else{
+        	var userdate = new Date(date_time_string);
+			timezone = userdate.toString().match(/\(([A-Za-z\s].*)\)/)[1]
+			year =  userdate.getFullYear()
+            month = ('0' + (parseInt(userdate.getMonth())+1).toString()).slice(-2)
+            day = userdate.getDate()
+			hh = ('0' + userdate.getHours()).slice(-2)
+			mm = ('0' + userdate.getMinutes()).slice(-2)
+			ss = ('0' + userdate.getSeconds()).slice(-2)
+
+			date_time_string = year+'-'+month+'-'+day+' '+hh+':'+mm+':'+ss+ ' ' + timezone
+			$('#time').text(date_time_string);
+        }
 	}
 
 	var tile_loop = false
@@ -285,11 +347,15 @@ $(document).ready(function(){
     $('.menu-link').on('click',function() {
     	if(tile_loop != false){
 			tile_loop = stopLoop(tile_loop)
+			
+		}
+		if(active_times != false){
+			$('#time_spinner').trigger('click')
 		}
     	clearInterval(preload_test)
     	clearInterval(preloading)
     	loop_move = false
-    	$('#time_spinner').trigger('click')
+    	
     })
     $('body').keydown(function(e){
     	key = e.key || e.keyCode || e.which
@@ -318,7 +384,8 @@ $(document).ready(function(){
 	function addMapLayer(url,layerid,opacity=0.75,timelayer=false) {
     	curr_layer = L.tileLayer(url,{
 			bounds:bounds,
-			reuseTiles : true
+			reuseTiles : true,
+			maxNativeZoom:9
 			});
 
 	    if(timelayer == false){
@@ -783,6 +850,7 @@ $(document).ready(function(){
     	clearInterval(preloading)
 		if(loop_move){
 			if(preload_ongoing){
+				preLoadLoop()
 				preloading = setInterval(function(){ 
 					if (preload_ongoing == false){
 						clearInterval(preloading)
@@ -860,7 +928,6 @@ $(document).ready(function(){
             	var url_date_time = active_times[active_times.length-1]
             	prev_ndx = addMapLayer('http://sharp.weather.ou.edu/tbell/' + layerid + '/' + selected_goes_sector  + '/' + url_date_time + '/{z}/{x}/{-y}.png',layerid)
         	})
-			console.log(all_layers)
             map.removeLayer(all_layers[prev_ndx-1])
 
             $('<div id=opacity_' + $(this).parent()[0].id + '></div>').insertAfter($(this).parent()[0]);
