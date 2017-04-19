@@ -1,8 +1,16 @@
+<<<<<<< HEAD
 body{
   overflow: hidden;
 }
 
 #mapid { height: 100%; }
+=======
+#mapid { height: 100%; }
+
+body{
+	overflow-x: hidden;
+}
+>>>>>>> origin/master
 
 .panel {
   box-shadow: rgba(0, 0, 0, 0.65098) 0px 1px 5px;
@@ -522,6 +530,7 @@ span{
     display: none;
 }
 #time_spinner_view{
+width: 35px;
   padding:5px;
 }
 #play-button{
