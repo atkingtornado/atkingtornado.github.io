@@ -1,21 +1,8 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 body{
   overflow: hidden;
 }
-
-=======
->>>>>>> parent of 6607fc4... changed data source to SHARP, some other fixes
 #mapid { height: 100%; }
-=======
-#mapid { height: 100%; }
-
-body{
-	overflow-x: hidden;
-}
->>>>>>> origin/master
-
-
 
 .panel {
   box-shadow: rgba(0, 0, 0, 0.65098) 0px 1px 5px;
