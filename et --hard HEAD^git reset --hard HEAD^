@@ -1,0 +1,29 @@
+[33mcommit 3a97ba8aa3631235b1591c570ecfd80c2a7c8245[m
+Author: atkingtornado <atkingtornado@gmail.com>
+Date:   Sun Apr 9 21:50:29 2017 -0500
+
+    fix for looping
+
+[33mcommit 325f7bab36d7f2c70d7585b105d616578881ac67[m
+Author: atkingtornado <atkingtornado@gmail.com>
+Date:   Sun Apr 9 21:47:05 2017 -0500
+
+    added shadow to menu
+
+[33mcommit 2299a30a8995b5e21f25c4004416af5994b5a77d[m
+Author: atkingtornado <atkingtornado@gmail.com>
+Date:   Sun Apr 9 19:42:44 2017 -0500
+
+    added png generation for sharing
+
+[33mcommit 3d81115edf73acbe6519acd15c72ea4ee98cdbd7[m
+Author: atkingtornado <atkingtornado@gmail.com>
+Date:   Sun Apr 9 15:25:26 2017 -0500
+
+    fix for "blur" on looping
+
+[33mcommit 7b7dcb0b7549d37267d831776fd3e55a6e17e560[m
+Author: atkingtornado <atkingtornado@gmail.com>
+Date:   Fri Apr 7 23:27:25 2017 -0500
+
+    fix for handle issue
