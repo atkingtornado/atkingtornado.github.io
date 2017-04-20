@@ -414,18 +414,18 @@ $(document).ready(function(){
         return all_layers.length-1
 	}
 	function toggleUI(){
-	  $('#scrubber_container').toggleClass('transform-active');
-      $('#time_container').toggleClass('transform-active-left');
-      $('#layers-link').toggleClass('transform-active-right');
-      $('#sectors-link').toggleClass('transform-active-right');
-      $('#options-link').toggleClass('transform-active-right');
-      $('#menu-shadow').toggleClass('transform-active-right');
-      $('#fullscreen-link').toggleClass('transform-active-right');
-      $('.leaflet-control-locate').toggleClass('transform-active-right');
-      $('#time_control_container').toggleClass('transform-active');
-      $('#options_container').toggleClass('transform-active-right');
-      $('.leaflet-control-attribution').toggleClass('transform-active');
-     }
+		$('#scrubber_container').toggleClass('transform-active');
+		$('#time_container').toggleClass('transform-active-left');
+		$('#layers-link').toggleClass('transform-active-right');
+		$('#sectors-link').toggleClass('transform-active-right');
+		$('#options-link').toggleClass('transform-active-right');
+		$('#menu-shadow').toggleClass('transform-active-right');
+		$('#fullscreen-link').toggleClass('transform-active-right');
+		$('.leaflet-control-locate').toggleClass('transform-active-right');
+		$('#time_control_container').toggleClass('transform-active');
+		$('#options_container').toggleClass('transform-active-right');
+		$('.leaflet-control-attribution').toggleClass('transform-active');
+    }
 
 	//Things to do on page load
 	var speedscrubber = new ScrubberView();
@@ -453,7 +453,7 @@ $(document).ready(function(){
     $('.menu-link').bigSlide({
         side: 'right',
     });
-    $('input[type=checkbox] .layer-dropdown').each(function () {
+    $('.cmn-toggle').each(function () {
       $(this).prop('checked', false);
     });
     $('#haptic_toggle').prop('checked', true);
@@ -485,13 +485,10 @@ $(document).ready(function(){
     	clickedOnFrameScrubber = true
     }
     framesscrubber.onScrubEnd = function(value) {
-    	console.log(clickedOnFrameScrubber)
     	if(clickedOnFrameScrubber){
 	    	num_times = value
 	    	getLayerTimes(active_layer,function(all_times){
-	        	console.log(all_times)
-	            active_times = all_times
-	        	
+	            active_times = all_times      	
 	        })
 	        clickedOnFrameScrubber = false
 	    }
