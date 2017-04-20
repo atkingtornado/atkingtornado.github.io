@@ -297,9 +297,9 @@ $(document).ready(function(){
         mm = time.substring( 2, 4 )
         ss = time.substring( 4, 6 )
 
-
+        date_time_string = year+'-'+month+'-'+day+' '+hh+':'+mm+':'+ss+ ' UTC'
         if (!$('#UTC_toggle').prop('checked')){
-        	date_time_string = year+'-'+month+'-'+day+' '+hh+':'+mm+':'+ss+ ' UTC'
+        	
         	$('#time').text(date_time_string);
         }
         else{
@@ -528,7 +528,7 @@ $(document).ready(function(){
     $('#UTC_toggle').on('change', function() {
     	if (active_times){
     		curr_time = active_times[value]
-            date_time = curr_time.split('.')
+            date_time = curr_time.split('_')
 
             date = date_time[0]
             time = date_time[1]
