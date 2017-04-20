@@ -798,14 +798,16 @@ $(document).ready(function(){
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy; <a href="https://carto.com/attribution">CARTO</a>'
       })
     var basemap_lines = L.tileLayer.provider('Stamen.TonerLines')
-    //var coastlines = L.tileLayer('http://map1.vis.earthdata.nasa.gov/wmts-webmerc/Coastlines/default/2014-08-20/GoogleMapsCompatible_Level9/{z}/{y}/{x}.png')
+    var coastlines = L.tileLayer('http://map1.vis.earthdata.nasa.gov/wmts-webmerc/Coastlines/default/2014-08-20/GoogleMapsCompatible_Level9/{z}/{y}/{x}.png',{
+    	maxNativeZoom:9
+    })
     
 
     basemap_lines.setZIndex(999);
     basemap_lines.setOpacity(0.5);
 
-    // coastlines.setZIndex(998);
-    // coastlines.setOpacity(0.5);
+    coastlines.setZIndex(998);
+    coastlines.setOpacity(0.8);
 
     var test = L.tileLayer('test_dir/{z}/{x}/{-y}.png');
     
@@ -813,7 +815,7 @@ $(document).ready(function(){
         zoomControl: false,
         center: [40.31304, -98.78906],
         zoom: 5,
-        layers: [basemap,basemap_lines],
+        layers: [basemap,basemap_lines,coastlines],
         attributionControl: true,
         preferCanvas: true,
         fadeAnimation: true
