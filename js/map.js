@@ -571,6 +571,7 @@ $(document).ready(function(){
 	    $goes_sector.removeClass('sector-selected');
 	    $(this).addClass('sector-selected');
 	    selected_goes_sector = $(this)[0].id
+	    refreshLayers()
 
 	//     if (selected_goes_sector=='CONUS'){
 	//     	var southWest = L.latLng(17.837604, -127.089844)
