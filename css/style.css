@@ -524,6 +524,7 @@ span{
 }
 #time_spinner_view{
   padding:5px;
+  width: 35px;
 }
 #play-button{
     position: absolute;
