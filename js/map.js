@@ -177,7 +177,7 @@ $(document).ready(function(){
 				var url_date_time = active_times[i]
 
 				load_layer = L.tileLayer('http://sharp.weather.ou.edu/tbell/' + active_layer + '/' + selected_goes_sector  + '/' + url_date_time + '/{z}/{x}/{-y}.png',{
-					bounds:bounds,
+					// bounds:bounds,
 					reuseTiles : true,
 					maxNativeZoom:9
 					});
@@ -384,7 +384,7 @@ $(document).ready(function(){
 	//Function to add layer to map and perform required actions
 	function addMapLayer(url,layerid,opacity=0.75,timelayer=false) {
     	curr_layer = L.tileLayer(url,{
-			bounds:bounds,
+			// bounds:bounds,
 			reuseTiles : true,
 			maxNativeZoom:9
 			});
@@ -563,27 +563,31 @@ $(document).ready(function(){
     })
 
     var selected_goes_sector = 'CONUS'
-   	var southWest = L.latLng(17.837604, -127.089844)
-	var northEast = L.latLng(52.605133, -51.855469)
-	var bounds = L.latLngBounds(southWest, northEast);
+ //   	var southWest = L.latLng(17.837604, -127.089844)
+	// var northEast = L.latLng(52.605133, -51.855469)
+	// var bounds = L.latLngBounds(southWest, northEast);
 
     var $goes_sector = $('.goes-sector-select').on('touchstart click',function() {
 	    $goes_sector.removeClass('sector-selected');
 	    $(this).addClass('sector-selected');
 	    selected_goes_sector = $(this)[0].id
 
-	    if (selected_goes_sector=='CONUS'){
-	    	var southWest = L.latLng(17.837604, -127.089844)
-			var northEast = L.latLng(52.605133, -51.855469)
-	    }
-	    else if (selected_goes_sector=='Mesoscale-1'){
-	    	var southWest = L.latLng(31.887615, -83.611450)
-			var northEast = L.latLng(46.492011, -65.291748)
-	    }
-	    bounds = L.latLngBounds(southWest, northEast);
+	//     if (selected_goes_sector=='CONUS'){
+	//     	var southWest = L.latLng(17.837604, -127.089844)
+	// 		var northEast = L.latLng(52.605133, -51.855469)
+	//     }
+	//     else if (selected_goes_sector=='Mesoscale-1'){
+	//     	var southWest = L.latLng(31.887615, -83.611450)
+	// 		var northEast = L.latLng(46.492011, -65.291748)
+	//     }
+	//     else{
+	//     	var southWest = L.latLng(17.837604, -127.089844)
+	// 		var northEast = L.latLng(52.605133, -51.855469)
+	//     }
+	//     bounds = L.latLngBounds(southWest, northEast);
 
-	 //    southWest = L.latLng(13.02504085518189, 80.23609399795532),
-		// northEast = L.latLng(13.026849183135116, 80.23797690868378),
+	//  //    southWest = L.latLng(13.02504085518189, 80.23609399795532),
+	// 	// northEast = L.latLng(13.026849183135116, 80.23797690868378),
 
 	});
 	var $zoom_sector = $('.sector-zoom').on('touchstart click',function() {
