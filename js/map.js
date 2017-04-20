@@ -260,6 +260,7 @@ $(document).ready(function(){
             map.removeLayer(load_layers[0])
             load_layers.shift()
         }
+
         setTimeDisplay(active_times[num_times-1])
 		tile_loop = false
 		preload_finished = false
@@ -344,7 +345,7 @@ $(document).ready(function(){
     	$('#time_spinner').hide()
     	progressCircle.animate(0.0);
 	})
-    $('.menu-link').on('click',function() {
+    $('.menu-link').on('click touchstart',function() {
     	if(tile_loop != false){
 			tile_loop = stopLoop(tile_loop)
 			
@@ -477,7 +478,23 @@ $(document).ready(function(){
 
     framesscrubber.onValueChanged = function (value) {
         $('.frames-display').html(value);
-        num_times = value
+    }
+
+    var clickedOnFrameScrubber = false
+    framesscrubber.onScrubStart = function(value) {
+    	clickedOnFrameScrubber = true
+    }
+    framesscrubber.onScrubEnd = function(value) {
+    	console.log(clickedOnFrameScrubber)
+    	if(clickedOnFrameScrubber){
+	    	num_times = value
+	    	getLayerTimes(active_layer,function(all_times){
+	        	console.log(all_times)
+	            active_times = all_times
+	        	
+	        })
+	        clickedOnFrameScrubber = false
+	    }
     }
 
 
@@ -802,7 +819,7 @@ $(document).ready(function(){
         layers: [basemap,basemap_lines],
         attributionControl: true,
         preferCanvas: true,
-        fadeAnimation: false
+        fadeAnimation: true
     });
 
     $('.leaflet-control-attribution').addClass('transform');
