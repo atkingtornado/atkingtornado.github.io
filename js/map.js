@@ -382,7 +382,7 @@ $(document).ready(function(){
 
 
 	//Function to add layer to map and perform required actions
-	function addMapLayer(url,layerid,opacity=0.75,timelayer=false) {
+	function addMapLayer(url,layerid,opacity=1.0,timelayer=false) {
     	curr_layer = L.tileLayer(url,{
 			// bounds:bounds,
 			reuseTiles : true,
@@ -808,23 +808,43 @@ $(document).ready(function(){
     })
     
 
-    basemap_lines.setZIndex(999);
-    basemap_lines.setOpacity(0.5);
+    // basemap_lines.setZIndex(999);
+    // basemap_lines.setOpacity(0.5);
 
     coastlines.setZIndex(998);
     coastlines.setOpacity(0.8);
-
-    var test = L.tileLayer('test_dir/{z}/{x}/{-y}.png');
     
     var map = L.map('mapid', {
         zoomControl: false,
         center: [40.31304, -98.78906],
+        maxBounds: [[-85,-180.0],[85,180.0]],
+        minZoom: 3,
+        maxZoom: 10,
         zoom: 5,
-        layers: [basemap,basemap_lines,coastlines],
+        layers: [basemap],
         attributionControl: true,
         preferCanvas: true,
         fadeAnimation: true
     });
+
+    var states_options ={
+    	color: '#2074B6',
+    	fillOpacity: 0.0,
+    	weight: 0.5,
+    }
+    var states = new L.geoJson(STATES,states_options);
+    states.addTo(map)
+
+     var states_options ={
+    	color: '#2074B6',
+    	fillOpacity: 0.0,
+    	weight: 0.5,
+    }
+    var countries = new L.geoJson(COUNTRIES,states_options);
+    countries.addTo(map)
+
+
+
 
     $('.leaflet-control-attribution').addClass('transform');
 
@@ -898,7 +918,7 @@ $(document).ready(function(){
         var layerid = $(this).parent()[0].id
 
         var opacityscrubber = new ScrubberView();
-        opacityscrubber.min(0).max(100).step(1).value(75)
+        opacityscrubber.min(0).max(100).step(1).value(100)
 
         var layer_info = $(this).data("layer-info")
         if (typeof layer_info != 'undefined'){
@@ -923,7 +943,7 @@ $(document).ready(function(){
 	            	prev_ndx = addMapLayer('http://sharp.weather.ou.edu/tbell/' + layerid + '/' + selected_goes_sector  + '/' + url_date_time + '/{z}/{x}/{-y}.png',layerid)
 
 	    			$('<div class="opacity-div" id=opacity_' + parent_id+ '></div>').insertAfter(parent_obj);
-	                $('#opacity_' + parent_id).html('<p class=opacity-display id=opacity_display_' + parent_id + '>60%</p>');
+	                $('#opacity_' + parent_id).html('<p class=opacity-display id=opacity_display_' + parent_id + '>100%</p>');
 	                $('#opacity_' + parent_id).append(opacityscrubber.elt);
 	                $('#time_container').show()
 
