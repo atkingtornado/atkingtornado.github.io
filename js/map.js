@@ -827,21 +827,20 @@ $(document).ready(function(){
         fadeAnimation: true
     });
 
-    var states_options ={
+    geojson_options={
     	color: '#2074B6',
-    	fillOpacity: 0.0,
-    	weight: 0.5,
+    	weight: 1.0,
     }
-    var states = new L.geoJson(STATES,states_options);
-    states.addTo(map)
 
-     var states_options ={
-    	color: '#2074B6',
-    	fillOpacity: 0.0,
-    	weight: 0.5,
-    }
-    var countries = new L.geoJson(COUNTRIES,states_options);
-    countries.addTo(map)
+	$.getJSON('https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_110m_admin_1_states_provinces_lines.geojson', function(data) {
+	  L.geoJson(data,geojson_options).addTo(map);
+	});
+	$.getJSON('https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_50m_coastline.geojson', function(data) {
+	  L.geoJson(data,geojson_options).addTo(map);
+	});
+	$.getJSON('https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_50m_admin_0_boundary_lines_land.geojson', function(data) {
+	  L.geoJson(data,geojson_options).addTo(map);
+	});
 
 
 
