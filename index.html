@@ -5,6 +5,9 @@
     <title>SatSquatch</title>
     <meta charset="utf-8" />
 
+    <script src='js/intro.min.js'></script>
+
+
     <link rel="stylesheet" href="css/leaflet.css" />
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/Control.Opacity.css" />
@@ -16,6 +19,8 @@
     <link rel="stylesheet" href="css/font-awesome-4.7.0/css/font-awesome.css">
     <link rel="stylesheet" href="css/simplebar.css" />
     <link rel="stylesheet" href="css/login.css" />
+    <link rel="stylesheet" href="css/introjs.css" />
+    <link rel="stylesheet" href="css/introjs-modern.css" />
 
     <script src="js/leaflet.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -291,6 +296,7 @@
             <i id='time_container_close' class="fa fa-chevron-left fa-2x vibrate" aria-hidden="true"></i>
         </div>
 
+        <div id='options_container_dummy' style="position:absolute; right: 0px; top:155px; height: 43px; width: 25px;"> 
         <div id='options_container' class='transform'> 
             <i id='options_container_close' class="fa fa-chevron-left fa-2x vibrate" aria-hidden="true"></i>
             <div class ='leaflet-bar leaflet-control'>
@@ -302,6 +308,7 @@
             <div class ='leaflet-bar leaflet-control'>
                 <a id='refresh-link' class="transform leaflet-bar-part leaflet-bar-part-single vibrate"><span><i style='margin-top: 10px;font-size: 2.2em;' class="fa fa-refresh fa-2x"></i></span></a>
             </div>
+        </div>
         </div>
 
         <div id='scrubber_container' class='transform dragdealer'> 
