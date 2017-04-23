@@ -681,7 +681,7 @@ $(document).ready(function(){
       $('#login-container').fadeIn('fast')
     });
 
-    $(".close").on('touchstart click',function() {
+    $(".close").on('touchend click',function() {
     	if(!loginActive){
     		toggleUI()
       		menuIsOpen=false
