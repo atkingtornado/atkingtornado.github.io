@@ -679,6 +679,10 @@ $(document).ready(function(){
       loginActive = true
       $('#options-close').trigger('click')
       $('#login-container').fadeIn('fast')
+      $('.login-close').addClass('disabled')
+      setTimeout(function(){
+      	$('.login-close').removeClass('disabled')
+      },500)
     });
 
     $(".close").on('touchend click',function() {
@@ -699,8 +703,13 @@ $(document).ready(function(){
     });
 
     $(".login-close").on('click',function() {
-    	$('#login-container').fadeOut('fast')
-    	$("#options-link").trigger('click')
+    	if ($(this).hasClass('disabled')){
+
+    	}
+    	else{
+    		$('#login-container').fadeOut('fast')
+    		$("#options-link").trigger('click')
+    	}
     });
 
     $('.dropdown-header').click(function(){
