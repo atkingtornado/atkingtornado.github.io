@@ -675,17 +675,18 @@ $(document).ready(function(){
     });
 
     var loginActive = false
-    $("#login-toggle").on('touchstart click',function() {
+    $("#login-toggle").on('click',function() {
+    	console.log('login toggle')
       loginActive = true
       $('#options-close').trigger('click')
       $('#login-container').fadeIn('fast')
       $('.login-close').addClass('disabled')
       setTimeout(function(){
       	$('.login-close').removeClass('disabled')
-      },500)
+      },250)
     });
 
-    $(".close").on('touchend click',function() {
+    $(".close").on('touchstart click',function() {
     	if(!loginActive){
     		toggleUI()
       		menuIsOpen=false
@@ -703,6 +704,7 @@ $(document).ready(function(){
     });
 
     $(".login-close").on('click',function() {
+    	console.log('here')
     	if ($(this).hasClass('disabled')){
 
     	}
