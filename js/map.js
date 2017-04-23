@@ -664,22 +664,22 @@ $(document).ready(function(){
               },
               {
                 element: '#layers-link',
-                intro: "This buttons opens a menu to add or remove data layers from the map.",
+                intro: "This button opens a menu to add or remove data layers from the map.",
                 position: "left"
               },
               {
                 element: '#sectors-link',
-                intro: "This buttons opens a menu to change the sector for satellite data, or quickly zoom to a predefined region.",
+                intro: "This button opens a menu to change the sector for satellite data, or quickly zoom to a predefined region.",
                 position: "left"
               },
               {
                 element: '#options-link',
-                intro: "This buttons opens a menu to change various options related to your account, looping, etc.",
+                intro: "This button opens a menu to change various options related to your account, looping, etc.",
                 position: "left"
               },
               {
                 element: '#options_container_dummy',
-                intro: "This buttons opens a slide out menu with extra buttons for sharing, location, etc.",
+                intro: "This button opens a slide out menu with extra buttons for sharing, location, etc.",
                 position: "left"
               },    
               {
