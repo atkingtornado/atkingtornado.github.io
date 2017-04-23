@@ -656,62 +656,63 @@ $(document).ready(function(){
 	    //map.setView([lat, lng], zoom);
 	});
 
-	var x = readCookie('firstVisit')
-	console.log(x)
-	if (x != 'false'){ 
-		var steps = [
-	              { 
-	                intro: "Welcome to SatSquatch, a user-friendly weather satellite and mesoanalysis viewer! To exit this tutorial, select 'Skip', otherwise, select 'Next' to continue the tutorial."
-	              },
-	              {
-	                element: '#layers-link',
-	                intro: "This buttons opens a menu to add or remove data layers from the map.",
-	                position: "left"
-	              },
-	              {
-	                element: '#sectors-link',
-	                intro: "This buttons opens a menu to change the sector for satellite data, or quickly zoom to a predefined region.",
-	                position: "left"
-	              },
-	              {
-	                element: '#options-link',
-	                intro: "This buttons opens a menu to change various options related to your account, looping, etc.",
-	                position: "left"
-	              },
-	              {
-	                element: '#options_container_dummy',
-	                intro: "This buttons opens a slide out menu with extra buttons for sharing, location, etc.",
-	                position: "left"
-	              },    
-	              {
-	                element: '#scrubber_container',
-	                intro: "Use this control to manually scrub through times for the current layer.",
-	                position: "top"
-	              },
-	              {
-	                element: '#time_control_container',
-	                intro: "Use these controls to loop through times for the current layer.",
-	                position: "top"
-	              },
-	              { 
-	                intro: "Thats it! Enjoy your time using SatSquatch. If you have any futher questions please feel free to contact us."
-	              },
-	            ]
+	var doTutorial = readCookie('firstVisit')
 
-		var tour = introJs()
-		tour.setOption('steps', steps)
-		tour.setOption('showStepNumbers', 'false')
-		tour.setOption('disableInteraction', 'true')
+	var steps = [
+              { 
+                intro: "Welcome to SatSquatch, a user-friendly weather satellite and mesoanalysis viewer! To exit this tutorial, select 'Skip', otherwise, select 'Next' to continue the tutorial."
+              },
+              {
+                element: '#layers-link',
+                intro: "This buttons opens a menu to add or remove data layers from the map.",
+                position: "left"
+              },
+              {
+                element: '#sectors-link',
+                intro: "This buttons opens a menu to change the sector for satellite data, or quickly zoom to a predefined region.",
+                position: "left"
+              },
+              {
+                element: '#options-link',
+                intro: "This buttons opens a menu to change various options related to your account, looping, etc.",
+                position: "left"
+              },
+              {
+                element: '#options_container_dummy',
+                intro: "This buttons opens a slide out menu with extra buttons for sharing, location, etc.",
+                position: "left"
+              },    
+              {
+                element: '#scrubber_container',
+                intro: "Use this control to manually scrub through times for the current layer.",
+                position: "top"
+              },
+              {
+                element: '#time_control_container',
+                intro: "Use these controls to loop through times for the current layer.",
+                position: "top"
+              },
+              { 
+                intro: "Thats it! Enjoy your time using SatSquatch. If you have any futher questions please feel free to contact us."
+              },
+            ]
+
+	var tour = introJs()
+	tour.setOption('steps', steps)
+	tour.setOption('showStepNumbers', 'false')
+	tour.setOption('disableInteraction', 'true')
+	
+
+	tour.oncomplete(function(){
+		createCookie('firstVisit','false',7);
+		console.log('exit')
+	})
+	tour.onexit(function(){
+		createCookie('firstVisit','false',7);
+		console.log('exit')
+	})
+	if (doTutorial != 'false'){ 
 		tour.start()
-
-		tour.oncomplete(function(){
-			createCookie('firstVisit','false',7);
-			console.log('exit')
-		})
-		tour.onexit(function(){
-			createCookie('firstVisit','false',7);
-			console.log('exit')
-		})
 	}
 
 
@@ -761,6 +762,11 @@ $(document).ready(function(){
       setTimeout(function(){
       	$('.login-close').removeClass('disabled')
       },250)
+    });
+
+    $("#tutorial-toggle").on('click',function() {
+    	$('#options-close').trigger('click')
+    	tour.start()
     });
 
     $(".close").on('touchstart click',function() {
