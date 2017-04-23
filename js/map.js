@@ -5,6 +5,28 @@ $(document).ready(function(){
 	var preload_finished = false
 	var preload_ongoing = false
 
+	function createCookie(name,value,days) {
+	    var expires = "";
+	    if (days) {
+	        var date = new Date();
+	        date.setTime(date.getTime() + (days*24*60*60*1000));
+	        expires = "; expires=" + date.toUTCString();
+	    }
+	    document.cookie = name + "=" + value + expires + "; path=/";
+	    console.log(document.cookie)
+	}
+
+	function readCookie(name) {
+	    var nameEQ = name + "=";
+	    var ca = document.cookie.split(';');
+	    for(var i=0;i < ca.length;i++) {
+	        var c = ca[i];
+	        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+	        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+	    }
+	    return null;
+	}
+
 	function downloadCanvas(link, canvasId, filename) {
 	    link.href = document.getElementById(canvasId).toDataURL();
 	    link.download = filename;
@@ -634,50 +656,63 @@ $(document).ready(function(){
 	    //map.setView([lat, lng], zoom);
 	});
 
-	var steps = [
-              { 
-                intro: "Welcome to SatSquatch, a user-friendly weather satellite and mesoanalysis viewer! To exit this tutorial, select 'Skip', otherwise, select 'Next' to continue the tutorial."
-              },
-              {
-                element: '#layers-link',
-                intro: "This buttons opens a menu to add or remove data layers from the map.",
-                position: "left"
-              },
-              {
-                element: '#sectors-link',
-                intro: "This buttons opens a menu to change the sector for satellite data, or quickly zoom to a predefined region.",
-                position: "left"
-              },
-              {
-                element: '#options-link',
-                intro: "This buttons opens a menu to change various options related to your account, looping, etc.",
-                position: "left"
-              },
-              {
-                element: '#options_container_dummy',
-                intro: "This buttons opens a slide out menu with extra buttons for sharing, location, etc.",
-                position: "left"
-              },    
-              {
-                element: '#scrubber_container',
-                intro: "Use this control to manually scrub through times for the current layer.",
-                position: "top"
-              },
-              {
-                element: '#time_control_container',
-                intro: "Use these controls to loop through times for the current layer.",
-                position: "top"
-              },
-              { 
-                intro: "Thats it! Enjoy your time using SatSquatch. If you have any futher questions please feel free to contact us."
-              },
-            ]
+	var x = readCookie('firstVisit')
+	console.log(x)
+	if (x != 'false'){ 
+		var steps = [
+	              { 
+	                intro: "Welcome to SatSquatch, a user-friendly weather satellite and mesoanalysis viewer! To exit this tutorial, select 'Skip', otherwise, select 'Next' to continue the tutorial."
+	              },
+	              {
+	                element: '#layers-link',
+	                intro: "This buttons opens a menu to add or remove data layers from the map.",
+	                position: "left"
+	              },
+	              {
+	                element: '#sectors-link',
+	                intro: "This buttons opens a menu to change the sector for satellite data, or quickly zoom to a predefined region.",
+	                position: "left"
+	              },
+	              {
+	                element: '#options-link',
+	                intro: "This buttons opens a menu to change various options related to your account, looping, etc.",
+	                position: "left"
+	              },
+	              {
+	                element: '#options_container_dummy',
+	                intro: "This buttons opens a slide out menu with extra buttons for sharing, location, etc.",
+	                position: "left"
+	              },    
+	              {
+	                element: '#scrubber_container',
+	                intro: "Use this control to manually scrub through times for the current layer.",
+	                position: "top"
+	              },
+	              {
+	                element: '#time_control_container',
+	                intro: "Use these controls to loop through times for the current layer.",
+	                position: "top"
+	              },
+	              { 
+	                intro: "Thats it! Enjoy your time using SatSquatch. If you have any futher questions please feel free to contact us."
+	              },
+	            ]
 
-	var tour = introJs()
-	tour.setOption('steps', steps)
-	tour.setOption('showStepNumbers', 'false')
-	tour.setOption('disableInteraction', 'true')
-	tour.start()
+		var tour = introJs()
+		tour.setOption('steps', steps)
+		tour.setOption('showStepNumbers', 'false')
+		tour.setOption('disableInteraction', 'true')
+		tour.start()
+
+		tour.oncomplete(function(){
+			createCookie('firstVisit','false',7);
+			console.log('exit')
+		})
+		tour.onexit(function(){
+			createCookie('firstVisit','false',7);
+			console.log('exit')
+		})
+	}
 
 
 
