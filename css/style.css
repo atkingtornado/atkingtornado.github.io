@@ -1,3 +1,4 @@
+
 body{
   overflow: hidden;
 }
@@ -224,8 +225,8 @@ span{
   display: flex;
   overflow: hidden;
 
-  margin: 0px;
-  padding: 12px 12px;
+  margin: 10px;
+  padding: 5px 5px;
 
   cursor: pointer;
   user-select: none;
@@ -273,15 +274,16 @@ span{
 .button.-dark {
   color: #f4f4f4;
   background: #2074B6;
+}
   
-   &:focus {
+.button.-dark:focus {
     outline: 1px dotted white;
     outline-offset: -4px;
   }
-  &:hover {
-   background: #064678;
-  }
+.button.-dark:hover {
+ background: #064678;
 }
+
 
 #layers-link{
 /*      box-shadow: 0 1px 5px rgba(0,0,0,0.65);*/

@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="css/dragdealer.css" />
     <link rel="stylesheet" href="css/font-awesome-4.7.0/css/font-awesome.css">
     <link rel="stylesheet" href="css/simplebar.css" />
+    <link rel="stylesheet" href="css/login.css" />
 
     <script src="js/leaflet.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -229,6 +230,11 @@
                 </div> 
                 <div class='scroll-div'>
                     <div class='options-container'>
+                        <h3>Account Options</h3>  
+                        <div id='login-toggle' class='button -dark center'><strong>Login</strong></div>
+                        <div class='button -dark center'><strong>Subscribe</strong></div>
+                    </div>
+                    <div class='options-container'>
                         <h3>Loop Options</h3>  
                         <div id='speedscrubber' class='toggles'>
                             <h4>Loop Speed</h4>
@@ -325,6 +331,25 @@
             </div>
             
             
+        </div>
+
+        <div id='login-container'>
+        <a id='login-close' class="vibrate"><i class="login-close fa fa-times fa-2x" aria-hidden="true"></i></a>
+         <div class="form">
+            <form class="register-form">
+              <input type="text" placeholder="name"/>
+              <input type="password" placeholder="password"/>
+              <input type="text" placeholder="email address"/>
+              <button>create</button>
+              <p class="message">Already registered? <a href="#">Sign In</a></p>
+            </form>
+            <form class="login-form">
+              <input type="text" placeholder="username"/>
+              <input type="password" placeholder="password"/>
+              <button>login</button>
+              <p class="message">Not registered? <a href="#">Create an account</a></p>
+            </form>
+          </div>
         </div>
 
         <div id='img-container'>

@@ -169,7 +169,7 @@ $(document).ready(function(){
 	function preLoadLoop(){
 		if (active_layer != false){
 			preload_ongoing = true
-			$('.handle').css('opacity','0')
+			$('.handle').fadeOut()
 			$('#play').hide()
 			$('#time_spinner').show()
 
@@ -265,7 +265,7 @@ $(document).ready(function(){
 		tile_loop = false
 		preload_finished = false
 		if(loop_move == false){
-			$('.handle').css('opacity','100')
+			$('.handle').fadeIn()
 			// time_slider.setStep(times_length, 0, snap=false)
 			$('#play').show()
     		$('#pause').hide()
@@ -445,6 +445,10 @@ $(document).ready(function(){
 	  trailColor: '#eee',
 	  trailWidth: 2,
 	  svgStyle: null
+	});
+
+	$('.message a').click(function(){
+	   $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
 	});
 	
 
@@ -647,12 +651,18 @@ $(document).ready(function(){
     });
 
     $("#options-link").on('touchstart click',function() {
-      toggleUI()
-      $('#options-content').show()
-      $('#sectors-content').hide()
-      $('#layers-content').hide()
+    	if(loginActive){
+    		loginActive = false
+    	}
+    	else{
+    		toggleUI()
+	      $('#options-content').show()
+	      $('#sectors-content').hide()
+	      $('#layers-content').hide()
 
-      menuIsOpen=true
+	      menuIsOpen=true
+    	}
+
     });
 
     $("#sectors-link").on('touchstart click',function() {
@@ -664,11 +674,18 @@ $(document).ready(function(){
       menuIsOpen=true
     });
 
+    var loginActive = false
+    $("#login-toggle").on('touchstart click',function() {
+      loginActive = true
+      $('#options-close').trigger('click')
+      $('#login-container').fadeIn('fast')
+    });
 
     $(".close").on('touchstart click',function() {
-    	toggleUI()
-
-      	menuIsOpen=false
+    	if(!loginActive){
+    		toggleUI()
+      		menuIsOpen=false
+    	}
     });
 
     $(".img-close").on('click',function() {
@@ -679,6 +696,11 @@ $(document).ready(function(){
         img.attr('src', '');
         link.attr('href', '');
         link.attr('download', '');
+    });
+
+    $(".login-close").on('click',function() {
+    	$('#login-container').fadeOut('fast')
+    	$("#options-link").trigger('click')
     });
 
     $('.dropdown-header').click(function(){
