@@ -700,19 +700,27 @@ $(document).ready(function(){
 	var tour = introJs()
 	tour.setOption('steps', steps)
 	tour.setOption('showStepNumbers', 'false')
+	tour.setOption('showProgress','true')
+	tour.setOption('showBullets','false')
 	tour.setOption('disableInteraction', 'true')
+
 	
 
 	tour.oncomplete(function(){
 		createCookie('firstVisit','false',7);
+		tutorialActive = false
 		console.log('exit')
 	})
 	tour.onexit(function(){
 		createCookie('firstVisit','false',7);
+		tutorialActive = false
 		console.log('exit')
 	})
+	var tutorialActive = false
 	if (doTutorial != 'false'){ 
+		tutorialActive = true
 		tour.start()
+		
 	}
 
 

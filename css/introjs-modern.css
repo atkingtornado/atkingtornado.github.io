@@ -36,7 +36,7 @@
 .introjs-arrow.bottom, .introjs-arrow.bottom-middle, .introjs-arrow.bottom-right {
   border-color: rgba(000, 0, 0, 0.5) transparent transparent;
   bottom: -20px;
-  left: 20px;
+  right: 20px;
 }
 .introjs-arrow.left, .introjs-arrow.right {
     top: 20px;

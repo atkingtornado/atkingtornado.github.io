@@ -53,11 +53,10 @@ tr.introjs-showElement > th {
 .introjs-helperLayer {
   box-sizing: content-box;
   position: absolute;
-  z-index: 9999998;
-  background-color: #FFF;
-  background-color: rgba(255,255,255,.9);
-  border: 1px solid #777;
-  border: 1px solid rgba(0,0,0,.5);
+  z-index: 99999998;
+  background-color: rgba(255,255,255,.1);
+  border: 2px solid #777;
+  border: 2px solid rgba(0,0,0,.5);
   border-radius: 4px;
   box-shadow: 0 2px 15px rgba(0,0,0,.4);
   -webkit-transition: all 0.3s ease-out;
@@ -168,6 +167,14 @@ tr.introjs-showElement > th {
 }
 .introjs-arrow.bottom {
   bottom: -10px;
+  border-top-color:white;
+  border-right-color:transparent;
+  border-bottom-color:transparent;
+  border-left-color:transparent;
+}
+.introjs-arrow.bottom-right {
+  bottom: -10px;
+  right: 20px;
   border-top-color:white;
   border-right-color:transparent;
   border-bottom-color:transparent;
