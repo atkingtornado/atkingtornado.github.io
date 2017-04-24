@@ -13,7 +13,6 @@ $(document).ready(function(){
 	        expires = "; expires=" + date.toUTCString();
 	    }
 	    document.cookie = name + "=" + value + expires + "; path=/";
-	    console.log(document.cookie)
 	}
 
 	function readCookie(name) {
@@ -117,8 +116,7 @@ $(document).ready(function(){
 				var url = 'http://sharp.weather.ou.edu/tbell/' + active_layer + '/' + selected_goes_sector  + '/' + url_date_time + '/{z}/{x}/{-y}.png'
 				var layer_opacity  = parseFloat($( "#opacity_" +  active_layer).text().replace('%',''))/100.0 
 
-				map.removeLayer(curr_layer)
-				all_layers.shift()
+				removeMapLayer(active_layer)
 				addMapLayer(url,prev_layerid,opacity=layer_opacity)
 				
 				var date_time = url_date_time.split('_')
@@ -421,8 +419,18 @@ $(document).ready(function(){
 	        map.addLayer(curr_layer)
 	        curr_layer.setOpacity(opacity)
 		    prev_layers.push(curr_layer);
-		    all_layers.push(curr_layer);
+
+		    var obj_id = layerid.toString()
+		    all_layers[obj_id] = curr_layer
+
 		    active_layer = layerid
+		    console.log(all_layers)
+
+		   	var el = document.createElement('li');
+		   	var toggle_name = $('#'+ layerid +' .toggle-label').text()
+		   	el.id=layerid+'_order'
+			el.innerHTML = toggle_name + '<i class="js-remove fa fa-times fa-lg" aria-hidden="true"></i>';
+			layer_order.el.appendChild(el);
 	    }
 	    else{
 	    	curr_layer.setOpacity(opacity);  
@@ -432,6 +440,12 @@ $(document).ready(function(){
 	    }
 
         return all_layers.length-1
+	}
+	function removeMapLayer(layerid){
+		console.log($('#' + layerid + '_order'))
+		$('#' + layerid + '_order').remove()
+		map.removeLayer(all_layers[prev_layerid])
+        delete all_layers[prev_layerid];
 	}
 	function toggleUI(){
 		$('#scrubber_container').toggleClass('transform-active');
@@ -518,6 +532,24 @@ $(document).ready(function(){
 	    }
     }
 
+     $('input[type=radio][name=tabs]').change(function() {
+     	if(this.value == 'layers'){
+     		$('#order-scroll').hide()
+     		$('#layers-scroll').fadeIn('fast')
+     	}
+     	else if (this.value == 'order'){
+     		$('#layers-scroll').hide()
+     		$('#order-scroll').fadeIn('fast')
+     	}
+    });
+
+    var layer_el = document.getElementById('layer-list');
+	var layer_order = Sortable.create(layer_el, { 
+		animation: 150,
+		filter: '.js-remove',
+		onFilter: function (evt) {
+			evt.item.parentNode.removeChild(evt.item);
+		} });
 
 	$('#haptic_toggle').on('change', function() {
 		if (!$('#haptic_toggle').prop('checked')){
@@ -709,12 +741,10 @@ $(document).ready(function(){
 	tour.oncomplete(function(){
 		createCookie('firstVisit','false',7);
 		tutorialActive = false
-		console.log('exit')
 	})
 	tour.onexit(function(){
 		createCookie('firstVisit','false',7);
 		tutorialActive = false
-		console.log('exit')
 	})
 	var tutorialActive = false
 	if (doTutorial != 'false'){ 
@@ -956,14 +986,17 @@ $(document).ready(function(){
     	weight: 1.0,
     }
 
+    var states;
+    var coastlines;
+    var countrylines;
 	$.getJSON('https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_110m_admin_1_states_provinces_lines.geojson', function(data) {
-	  L.geoJson(data,geojson_options).addTo(map);
+	  states = L.geoJson(data,geojson_options).addTo(map);
 	});
 	$.getJSON('https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_50m_coastline.geojson', function(data) {
-	  L.geoJson(data,geojson_options).addTo(map);
+	  coastlines = L.geoJson(data,geojson_options).addTo(map);
 	});
 	$.getJSON('https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_50m_admin_0_boundary_lines_land.geojson', function(data) {
-	  L.geoJson(data,geojson_options).addTo(map);
+	 countrylines = L.geoJson(data,geojson_options).addTo(map);
 	});
 
 
@@ -990,13 +1023,12 @@ $(document).ready(function(){
 		}
 	})
 
-    var all_layers = [basemap]
+    var all_layers = {'basemap':basemap}
     var all_overlays = []
     var active_layer = false
     var active_times = false
     var prev_layerid = false
     var prev_div = false
-    var prev_ndx = false
     var menuIsOpen = false
 
 
@@ -1073,7 +1105,8 @@ $(document).ready(function(){
             	})
 
             }else{
-                map.removeLayer(all_layers[prev_ndx])
+            	removeMapLayer(prev_layerid)
+                console.log(all_layers)
                 active_layer = false
                 active_times = false
 
@@ -1092,7 +1125,7 @@ $(document).ready(function(){
             	var url_date_time = active_times[active_times.length-1]
             	prev_ndx = addMapLayer('http://sharp.weather.ou.edu/tbell/' + layerid + '/' + selected_goes_sector  + '/' + url_date_time + '/{z}/{x}/{-y}.png',layerid)
         	})
-            map.removeLayer(all_layers[prev_ndx-1])
+        	removeMapLayer(prev_layerid)
 
             $('<div id=opacity_' + $(this).parent()[0].id + '></div>').insertAfter($(this).parent()[0]);
             $('#opacity_' + $(this).parent()[0].id).html('<p class=opacity-display id=opacity_display_' + $(this).parent()[0].id + '>60%</p>');
@@ -1220,10 +1253,9 @@ $(document).ready(function(){
                 var layer_opacity  = parseFloat($( "#opacity_" +  active_layer).text().replace('%',''))/100.0 
                 prev_layers[0].setOpacity(layer_opacity) 
 
-                var ndx = prev_ndx
-                all_layers[ndx] = prev_layers[0]
+                all_layers[active_layer] = prev_layers[0]
 
-		        all_layers[ndx].on('load', function(){
+		       	all_layers[active_layer].on('load', function(){
 		        	setTimeout(
 		              function() 
 		              {
