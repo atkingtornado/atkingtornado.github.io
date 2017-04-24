@@ -563,6 +563,9 @@ $(document).ready(function(){
 		filter: '.js-remove',
 		onFilter: function (evt) {
 			evt.item.parentNode.removeChild(evt.item);
+			var layer_id = evt.item.id.replace('_order','')
+			$('#' + layer_id + ' input').trigger('click')
+
 		},
 		onSort: function (/**Event*/evt) {
 			sortLayers()
