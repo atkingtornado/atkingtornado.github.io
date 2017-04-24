@@ -400,7 +400,7 @@ $(document).ready(function(){
 
 
 	//Function to add layer to map and perform required actions
-	function addMapLayer(url,layerid,opacity=1.0,timelayer=false) {
+	function addMapLayer(url,layerid,opacity=1.0,timelayer=false,overlay=false) {
     	curr_layer = L.tileLayer(url,{
 			// bounds:bounds,
 			reuseTiles : true,
@@ -418,13 +418,15 @@ $(document).ready(function(){
 	        curr_layer.setOpacity(0.0);  
 	        map.addLayer(curr_layer)
 	        curr_layer.setOpacity(opacity)
-		    prev_layers.push(curr_layer);
 
 		    var obj_id = layerid.toString()
 		    all_layers[obj_id] = curr_layer
 
-		    active_layer = layerid
-		    console.log(all_layers)
+		    if (!overlay){
+		    	active_layer = layerid
+		    	prev_layers.push(curr_layer);
+		    	console.log(all_layers)
+		    }
 
 		   	var el = document.createElement('li');
 		   	var toggle_name = $('#'+ layerid +' .toggle-label').text()
@@ -444,8 +446,8 @@ $(document).ready(function(){
 	function removeMapLayer(layerid){
 		console.log($('#' + layerid + '_order'))
 		$('#' + layerid + '_order').remove()
-		map.removeLayer(all_layers[prev_layerid])
-        delete all_layers[prev_layerid];
+		map.removeLayer(all_layers[layerid])
+        delete all_layers[layerid];
 	}
 	function toggleUI(){
 		$('#scrubber_container').toggleClass('transform-active');
@@ -1023,7 +1025,7 @@ $(document).ready(function(){
 		}
 	})
 
-    var all_layers = {'basemap':basemap}
+    var all_layers = {}
     var all_overlays = []
     var active_layer = false
     var active_times = false
@@ -1140,7 +1142,7 @@ $(document).ready(function(){
 
         opacityscrubber.onValueChanged = function (value) {
             $('#opacity_display_' + prev_div).html(value+'%');
-            all_layers[prev_ndx].setOpacity(value/100.0)
+            all_layers[prev_layerid].setOpacity(value/100.0)
         }
 
         $('#time_container_close').trigger('updateWidth')
@@ -1155,33 +1157,22 @@ $(document).ready(function(){
 
         var ndx = $(this).val()  
         if(this.checked) {
-            curr_layer = L.tileLayer('http://wms.ssec.wisc.edu/products/'+layerid+'/{z}/{x}/{y}.png');
-            map.addLayer(curr_layer)
-          	curr_layer.setOpacity(0.75)
-            all_overlays.push(curr_layer)
+        	addMapLayer('http://wms.ssec.wisc.edu/products/'+layerid+'/{z}/{x}/{y}.png',layerid,0.75,false,true)
 
             $('<div id=opacity_' + $(this).parent()[0].id + '></div>').insertAfter($(this).parent()[0]);
             $('#opacity_' + $(this).parent()[0].id).html('<p class=opacity-display id=opacity_display_' + $(this).parent()[0].id + '>60%</p>');
             $('#opacity_' + $(this).parent()[0].id).append(opacityscrubber.elt);
         }else{
-        	for(i=0;i<all_overlays.length;i++){
-        		if(all_overlays[i]._url == 'http://wms.ssec.wisc.edu/products/'+layerid+'/{z}/{x}/{y}.png')
-        		map.removeLayer(all_overlays[i])
-        	}
-            
+        	removeMapLayer(layerid)
             $('#opacity_' + $(this).parent()[0].id).remove()
         }
 
         var div = $(this).parent()[0].id 
 
         opacityscrubber.onValueChanged = function (value) {
-            $('#opacity_display_' + div).html(value+'%');
-            for(i=0;i<all_overlays.length;i++){
-        		if(all_overlays[i]._url == 'http://wms.ssec.wisc.edu/products/'+layerid +'/{z}/{x}/{y}.png'){
-        			all_overlays[i].setOpacity(value/100.0)
-        		}
-        	}       
-        }
+        $('#opacity_display_' + div).html(value+'%');
+    		all_layers[layerid].setOpacity(value/100.0)
+    	}       
     });
 
     L.control.locate().addTo(map);
@@ -1235,7 +1226,7 @@ $(document).ready(function(){
                 }
                 if (prev_scrub_tick != false && menuIsOpen != true){
                 	addMapLayer('http://sharp.weather.ou.edu/tbell/' + active_layer + '/' + selected_goes_sector  + '/' +curr_time + '/{z}/{x}/{-y}.png',active_layer,1,true)
-                    if (prev_layers.length > 3){
+                    if (prev_layers.length > 5){
                         map.removeLayer(prev_layers[0])
                         prev_layers.shift()
                     }
