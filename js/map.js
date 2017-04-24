@@ -442,7 +442,7 @@ $(document).ready(function(){
 		   	var el = document.createElement('li');
 		   	var toggle_name = $('#'+ layerid +' .toggle-label').text()
 		   	el.id=layerid+'_order'
-			el.innerHTML = toggle_name + '<i class="js-remove fa fa-times fa-lg" aria-hidden="true"></i>';
+			el.innerHTML = '<p>' + toggle_name + '</p>' + '<i class="js-remove fa fa-times fa-lg" aria-hidden="true"></i>';
 			layer_order.el.prepend(el);
 			sortLayers()
 	    }

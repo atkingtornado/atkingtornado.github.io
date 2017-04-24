@@ -14,17 +14,22 @@
     display: block;
     cursor: pointer;
     color: #af4949;
-    top: 10px;
     right: 20px;
     position: absolute;
     font-style: normal;
+    top: 50%;
+    transform: translateY(-50%);
 }
-
-ul{
-    list-style: none;
+#layer-list p{
+    margin: 0px;
+    padding: 0px;
+    /* display: inline; */
+    width: 150px;
+    /* margin-right: 18px; */
 }
 
 ul {
+    height: 100%;
 	margin: 0;
 	padding: 0;
 	list-style: none;
