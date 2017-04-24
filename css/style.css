@@ -74,6 +74,14 @@ body{
   right: -15.625em; /*or width of your navigation panel*/
   width: 15.625em; /*should match the above value*/
   overflow: hidden;
+
+  -webkit-transition: -webkit-transform right 300ms ease !important;
+
+  -moz-transition: -moz-transform right 300ms ease !important;
+
+  -ms-transition: -ms-transform right 300ms ease !important;
+
+  transition: right 300ms ease !important;
 }
 
 .scroll-div{

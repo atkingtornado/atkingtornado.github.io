@@ -30,6 +30,17 @@ $(document).ready(function(){
 	    link.href = document.getElementById(canvasId).toDataURL();
 	    link.download = filename;
 	}
+	function sortLayers(){
+		var num_layers = Object.keys(all_layers).length
+		var layer_index = num_layers+1
+		$('#layer-list li').each(function(){
+			console.log(this)
+			var layer_id = this.id.replace('_order','')
+			all_layers[layer_id].setZIndex(layer_index)
+			layer_index-=1;
+		})
+		console.log('')
+	}
 	function takeScreenshot(){
 		toggleUI()
 		refreshLayers()
@@ -432,7 +443,8 @@ $(document).ready(function(){
 		   	var toggle_name = $('#'+ layerid +' .toggle-label').text()
 		   	el.id=layerid+'_order'
 			el.innerHTML = toggle_name + '<i class="js-remove fa fa-times fa-lg" aria-hidden="true"></i>';
-			layer_order.el.appendChild(el);
+			layer_order.el.prepend(el);
+			sortLayers()
 	    }
 	    else{
 	    	curr_layer.setOpacity(opacity);  
@@ -551,7 +563,12 @@ $(document).ready(function(){
 		filter: '.js-remove',
 		onFilter: function (evt) {
 			evt.item.parentNode.removeChild(evt.item);
-		} });
+		},
+		onSort: function (/**Event*/evt) {
+			sortLayers()
+			// + indexes from onEnd
+		}
+		});
 
 	$('#haptic_toggle').on('change', function() {
 		if (!$('#haptic_toggle').prop('checked')){
@@ -1157,7 +1174,7 @@ $(document).ready(function(){
 
         var ndx = $(this).val()  
         if(this.checked) {
-        	addMapLayer('http://wms.ssec.wisc.edu/products/'+layerid+'/{z}/{x}/{y}.png',layerid,0.75,false,true)
+        	addMapLayer('http://wms.ssec.wisc.edu/products/'+layerid+'/{z}/{x}/{y}.png',layerid,0.65,false,true)
 
             $('<div id=opacity_' + $(this).parent()[0].id + '></div>').insertAfter($(this).parent()[0]);
             $('#opacity_' + $(this).parent()[0].id).html('<p class=opacity-display id=opacity_display_' + $(this).parent()[0].id + '>60%</p>');
