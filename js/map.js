@@ -39,7 +39,6 @@ $(document).ready(function(){
 			all_layers[layer_id].setZIndex(layer_index)
 			layer_index-=1;
 		})
-		console.log('')
 	}
 	function takeScreenshot(){
 		toggleUI()
@@ -211,6 +210,7 @@ $(document).ready(function(){
 					maxNativeZoom:9
 					});
 	 			load_layer.setOpacity(0.0); 
+	 			load_layer.setZIndex(100)
 	 			load_layers.push(load_layer)
 			}
 			x=0
@@ -448,6 +448,7 @@ $(document).ready(function(){
 	    }
 	    else{
 	    	curr_layer.setOpacity(opacity);  
+	    	curr_layer.setZIndex(100)
 	        map.addLayer(curr_layer)
 		    prev_layers.push(curr_layer);	    
 		    active_layer = layerid
