@@ -110,16 +110,38 @@ $(document).ready(function(){
 	            time_slider.options.steps = times_length;
 	            time_slider.stepRatios = time_slider.calculateStepRatios();
 	            prev_scrub_tick = false
-	            time_slider.setStep(times_length, 0, snap=false)
+
+	            if (tile_loop == false){
+	            	time_slider.setStep(times_length, 0, snap=false)
+	            }
+
 
 	            callback(all_times)
 		    }
 		});
 	}
 
+	var refresh_interval = false
+	function autoRefresh(frequency){
+		var frequency_in_ms = frequency * 60.0 * 1000.0
+		clearInterval(refresh_interval)
+		refresh_interval = setInterval(function(){
+			console.log('refresh')
+			refreshLayers()
+		},frequency_in_ms)
+	}
+
 	var refreshing = false
 	function refreshLayers(){
 		if (active_layer != false){
+
+			if(tile_loop != false){
+
+			}
+			else{
+
+			}
+
 			refreshing = true
 			getLayerTimes(active_layer,function(all_times){
 				active_times = all_times
@@ -244,9 +266,6 @@ $(document).ready(function(){
     					load_layers[num_times-1].setOpacity(0)
     				}
     				setTimeDisplay(active_times[loopndx])
-    				// else{
-    				// 	map.removeLayer(curr_layer)
-    				// }
     			}
     			else{
     				load_layers[loopndx].setOpacity(100)
@@ -255,22 +274,6 @@ $(document).ready(function(){
     			}
     			
     			loopndx+=1
-
-    	// 		var curr_step = time_slider.getStep()[0]
-
-    	// 		if(justPaused) {
-
-    	// 			time_slider.setStep(0,snap=false)  
-    	// 			justPaused = false
-    	// 		}	
-    	// 		else if (curr_step == num_times){
-    	// 			clearInterval(tile_loop)
-					// pauseLoop()
-    	// 		}
-    	// 		else{
-    	// 			time_slider.setStep(curr_step+1,0,snap=false)  
-    	// 		}
-			   
 			}, loop_speed);
 			
 		}
@@ -296,7 +299,6 @@ $(document).ready(function(){
 		preload_finished = false
 		if(loop_move == false){
 			$('.handle').fadeIn()
-			// time_slider.setStep(times_length, 0, snap=false)
 			$('#play').show()
     		$('#pause').hide()
 		}
@@ -307,9 +309,6 @@ $(document).ready(function(){
 		}
 
     	 clearInterval(loop);
-  //   	 setTimeout(function(){
-		// 	time_slider.callDragStopCallback(1);
-		// },200)
     	return false
 	}
 
@@ -479,7 +478,12 @@ $(document).ready(function(){
 	var speedscrubber = new ScrubberView();
 	speedscrubber.min(1).max(20).step(1).value(10);
 	$('#speedscrubber').append(speedscrubber.elt);
-	var loop_speed = loop_speed = 1000 * (1/(speedscrubber.value()))
+	var loop_speed = 1000 * (1/(speedscrubber.value()))
+
+	var updatescrubber = new ScrubberView();
+	updatescrubber.min(1).max(30).step(1).value(10);
+	$('#updatescrubber').append(updatescrubber.elt);
+	var auto_update_interval = updatescrubber.value()
 
 	var framesscrubber = new ScrubberView();
 	framesscrubber.min(5).max(30).step(1).value(15);
@@ -509,6 +513,7 @@ $(document).ready(function(){
       $(this).prop('checked', false);
     });
     $('#haptic_toggle').prop('checked', true);
+    $('#update_toggle').prop('checked', true);
 
 
     $(".vibrate").vibrate({
@@ -527,6 +532,13 @@ $(document).ready(function(){
         $('.speed-display').html(value + ' FPS');
         loop_speed = 1000 * (1/(value))
     }
+
+    updatescrubber.onValueChanged = function (value) {
+        $('.update-display').html(value + ' Min');
+        auto_update_interval = value
+        autoRefresh(auto_update_interval)
+    }
+
 
     framesscrubber.onValueChanged = function (value) {
         $('.frames-display').html(value);
@@ -601,6 +613,18 @@ $(document).ready(function(){
 			});
 		}
 	});
+
+	$('#update_toggle').on('change',function(){
+		if ($(this).prop('checked')){
+			$('#updatescrubber').fadeIn('fast')
+			autoRefresh(auto_update_interval)
+		}
+		else{
+			$('#updatescrubber').fadeOut('fast')
+			clearInterval(refresh_interval)
+		}
+	})
+	$('#update_toggle').trigger('change')
 
     //Instantly change time display if user changes preference
     $('#UTC_toggle').on('change', function() {

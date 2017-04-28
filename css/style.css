@@ -734,6 +734,18 @@ html, body, #map {
 
   }
 
+.update-display{
+  font-size: 12px;
+  font-weight: bold;
+  display: inline-block;
+  padding-right: 10px;
+  float: right;
+  margin: 0px;
+  color: #f4f4f4;
+  position: relative;
+  padding-top: 12px;
+}
+
 .opacity-display{
   font-size: 14px;
   font-weight: bold;
