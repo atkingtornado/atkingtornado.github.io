@@ -34,7 +34,6 @@ $(document).ready(function(){
 		var num_layers = Object.keys(all_layers).length
 		var layer_index = num_layers+1
 		$('#layer-list li').each(function(){
-			console.log(this)
 			var layer_id = this.id.replace('_order','')
 			all_layers[layer_id].setZIndex(layer_index)
 			layer_index-=1;
@@ -118,8 +117,10 @@ $(document).ready(function(){
 		});
 	}
 
+	var refreshing = false
 	function refreshLayers(){
 		if (active_layer != false){
+			refreshing = true
 			getLayerTimes(active_layer,function(all_times){
 				active_times = all_times
 				var url_date_time = active_times[active_times.length-1]
@@ -436,7 +437,6 @@ $(document).ready(function(){
 		    if (!overlay){
 		    	active_layer = layerid
 		    	prev_layers.push(curr_layer);
-		    	console.log(all_layers)
 		    }
 
 		   	var el = document.createElement('li');
@@ -457,7 +457,6 @@ $(document).ready(function(){
         return all_layers.length-1
 	}
 	function removeMapLayer(layerid){
-		console.log($('#' + layerid + '_order'))
 		$('#' + layerid + '_order').remove()
 		map.removeLayer(all_layers[layerid])
         delete all_layers[layerid];
@@ -815,7 +814,6 @@ $(document).ready(function(){
 
     var loginActive = false
     $("#login-toggle").on('click',function() {
-    	console.log('login toggle')
       loginActive = true
       $('#options-close').trigger('click')
       $('#login-container').fadeIn('fast')
@@ -848,7 +846,6 @@ $(document).ready(function(){
     });
 
     $(".login-close").on('click',function() {
-    	console.log('here')
     	if ($(this).hasClass('disabled')){
 
     	}
@@ -1129,7 +1126,6 @@ $(document).ready(function(){
 
             }else{
             	removeMapLayer(prev_layerid)
-                console.log(all_layers)
                 active_layer = false
                 active_times = false
 
@@ -1210,7 +1206,6 @@ $(document).ready(function(){
             value = Math.round(this.getStep()[0] - 1)
             times_length = active_times.length
             if (times_length > 1 && prev_scrub_tick != value){
-
                 prev_scrub_tick = value
 
                 curr_time = active_times[value]
@@ -1245,7 +1240,7 @@ $(document).ready(function(){
 					date_time_string = year+'-'+month+'-'+day+' '+hh+':'+mm+':'+ss+ ' ' + timezone
 					$('#time').text(date_time_string);
                 }
-                if (prev_scrub_tick != false && menuIsOpen != true){
+                if (prev_scrub_tick != false && menuIsOpen != true && refreshing != true){
                 	addMapLayer('http://sharp.weather.ou.edu/tbell/' + active_layer + '/' + selected_goes_sector  + '/' +curr_time + '/{z}/{x}/{-y}.png',active_layer,1,true)
                     if (prev_layers.length > 5){
                         map.removeLayer(prev_layers[0])
@@ -1253,10 +1248,13 @@ $(document).ready(function(){
                     }
 
                 }
+                if (refreshing == true){
+                	refreshing = false
+                }
 
             }
         },
-        dragStopCallback: function(x, y){
+        callback: function(x, y){
             if (prev_layers.length > 0) {
                 while(prev_layers.length > 1){
                     map.removeLayer(prev_layers[0])
